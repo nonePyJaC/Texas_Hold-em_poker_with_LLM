@@ -53,6 +53,8 @@ class AICharacter:
     hands_won: int = 0
     total_profit: int = 0
     opponent_memories: Dict[str, dict] = field(default_factory=dict)  # 持久化的对手模型
+    debt: int = 0           # 欠债总额
+    lender_id: int = -1     # 债主角色ID（-1 表示无债主）
 
     def to_dict(self):
         return {
@@ -65,6 +67,8 @@ class AICharacter:
             "hands_won": self.hands_won,
             "total_profit": self.total_profit,
             "opponent_memories": self.opponent_memories,
+            "debt": self.debt,
+            "lender_id": self.lender_id,
         }
 
     @classmethod
@@ -79,6 +83,8 @@ class AICharacter:
             hands_won=d.get("hands_won", 0),
             total_profit=d.get("total_profit", 0),
             opponent_memories=d.get("opponent_memories", {}),
+            debt=d.get("debt", 0),
+            lender_id=d.get("lender_id", -1),
         )
 
     @property
@@ -237,6 +243,97 @@ class CharacterPool:
             char.hands_played += 1
             if won:
                 char.hands_won += 1
+
+    def get_top_rich(self, count: int = 10, exclude_id: int = -1) -> List[AICharacter]:
+        """获取银行余额最高的 count 个角色，排除指定 ID"""
+        candidates = [c for c in self.characters if c.id != exclude_id and c.bank > 0]
+        candidates.sort(key=lambda c: c.bank, reverse=True)
+        return candidates[:count]
+
+    def borrow_from_peer(self, borrower_id: int, buy_in: int) -> dict:
+        """AI 向排行榜前10富有的角色借钱
+
+        基于交手历史计算信任度，决定借出金额。
+        返回 {"success": bool, "lender_name": str, "amount": int, "lender_id": int}
+        """
+        borrower = self.get_by_id(borrower_id)
+        if not borrower:
+            return {"success": False, "lender_name": "", "amount": 0, "lender_id": -1}
+
+        candidates = self.get_top_rich(count=10, exclude_id=borrower_id)
+        if not candidates:
+            return {"success": False, "lender_name": "", "amount": 0, "lender_id": -1}
+
+        rng = self._rng
+        rng.shuffle(candidates)
+
+        for lender in candidates:
+            # 计算信任度：基础 0.3，有交手历史则根据胜率调整
+            trust = 0.3
+            mem_key = str(borrower_id)
+            if mem_key in lender.opponent_memories:
+                mem = lender.opponent_memories[mem_key]
+                hands = mem.get("hands_observed", 0)
+                if hands > 0:
+                    # 交手越多且对方胜率不高，信任度越高（愿意借）
+                    borrower_win_rate = mem.get("wins", 0) / max(hands, 1)
+                    # 对方胜率低 = 实力弱 = 更可能还钱（简单逻辑）
+                    trust = 0.4 + (1.0 - borrower_win_rate) * 0.3
+                    trust = min(trust, 0.85)
+
+            # 借出金额 = 债主银行 * 信任度 * 0.3（最多借银行30%）
+            lend_amount = int(lender.bank * trust * 0.3)
+            lend_amount = max(lend_amount, buy_in // 2)  # 至少借买入的一半
+            lend_amount = min(lend_amount, lender.bank)   # 不超过债主余额
+
+            if lend_amount >= AI_POOL_MIN_BANK:
+                # 执行借款
+                lender.bank -= lend_amount
+                borrower.bank += lend_amount
+                borrower.debt += lend_amount
+                borrower.lender_id = lender.id
+                return {
+                    "success": True,
+                    "lender_name": lender.name,
+                    "amount": lend_amount,
+                    "lender_id": lender.id,
+                }
+
+        return {"success": False, "lender_name": "", "amount": 0, "lender_id": -1}
+
+    def repay_debt(self, char_id: int, profit: int) -> dict:
+        """AI 赢钱后自动偿还债务，返回还款信息
+
+        还款金额 = 利润的 50%，不超过欠债总额。
+        返回 {"repaid": int, "lender_name": str} 或空 dict
+        """
+        char = self.get_by_id(char_id)
+        if not char or char.debt <= 0 or char.lender_id < 0:
+            return {}
+
+        lender = self.get_by_id(char.lender_id)
+        if not lender:
+            char.debt = 0
+            char.lender_id = -1
+            return {}
+
+        repay_amount = min(int(profit * 0.5), char.debt)
+        if repay_amount <= 0:
+            return {}
+
+        char.bank -= repay_amount
+        char.debt -= repay_amount
+        lender.bank += repay_amount
+
+        result = {"repaid": repay_amount, "lender_name": lender.name}
+
+        if char.debt <= 0:
+            char.lender_id = -1
+            result["debt_cleared"] = True
+        else:
+            result["debt_cleared"] = False
+
+        return result
 
     def ensure_exists(self):
         """确保角色池存在，不存在则生成"""

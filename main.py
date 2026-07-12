@@ -615,45 +615,63 @@ class GameApp:
                         p.chips = char.bank
                         char.bank = 0
                     else:
-                        # 银行空了，角色离场，换新玩家
-                        active_char_ids.discard(char_id)
-                        new_chars = self.character_pool.pick_random_excluding(
-                            1, active_char_ids
+                        # 银行空了，尝试向排行榜前10富有角色借钱
+                        borrow_result = self.character_pool.borrow_from_peer(
+                            char_id, self.setup_buy_in
                         )
-                        if new_chars:
-                            new_char = new_chars[0]
-                            active_char_ids.add(new_char.id)
-                            # 基于原型生成一局随机性格
-                            new_session_personality = Personality.randomized_from_archetype(new_char.archetype)
-                            new_buy_in = min(self.setup_buy_in, new_char.bank)
-                            new_char.bank -= new_buy_in
-                            p.name = new_char.name
-                            p.chips = new_buy_in
-                            p.personality = new_session_personality
-                            p._archetype = new_char.archetype
-                            p._char_id = new_char.id
-                            p._char_stats = {
-                                "hands_played": new_char.hands_played,
-                                "hands_won": new_char.hands_won,
-                                "total_profit": new_char.total_profit,
-                                "bank": new_char.bank,
-                            }
-                            # 重建 AI 大脑
-                            num_players = len(self.players)
-                            if num_players == 2:
-                                p.ai_brain = AdvancedAI(new_session_personality, difficulty=self.setup_difficulty)
-                            else:
-                                p.ai_brain = MCTSAI(new_session_personality, difficulty=self.setup_difficulty)
-
-                            # 加载持久化的对手记忆
-                            for opp_key, mem_dict in new_char.opponent_memories.items():
-                                if isinstance(p.ai_brain, AdvancedAI):
-                                    p.ai_brain.opponent_model = OpponentModel.from_dict(mem_dict)
-                                else:
-                                    p.ai_brain.opponent_models[opp_key] = OpponentModel.from_dict(mem_dict)
+                        if borrow_result["success"]:
+                            # 借钱成功，用借来的钱买入
+                            borrowed = borrow_result["amount"]
+                            char.bank = borrowed  # borrow_from_peer 已转入 char.bank
+                            buy_amount = min(self.setup_buy_in, char.bank)
+                            char.bank -= buy_amount
+                            p.chips = buy_amount
+                            # 聊天提示
+                            self.chat_controller.messages.append({
+                                "name": "系统",
+                                "text": f"{char.name} 向 {borrow_result['lender_name']} 借了 {borrowed} 筹码",
+                                "color": (255, 200, 100),
+                            })
                         else:
-                            # 没有可用新角色，标记为弃牌
-                            p.folded = True
+                            # 借钱失败，角色离场，换新玩家
+                            active_char_ids.discard(char_id)
+                            new_chars = self.character_pool.pick_random_excluding(
+                                1, active_char_ids
+                            )
+                            if new_chars:
+                                new_char = new_chars[0]
+                                active_char_ids.add(new_char.id)
+                                # 基于原型生成一局随机性格
+                                new_session_personality = Personality.randomized_from_archetype(new_char.archetype)
+                                new_buy_in = min(self.setup_buy_in, new_char.bank)
+                                new_char.bank -= new_buy_in
+                                p.name = new_char.name
+                                p.chips = new_buy_in
+                                p.personality = new_session_personality
+                                p._archetype = new_char.archetype
+                                p._char_id = new_char.id
+                                p._char_stats = {
+                                    "hands_played": new_char.hands_played,
+                                    "hands_won": new_char.hands_won,
+                                    "total_profit": new_char.total_profit,
+                                    "bank": new_char.bank,
+                                }
+                                # 重建 AI 大脑
+                                num_players = len(self.players)
+                                if num_players == 2:
+                                    p.ai_brain = AdvancedAI(new_session_personality, difficulty=self.setup_difficulty)
+                                else:
+                                    p.ai_brain = MCTSAI(new_session_personality, difficulty=self.setup_difficulty)
+
+                                # 加载持久化的对手记忆
+                                for opp_key, mem_dict in new_char.opponent_memories.items():
+                                    if isinstance(p.ai_brain, AdvancedAI):
+                                        p.ai_brain.opponent_model = OpponentModel.from_dict(mem_dict)
+                                    else:
+                                        p.ai_brain.opponent_models[opp_key] = OpponentModel.from_dict(mem_dict)
+                            else:
+                                # 没有可用新角色，标记为弃牌
+                                p.folded = True
 
         # 2. 检查人类玩家是否破产（输光了且 0 筹码）
         if self.human_player.chips == 0:

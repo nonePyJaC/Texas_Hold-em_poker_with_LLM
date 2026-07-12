@@ -96,6 +96,18 @@ class HandEndController:
                         "total_profit": char.total_profit,
                         "bank": char.bank,
                     }
+                    # 自动偿还债务：赢钱时还利润的50%
+                    if ai_won and ai_profit > 0 and char.debt > 0:
+                        repay_result = app.character_pool.repay_debt(player._char_id, ai_profit)
+                        if repay_result and repay_result.get("repaid", 0) > 0:
+                            msg_text = f"{char.name} 向 {repay_result['lender_name']} 偿还了 {repay_result['repaid']} 筹码"
+                            if repay_result.get("debt_cleared"):
+                                msg_text += "，债务已清"
+                            app.chat_controller.messages.append({
+                                "name": "系统",
+                                "text": msg_text,
+                                "color": (100, 255, 150),
+                            })
 
         # 更新记忆系统
         if hasattr(app, 'memory_manager'):
