@@ -1,0 +1,4493 @@
+[
+  {
+    "id": 0,
+    "name": "柯南",
+    "personality": {
+      "tight_loose": 0.68,
+      "passive_aggressive": 0.75,
+      "bluff_frequency": 0.31,
+      "call_tendency": 0.68,
+      "adaptivity": 0.18
+    },
+    "archetype": "random",
+    "bank": 9867,
+    "hands_played": 11,
+    "hands_won": 2,
+    "total_profit": 947,
+    "opponent_memories": {
+      "9": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.8333333333333334,
+        "pfr": 0.08333333333333333,
+        "hands_observed": 12,
+        "hands_vpip": 10,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6,
+        "bets": 8,
+        "raises": 1,
+        "calls": 15
+      },
+      "13": {
+        "vpip": 0.4,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.5,
+        "bets": 2,
+        "raises": 1,
+        "calls": 2
+      },
+      "36": {
+        "vpip": 0.6,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 3,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2222222222222222,
+        "bets": 2,
+        "raises": 0,
+        "calls": 9
+      },
+      "17": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2857142857142857,
+        "bets": 0,
+        "raises": 2,
+        "calls": 7
+      },
+      "5": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "25": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "34": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "20": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "14": {
+        "vpip": 1.0,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 3,
+        "hands_pfr": 2,
+        "aggression_factor": 1.5,
+        "bets": 1,
+        "raises": 2,
+        "calls": 2
+      },
+      "33": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "8": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "2": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 0,
+        "calls": 0
+      },
+      "35": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 1,
+    "name": "叶修",
+    "personality": {
+      "tight_loose": 0.49,
+      "passive_aggressive": 0.67,
+      "bluff_frequency": 0.45,
+      "call_tendency": 0.65,
+      "adaptivity": 0.11
+    },
+    "archetype": "random",
+    "bank": 3826,
+    "hands_played": 15,
+    "hands_won": 1,
+    "total_profit": 1911,
+    "opponent_memories": {
+      "15": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.8260869565217391,
+        "pfr": 0.21739130434782608,
+        "hands_observed": 23,
+        "hands_vpip": 19,
+        "hands_pfr": 5,
+        "aggression_factor": 0.6,
+        "bets": 12,
+        "raises": 12,
+        "calls": 40
+      },
+      "2": {
+        "vpip": 0.5454545454545454,
+        "pfr": 0.09090909090909091,
+        "hands_observed": 11,
+        "hands_vpip": 6,
+        "hands_pfr": 1,
+        "aggression_factor": 1.5555555555555556,
+        "bets": 8,
+        "raises": 6,
+        "calls": 9
+      },
+      "14": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 1
+      },
+      "31": {
+        "vpip": 0.8,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 8,
+        "hands_pfr": 1,
+        "aggression_factor": 0.46153846153846156,
+        "bets": 5,
+        "raises": 1,
+        "calls": 13
+      },
+      "25": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.6666666666666667,
+        "bets": 3,
+        "raises": 2,
+        "calls": 3
+      },
+      "23": {
+        "vpip": 0.6,
+        "pfr": 0.2,
+        "hands_observed": 5,
+        "hands_vpip": 3,
+        "hands_pfr": 1,
+        "aggression_factor": 1.25,
+        "bets": 3,
+        "raises": 2,
+        "calls": 4
+      },
+      "34": {
+        "vpip": 0.8333333333333334,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6363636363636364,
+        "bets": 3,
+        "raises": 4,
+        "calls": 11
+      },
+      "22": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "4": {
+        "vpip": 1.0,
+        "pfr": 1.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 0
+      },
+      "16": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "24": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "27": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "18": {
+        "vpip": 1.0,
+        "pfr": 1.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 0,
+        "raises": 1,
+        "calls": 3
+      },
+      "8": {
+        "vpip": 0.625,
+        "pfr": 0.125,
+        "hands_observed": 8,
+        "hands_vpip": 5,
+        "hands_pfr": 1,
+        "aggression_factor": 0.75,
+        "bets": 5,
+        "raises": 1,
+        "calls": 8
+      }
+    }
+  },
+  {
+    "id": 2,
+    "name": "令狐冲",
+    "personality": {
+      "tight_loose": 0.29,
+      "passive_aggressive": 0.84,
+      "bluff_frequency": 0.49,
+      "call_tendency": 0.24,
+      "adaptivity": 0.37
+    },
+    "archetype": "random",
+    "bank": 7462,
+    "hands_played": 23,
+    "hands_won": 7,
+    "total_profit": 1991,
+    "opponent_memories": {
+      "15": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.8947368421052632,
+        "pfr": 0.21052631578947367,
+        "hands_observed": 19,
+        "hands_vpip": 17,
+        "hands_pfr": 4,
+        "aggression_factor": 0.5294117647058824,
+        "bets": 6,
+        "raises": 12,
+        "calls": 34
+      },
+      "1": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.08333333333333333,
+        "hands_observed": 12,
+        "hands_vpip": 4,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 1,
+        "raises": 1,
+        "calls": 3
+      },
+      "14": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 1
+      },
+      "9": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 0,
+        "calls": 0
+      },
+      "4": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "38": {
+        "vpip": 0.625,
+        "pfr": 0.0,
+        "hands_observed": 8,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 13
+      },
+      "24": {
+        "vpip": 0.5714285714285714,
+        "pfr": 0.0,
+        "hands_observed": 7,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.1666666666666667,
+        "bets": 6,
+        "raises": 1,
+        "calls": 6
+      },
+      "8": {
+        "vpip": 0.625,
+        "pfr": 0.125,
+        "hands_observed": 8,
+        "hands_vpip": 5,
+        "hands_pfr": 1,
+        "aggression_factor": 0.75,
+        "bets": 5,
+        "raises": 1,
+        "calls": 8
+      },
+      "31": {
+        "vpip": 0.875,
+        "pfr": 0.125,
+        "hands_observed": 8,
+        "hands_vpip": 7,
+        "hands_pfr": 1,
+        "aggression_factor": 0.5,
+        "bets": 5,
+        "raises": 1,
+        "calls": 12
+      }
+    }
+  },
+  {
+    "id": 3,
+    "name": "坂田银时",
+    "personality": {
+      "tight_loose": 0.7965321786781479,
+      "passive_aggressive": 0.9204037458099961,
+      "bluff_frequency": 0.6,
+      "call_tendency": 0.6,
+      "adaptivity": 0.3
+    },
+    "archetype": "random",
+    "bank": 8666,
+    "hands_played": 12,
+    "hands_won": 5,
+    "total_profit": -1259,
+    "opponent_memories": {
+      "5": {
+        "vpip": 0.6923076923076923,
+        "pfr": 0.0,
+        "hands_observed": 13,
+        "hands_vpip": 9,
+        "hands_pfr": 0,
+        "aggression_factor": 0.42105263157894735,
+        "bets": 4,
+        "raises": 4,
+        "calls": 19
+      },
+      "human": {
+        "vpip": 0.8461538461538461,
+        "pfr": 0.15384615384615385,
+        "hands_observed": 13,
+        "hands_vpip": 11,
+        "hands_pfr": 2,
+        "aggression_factor": 0.4,
+        "bets": 3,
+        "raises": 3,
+        "calls": 15
+      },
+      "12": {
+        "vpip": 0.9285714285714286,
+        "pfr": 0.0,
+        "hands_observed": 14,
+        "hands_vpip": 13,
+        "hands_pfr": 0,
+        "aggression_factor": 0.35294117647058826,
+        "bets": 4,
+        "raises": 2,
+        "calls": 17
+      },
+      "21": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "8": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.3333333333333333,
+        "bets": 1,
+        "raises": 3,
+        "calls": 3
+      }
+    }
+  },
+  {
+    "id": 4,
+    "name": "夜神月",
+    "personality": {
+      "tight_loose": 0.8932039225844807,
+      "passive_aggressive": 0.9402649947180473,
+      "bluff_frequency": 0.6,
+      "call_tendency": 0.6,
+      "adaptivity": 0.3
+    },
+    "archetype": "random",
+    "bank": 5792,
+    "hands_played": 22,
+    "hands_won": 8,
+    "total_profit": -2246,
+    "opponent_memories": {
+      "18": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.9545454545454546,
+        "pfr": 0.09090909090909091,
+        "hands_observed": 22,
+        "hands_vpip": 21,
+        "hands_pfr": 2,
+        "aggression_factor": 0.5,
+        "bets": 13,
+        "raises": 6,
+        "calls": 38
+      },
+      "38": {
+        "vpip": 0.6,
+        "pfr": 0.0,
+        "hands_observed": 10,
+        "hands_vpip": 6,
+        "hands_pfr": 0,
+        "aggression_factor": 0.21428571428571427,
+        "bets": 2,
+        "raises": 1,
+        "calls": 14
+      },
+      "23": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 2,
+        "aggression_factor": 5.0,
+        "bets": 1,
+        "raises": 4,
+        "calls": 0
+      },
+      "39": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 4
+      },
+      "22": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "1": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "2": {
+        "vpip": 0.16666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 4.0,
+        "bets": 3,
+        "raises": 1,
+        "calls": 1
+      },
+      "24": {
+        "vpip": 0.5714285714285714,
+        "pfr": 0.0,
+        "hands_observed": 7,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.1666666666666667,
+        "bets": 6,
+        "raises": 1,
+        "calls": 6
+      },
+      "29": {
+        "vpip": 0.5555555555555556,
+        "pfr": 0.0,
+        "hands_observed": 9,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.42857142857142855,
+        "bets": 1,
+        "raises": 2,
+        "calls": 7
+      },
+      "27": {
+        "vpip": 0.4444444444444444,
+        "pfr": 0.0,
+        "hands_observed": 9,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 7
+      }
+    }
+  },
+  {
+    "id": 5,
+    "name": "小丑",
+    "personality": {
+      "tight_loose": 0.6,
+      "passive_aggressive": 0.29,
+      "bluff_frequency": 0.27,
+      "call_tendency": 0.32,
+      "adaptivity": 0.25
+    },
+    "archetype": "random",
+    "bank": 7771,
+    "hands_played": 18,
+    "hands_won": 5,
+    "total_profit": -139,
+    "opponent_memories": {
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 5.0,
+        "bets": 3,
+        "raises": 2,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.7058823529411765,
+        "pfr": 0.11764705882352941,
+        "hands_observed": 17,
+        "hands_vpip": 12,
+        "hands_pfr": 2,
+        "aggression_factor": 0.3684210526315789,
+        "bets": 5,
+        "raises": 2,
+        "calls": 19
+      },
+      "17": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2857142857142857,
+        "bets": 0,
+        "raises": 2,
+        "calls": 7
+      },
+      "12": {
+        "vpip": 0.9285714285714286,
+        "pfr": 0.0,
+        "hands_observed": 14,
+        "hands_vpip": 13,
+        "hands_pfr": 0,
+        "aggression_factor": 0.35294117647058826,
+        "bets": 4,
+        "raises": 2,
+        "calls": 17
+      },
+      "3": {
+        "vpip": 0.5,
+        "pfr": 0.16666666666666666,
+        "hands_observed": 12,
+        "hands_vpip": 6,
+        "hands_pfr": 2,
+        "aggression_factor": 3.25,
+        "bets": 7,
+        "raises": 6,
+        "calls": 4
+      },
+      "8": {
+        "vpip": 0.2,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "15": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 6,
+        "hands_vpip": 6,
+        "hands_pfr": 3,
+        "aggression_factor": 2.3333333333333335,
+        "bets": 1,
+        "raises": 6,
+        "calls": 3
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 6,
+    "name": "神奇女侠",
+    "personality": {
+      "tight_loose": 0.20176147342595346,
+      "passive_aggressive": 0.13193186327537804,
+      "bluff_frequency": 0.05,
+      "call_tendency": 0.3,
+      "adaptivity": 0.4
+    },
+    "archetype": "random",
+    "bank": 9159,
+    "hands_played": 4,
+    "hands_won": 2,
+    "total_profit": 221,
+    "opponent_memories": {
+      "human": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 3,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 2,
+        "raises": 0,
+        "calls": 3
+      },
+      "8": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "27": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 2
+      },
+      "20": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 0,
+        "calls": 0
+      },
+      "23": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5,
+        "bets": 0,
+        "raises": 1,
+        "calls": 2
+      }
+    }
+  },
+  {
+    "id": 7,
+    "name": "太一",
+    "personality": {
+      "tight_loose": 0.38,
+      "passive_aggressive": 0.75,
+      "bluff_frequency": 0.35,
+      "call_tendency": 0.48,
+      "adaptivity": 0.41
+    },
+    "archetype": "random",
+    "bank": 7990,
+    "hands_played": 2,
+    "hands_won": 0,
+    "total_profit": -1005,
+    "opponent_memories": {
+      "15": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.4,
+        "bets": 2,
+        "raises": 0,
+        "calls": 5
+      },
+      "18": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 2
+      }
+    }
+  },
+  {
+    "id": 8,
+    "name": "谢尔顿",
+    "personality": {
+      "tight_loose": 0.33,
+      "passive_aggressive": 0.76,
+      "bluff_frequency": 0.5,
+      "call_tendency": 0.43,
+      "adaptivity": 0.51
+    },
+    "archetype": "random",
+    "bank": 5073,
+    "hands_played": 43,
+    "hands_won": 11,
+    "total_profit": 4816,
+    "opponent_memories": {
+      "6": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.75,
+        "pfr": 0.15,
+        "hands_observed": 20,
+        "hands_vpip": 15,
+        "hands_pfr": 3,
+        "aggression_factor": 0.6190476190476191,
+        "bets": 6,
+        "raises": 7,
+        "calls": 21
+      },
+      "27": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 2
+      },
+      "5": {
+        "vpip": 0.5714285714285714,
+        "pfr": 0.42857142857142855,
+        "hands_observed": 7,
+        "hands_vpip": 4,
+        "hands_pfr": 3,
+        "aggression_factor": 3.0,
+        "bets": 1,
+        "raises": 5,
+        "calls": 2
+      },
+      "15": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 6,
+        "hands_vpip": 6,
+        "hands_pfr": 3,
+        "aggression_factor": 2.3333333333333335,
+        "bets": 1,
+        "raises": 6,
+        "calls": 3
+      },
+      "3": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 2,
+        "raises": 2,
+        "calls": 2
+      },
+      "21": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "20": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "14": {
+        "vpip": 1.0,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 3,
+        "hands_pfr": 2,
+        "aggression_factor": 1.5,
+        "bets": 1,
+        "raises": 2,
+        "calls": 2
+      },
+      "33": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "17": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "31": {
+        "vpip": 0.8,
+        "pfr": 0.2,
+        "hands_observed": 10,
+        "hands_vpip": 8,
+        "hands_pfr": 2,
+        "aggression_factor": 0.9230769230769231,
+        "bets": 8,
+        "raises": 4,
+        "calls": 13
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "2": {
+        "vpip": 0.5714285714285714,
+        "pfr": 0.14285714285714285,
+        "hands_observed": 7,
+        "hands_vpip": 4,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 3,
+        "raises": 2,
+        "calls": 5
+      },
+      "1": {
+        "vpip": 0.25,
+        "pfr": 0.125,
+        "hands_observed": 8,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 1
+      }
+    }
+  },
+  {
+    "id": 9,
+    "name": "韩立",
+    "personality": {
+      "tight_loose": 0.15,
+      "passive_aggressive": 0.72,
+      "bluff_frequency": 0.55,
+      "call_tendency": 0.26,
+      "adaptivity": 0.22
+    },
+    "archetype": "random",
+    "bank": 9000,
+    "hands_played": 5,
+    "hands_won": 2,
+    "total_profit": 1669,
+    "opponent_memories": {}
+  },
+  {
+    "id": 10,
+    "name": "士官长",
+    "personality": {
+      "tight_loose": 0.7,
+      "passive_aggressive": 0.25,
+      "bluff_frequency": 0.32,
+      "call_tendency": 0.7,
+      "adaptivity": 0.59
+    },
+    "archetype": "random",
+    "bank": 6990,
+    "hands_played": 6,
+    "hands_won": 1,
+    "total_profit": -871,
+    "opponent_memories": {
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "18": {
+        "vpip": 0.5,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 0
+      },
+      "16": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "36": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      }
+    }
+  },
+  {
+    "id": 11,
+    "name": "徐凤年",
+    "personality": {
+      "tight_loose": 0.28,
+      "passive_aggressive": 0.46,
+      "bluff_frequency": 0.24,
+      "call_tendency": 0.32,
+      "adaptivity": 0.64
+    },
+    "archetype": "random",
+    "bank": 6847,
+    "hands_played": 10,
+    "hands_won": 1,
+    "total_profit": -1118,
+    "opponent_memories": {
+      "30": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 2,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 3,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 6
+      },
+      "39": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2,
+        "bets": 1,
+        "raises": 0,
+        "calls": 5
+      },
+      "16": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "24": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "27": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "18": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 2,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "1": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "36": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      },
+      "10": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 1
+      }
+    }
+  },
+  {
+    "id": 12,
+    "name": "沃尔特",
+    "personality": {
+      "tight_loose": 0.11547042905135241,
+      "passive_aggressive": 0.1909143672429847,
+      "bluff_frequency": 0.03,
+      "call_tendency": 0.25,
+      "adaptivity": 0.3
+    },
+    "archetype": "random",
+    "bank": 11658,
+    "hands_played": 10,
+    "hands_won": 2,
+    "total_profit": 1703,
+    "opponent_memories": {
+      "5": {
+        "vpip": 0.6923076923076923,
+        "pfr": 0.0,
+        "hands_observed": 13,
+        "hands_vpip": 9,
+        "hands_pfr": 0,
+        "aggression_factor": 0.42105263157894735,
+        "bets": 4,
+        "raises": 4,
+        "calls": 19
+      },
+      "human": {
+        "vpip": 0.8181818181818182,
+        "pfr": 0.18181818181818182,
+        "hands_observed": 11,
+        "hands_vpip": 9,
+        "hands_pfr": 2,
+        "aggression_factor": 0.38461538461538464,
+        "bets": 3,
+        "raises": 2,
+        "calls": 13
+      },
+      "3": {
+        "vpip": 0.5,
+        "pfr": 0.16666666666666666,
+        "hands_observed": 12,
+        "hands_vpip": 6,
+        "hands_pfr": 2,
+        "aggression_factor": 3.25,
+        "bets": 7,
+        "raises": 6,
+        "calls": 4
+      }
+    }
+  },
+  {
+    "id": 13,
+    "name": "灭霸",
+    "personality": {
+      "tight_loose": 0.9046136681577384,
+      "passive_aggressive": 0.95,
+      "bluff_frequency": 0.6,
+      "call_tendency": 0.6,
+      "adaptivity": 0.3
+    },
+    "archetype": "random",
+    "bank": 10420,
+    "hands_played": 5,
+    "hands_won": 2,
+    "total_profit": 440,
+    "opponent_memories": {
+      "0": {
+        "vpip": 0.4,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 2
+      },
+      "human": {
+        "vpip": 0.8,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 5,
+        "raises": 0,
+        "calls": 5
+      },
+      "36": {
+        "vpip": 0.6,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 3,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2222222222222222,
+        "bets": 2,
+        "raises": 0,
+        "calls": 9
+      }
+    }
+  },
+  {
+    "id": 14,
+    "name": "梅长苏",
+    "personality": {
+      "tight_loose": 0.2760252450078332,
+      "passive_aggressive": 0.5906820604736871,
+      "bluff_frequency": 0.2,
+      "call_tendency": 0.4,
+      "adaptivity": 0.5
+    },
+    "archetype": "random",
+    "bank": 9188,
+    "hands_played": 13,
+    "hands_won": 2,
+    "total_profit": 263,
+    "opponent_memories": {
+      "human": {
+        "vpip": 0.9230769230769231,
+        "pfr": 0.23076923076923078,
+        "hands_observed": 13,
+        "hands_vpip": 12,
+        "hands_pfr": 3,
+        "aggression_factor": 0.8571428571428571,
+        "bets": 7,
+        "raises": 5,
+        "calls": 14
+      },
+      "1": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "2": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.5,
+        "bets": 3,
+        "raises": 2,
+        "calls": 2
+      },
+      "20": {
+        "vpip": 0.4166666666666667,
+        "pfr": 0.0,
+        "hands_observed": 12,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5714285714285714,
+        "bets": 2,
+        "raises": 2,
+        "calls": 7
+      },
+      "39": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 9,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      },
+      "33": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "8": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "17": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 15,
+    "name": "杰洛特",
+    "personality": {
+      "tight_loose": 0.6240361934233766,
+      "passive_aggressive": 0.6919014061542975,
+      "bluff_frequency": 0.4,
+      "call_tendency": 0.5,
+      "adaptivity": 0.5
+    },
+    "archetype": "random",
+    "bank": 8985,
+    "hands_played": 7,
+    "hands_won": 3,
+    "total_profit": 25,
+    "opponent_memories": {
+      "human": {
+        "vpip": 0.625,
+        "pfr": 0.125,
+        "hands_observed": 8,
+        "hands_vpip": 5,
+        "hands_pfr": 1,
+        "aggression_factor": 0.7777777777777778,
+        "bets": 4,
+        "raises": 3,
+        "calls": 9
+      },
+      "1": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "2": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 2,
+        "raises": 2,
+        "calls": 2
+      },
+      "8": {
+        "vpip": 0.2,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "5": {
+        "vpip": 0.5714285714285714,
+        "pfr": 0.42857142857142855,
+        "hands_observed": 7,
+        "hands_vpip": 4,
+        "hands_pfr": 3,
+        "aggression_factor": 3.0,
+        "bets": 1,
+        "raises": 5,
+        "calls": 2
+      },
+      "7": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.3333333333333333,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 4.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 1
+      },
+      "18": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 2
+      }
+    }
+  },
+  {
+    "id": 16,
+    "name": "萧炎",
+    "personality": {
+      "tight_loose": 0.33,
+      "passive_aggressive": 0.16,
+      "bluff_frequency": 0.08,
+      "call_tendency": 0.69,
+      "adaptivity": 0.5
+    },
+    "archetype": "random",
+    "bank": 9846,
+    "hands_played": 7,
+    "hands_won": 2,
+    "total_profit": 871,
+    "opponent_memories": {
+      "24": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "27": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.75,
+        "pfr": 0.0,
+        "hands_observed": 4,
+        "hands_vpip": 3,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 6
+      },
+      "18": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 2,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "1": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "36": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      },
+      "10": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 1
+      }
+    }
+  },
+  {
+    "id": 17,
+    "name": "劳拉",
+    "personality": {
+      "tight_loose": 0.72,
+      "passive_aggressive": 0.46,
+      "bluff_frequency": 0.59,
+      "call_tendency": 0.63,
+      "adaptivity": 0.5
+    },
+    "archetype": "random",
+    "bank": 5237,
+    "hands_played": 34,
+    "hands_won": 9,
+    "total_profit": -2257,
+    "opponent_memories": {
+      "32": {
+        "vpip": 0.42857142857142855,
+        "pfr": 0.07142857142857142,
+        "hands_observed": 14,
+        "hands_vpip": 6,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 2,
+        "raises": 4,
+        "calls": 6
+      },
+      "human": {
+        "vpip": 0.75,
+        "pfr": 0.25,
+        "hands_observed": 16,
+        "hands_vpip": 12,
+        "hands_pfr": 4,
+        "aggression_factor": 0.5294117647058824,
+        "bets": 5,
+        "raises": 4,
+        "calls": 17
+      },
+      "21": {
+        "vpip": 0.36363636363636365,
+        "pfr": 0.0,
+        "hands_observed": 11,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.25,
+        "bets": 5,
+        "raises": 0,
+        "calls": 4
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 5.0,
+        "bets": 3,
+        "raises": 2,
+        "calls": 0
+      },
+      "5": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "20": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "14": {
+        "vpip": 1.0,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 3,
+        "hands_pfr": 2,
+        "aggression_factor": 1.5,
+        "bets": 1,
+        "raises": 2,
+        "calls": 2
+      },
+      "33": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "8": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 18,
+    "name": "李逍遥",
+    "personality": {
+      "tight_loose": 0.64,
+      "passive_aggressive": 0.81,
+      "bluff_frequency": 0.48,
+      "call_tendency": 0.2,
+      "adaptivity": 0.62
+    },
+    "archetype": "random",
+    "bank": 7153,
+    "hands_played": 11,
+    "hands_won": 2,
+    "total_profit": -497,
+    "opponent_memories": {
+      "human": {
+        "vpip": 0.7272727272727273,
+        "pfr": 0.09090909090909091,
+        "hands_observed": 11,
+        "hands_vpip": 8,
+        "hands_pfr": 1,
+        "aggression_factor": 0.3125,
+        "bets": 4,
+        "raises": 1,
+        "calls": 16
+      },
+      "4": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 2
+      },
+      "38": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "15": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "7": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.3333333333333333,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 4.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 1
+      },
+      "16": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "24": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "27": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "1": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "36": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      },
+      "10": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 1
+      },
+      "31": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 3,
+        "raises": 0,
+        "calls": 1
+      },
+      "29": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 5
+      }
+    }
+  },
+  {
+    "id": 19,
+    "name": "尼奥",
+    "personality": {
+      "tight_loose": 0.45,
+      "passive_aggressive": 0.52,
+      "bluff_frequency": 0.39,
+      "call_tendency": 0.59,
+      "adaptivity": 0.7
+    },
+    "archetype": "random",
+    "bank": 6936,
+    "hands_played": 41,
+    "hands_won": 11,
+    "total_profit": -534,
+    "opponent_memories": {
+      "21": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 21,
+        "hands_vpip": 7,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 4,
+        "raises": 5,
+        "calls": 9
+      },
+      "human": {
+        "vpip": 0.8076923076923077,
+        "pfr": 0.19230769230769232,
+        "hands_observed": 26,
+        "hands_vpip": 21,
+        "hands_pfr": 5,
+        "aggression_factor": 0.3870967741935484,
+        "bets": 6,
+        "raises": 6,
+        "calls": 31
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.13636363636363635,
+        "hands_observed": 22,
+        "hands_vpip": 11,
+        "hands_pfr": 3,
+        "aggression_factor": 1.3846153846153846,
+        "bets": 12,
+        "raises": 6,
+        "calls": 13
+      },
+      "29": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 1,
+        "raises": 1,
+        "calls": 3
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "20": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "14": {
+        "vpip": 1.0,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 3,
+        "hands_pfr": 2,
+        "aggression_factor": 1.5,
+        "bets": 1,
+        "raises": 2,
+        "calls": 2
+      },
+      "33": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "8": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "17": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 20,
+    "name": "艾吉奥",
+    "personality": {
+      "tight_loose": 0.6132377210423094,
+      "passive_aggressive": 0.33262722483710905,
+      "bluff_frequency": 0.1,
+      "call_tendency": 0.8,
+      "adaptivity": 0.2
+    },
+    "archetype": "random",
+    "bank": 7920,
+    "hands_played": 16,
+    "hands_won": 2,
+    "total_profit": -990,
+    "opponent_memories": {
+      "human": {
+        "vpip": 0.875,
+        "pfr": 0.1875,
+        "hands_observed": 16,
+        "hands_vpip": 14,
+        "hands_pfr": 3,
+        "aggression_factor": 0.8666666666666667,
+        "bets": 8,
+        "raises": 5,
+        "calls": 15
+      },
+      "14": {
+        "vpip": 0.7692307692307693,
+        "pfr": 0.15384615384615385,
+        "hands_observed": 13,
+        "hands_vpip": 10,
+        "hands_pfr": 2,
+        "aggression_factor": 0.7692307692307693,
+        "bets": 3,
+        "raises": 7,
+        "calls": 13
+      },
+      "39": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 9,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      },
+      "23": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5,
+        "bets": 0,
+        "raises": 1,
+        "calls": 2
+      },
+      "6": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.3333333333333333,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 3.0,
+        "bets": 1,
+        "raises": 2,
+        "calls": 1
+      },
+      "33": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "8": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "17": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "0": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 1
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "31": {
+        "vpip": 0.5,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 6.0,
+        "bets": 3,
+        "raises": 3,
+        "calls": 1
+      },
+      "35": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 21,
+    "name": "漩涡鸣人",
+    "personality": {
+      "tight_loose": 0.65,
+      "passive_aggressive": 0.82,
+      "bluff_frequency": 0.09,
+      "call_tendency": 0.35,
+      "adaptivity": 0.39
+    },
+    "archetype": "random",
+    "bank": 6934,
+    "hands_played": 62,
+    "hands_won": 17,
+    "total_profit": -1512,
+    "opponent_memories": {
+      "32": {
+        "vpip": 0.42857142857142855,
+        "pfr": 0.07142857142857142,
+        "hands_observed": 14,
+        "hands_vpip": 6,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 2,
+        "raises": 4,
+        "calls": 6
+      },
+      "human": {
+        "vpip": 0.7777777777777778,
+        "pfr": 0.19444444444444445,
+        "hands_observed": 36,
+        "hands_vpip": 28,
+        "hands_pfr": 7,
+        "aggression_factor": 0.3888888888888889,
+        "bets": 6,
+        "raises": 8,
+        "calls": 36
+      },
+      "17": {
+        "vpip": 0.6153846153846154,
+        "pfr": 0.07692307692307693,
+        "hands_observed": 13,
+        "hands_vpip": 8,
+        "hands_pfr": 1,
+        "aggression_factor": 0.5,
+        "bets": 4,
+        "raises": 2,
+        "calls": 12
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.13636363636363635,
+        "hands_observed": 22,
+        "hands_vpip": 11,
+        "hands_pfr": 3,
+        "aggression_factor": 1.3846153846153846,
+        "bets": 12,
+        "raises": 6,
+        "calls": 13
+      },
+      "19": {
+        "vpip": 0.3684210526315789,
+        "pfr": 0.10526315789473684,
+        "hands_observed": 19,
+        "hands_vpip": 7,
+        "hands_pfr": 2,
+        "aggression_factor": 2.8333333333333335,
+        "bets": 8,
+        "raises": 9,
+        "calls": 6
+      },
+      "3": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 2,
+        "raises": 2,
+        "calls": 2
+      },
+      "8": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.3333333333333333,
+        "bets": 1,
+        "raises": 3,
+        "calls": 3
+      }
+    }
+  },
+  {
+    "id": 22,
+    "name": "蝙蝠侠",
+    "personality": {
+      "tight_loose": 0.72,
+      "passive_aggressive": 0.16,
+      "bluff_frequency": 0.08,
+      "call_tendency": 0.67,
+      "adaptivity": 0.15
+    },
+    "archetype": "random",
+    "bank": 6792,
+    "hands_played": 13,
+    "hands_won": 5,
+    "total_profit": -1143,
+    "opponent_memories": {
+      "9": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.75,
+        "pfr": 0.08333333333333333,
+        "hands_observed": 12,
+        "hands_vpip": 9,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6153846153846154,
+        "bets": 5,
+        "raises": 3,
+        "calls": 13
+      },
+      "25": {
+        "vpip": 0.18181818181818182,
+        "pfr": 0.0,
+        "hands_observed": 11,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "29": {
+        "vpip": 0.4,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 4,
+        "hands_pfr": 1,
+        "aggression_factor": 1.1666666666666667,
+        "bets": 3,
+        "raises": 4,
+        "calls": 6
+      },
+      "4": {
+        "vpip": 1.0,
+        "pfr": 1.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 0
+      },
+      "1": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 23,
+    "name": "张起灵",
+    "personality": {
+      "tight_loose": 0.27,
+      "passive_aggressive": 0.33,
+      "bluff_frequency": 0.35,
+      "call_tendency": 0.68,
+      "adaptivity": 0.6
+    },
+    "archetype": "random",
+    "bank": 8311,
+    "hands_played": 6,
+    "hands_won": 3,
+    "total_profit": 3148,
+    "opponent_memories": {
+      "human": {
+        "vpip": 0.8,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 8,
+        "hands_pfr": 1,
+        "aggression_factor": 0.7333333333333333,
+        "bets": 9,
+        "raises": 2,
+        "calls": 15
+      },
+      "39": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 4
+      },
+      "4": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 4,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.4,
+        "bets": 5,
+        "raises": 2,
+        "calls": 5
+      },
+      "20": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 0,
+        "calls": 0
+      },
+      "6": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.3333333333333333,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 3.0,
+        "bets": 1,
+        "raises": 2,
+        "calls": 1
+      },
+      "1": {
+        "vpip": 0.2,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5,
+        "bets": 1,
+        "raises": 1,
+        "calls": 4
+      },
+      "34": {
+        "vpip": 0.8333333333333334,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6363636363636364,
+        "bets": 3,
+        "raises": 4,
+        "calls": 11
+      }
+    }
+  },
+  {
+    "id": 24,
+    "name": "魔丸哪吒",
+    "personality": {
+      "tight_loose": 0.76,
+      "passive_aggressive": 0.42,
+      "bluff_frequency": 0.1,
+      "call_tendency": 0.6,
+      "adaptivity": 0.42
+    },
+    "archetype": "random",
+    "bank": 6642,
+    "hands_played": 15,
+    "hands_won": 2,
+    "total_profit": 198,
+    "opponent_memories": {
+      "16": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "27": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 1.0,
+        "pfr": 0.125,
+        "hands_observed": 8,
+        "hands_vpip": 8,
+        "hands_pfr": 1,
+        "aggression_factor": 0.3684210526315789,
+        "bets": 3,
+        "raises": 4,
+        "calls": 19
+      },
+      "18": {
+        "vpip": 1.0,
+        "pfr": 1.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 0,
+        "raises": 1,
+        "calls": 3
+      },
+      "1": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "4": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "38": {
+        "vpip": 0.625,
+        "pfr": 0.0,
+        "hands_observed": 8,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 13
+      },
+      "2": {
+        "vpip": 0.16666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 4.0,
+        "bets": 3,
+        "raises": 1,
+        "calls": 1
+      }
+    }
+  },
+  {
+    "id": 25,
+    "name": "洛基",
+    "personality": {
+      "tight_loose": 0.32,
+      "passive_aggressive": 0.36,
+      "bluff_frequency": 0.53,
+      "call_tendency": 0.55,
+      "adaptivity": 0.64
+    },
+    "archetype": "random",
+    "bank": 6965,
+    "hands_played": 19,
+    "hands_won": 4,
+    "total_profit": 2020,
+    "opponent_memories": {
+      "1": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 1,
+        "raises": 2,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.7692307692307693,
+        "pfr": 0.0,
+        "hands_observed": 13,
+        "hands_vpip": 10,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5294117647058824,
+        "bets": 6,
+        "raises": 3,
+        "calls": 17
+      },
+      "31": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "22": {
+        "vpip": 0.6,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 6,
+        "hands_pfr": 1,
+        "aggression_factor": 1.3333333333333333,
+        "bets": 6,
+        "raises": 6,
+        "calls": 9
+      },
+      "29": {
+        "vpip": 0.4,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 4,
+        "hands_pfr": 1,
+        "aggression_factor": 1.1666666666666667,
+        "bets": 3,
+        "raises": 4,
+        "calls": 6
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "34": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 26,
+    "name": "琦玉",
+    "personality": {
+      "tight_loose": 0.66,
+      "passive_aggressive": 0.62,
+      "bluff_frequency": 0.58,
+      "call_tendency": 0.41,
+      "adaptivity": 0.4
+    },
+    "archetype": "random",
+    "bank": 7970,
+    "hands_played": 6,
+    "hands_won": 1,
+    "total_profit": -957,
+    "opponent_memories": {
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 4.0,
+        "bets": 3,
+        "raises": 1,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.8,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 0.375,
+        "bets": 2,
+        "raises": 1,
+        "calls": 8
+      },
+      "29": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 1,
+        "raises": 1,
+        "calls": 3
+      },
+      "18": {
+        "vpip": 0.5,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 0
+      },
+      "16": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "36": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      },
+      "10": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 1
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "2": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 27,
+    "name": "五条悟",
+    "personality": {
+      "tight_loose": 0.78,
+      "passive_aggressive": 0.32,
+      "bluff_frequency": 0.29,
+      "call_tendency": 0.42,
+      "adaptivity": 0.67
+    },
+    "archetype": "random",
+    "bank": 2849,
+    "hands_played": 38,
+    "hands_won": 3,
+    "total_profit": -3221,
+    "opponent_memories": {
+      "6": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.9166666666666666,
+        "pfr": 0.0,
+        "hands_observed": 12,
+        "hands_vpip": 11,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5789473684210527,
+        "bets": 10,
+        "raises": 1,
+        "calls": 19
+      },
+      "8": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "16": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "24": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "37": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "18": {
+        "vpip": 1.0,
+        "pfr": 1.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 0,
+        "raises": 1,
+        "calls": 3
+      },
+      "1": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "29": {
+        "vpip": 0.5555555555555556,
+        "pfr": 0.0,
+        "hands_observed": 9,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.42857142857142855,
+        "bets": 1,
+        "raises": 2,
+        "calls": 7
+      },
+      "4": {
+        "vpip": 0.7777777777777778,
+        "pfr": 0.1111111111111111,
+        "hands_observed": 9,
+        "hands_vpip": 7,
+        "hands_pfr": 1,
+        "aggression_factor": 0.8333333333333334,
+        "bets": 6,
+        "raises": 4,
+        "calls": 12
+      }
+    }
+  },
+  {
+    "id": 28,
+    "name": "钢铁侠",
+    "personality": {
+      "tight_loose": 0.7942156755227237,
+      "passive_aggressive": 0.32215594044689966,
+      "bluff_frequency": 0.1,
+      "call_tendency": 0.8,
+      "adaptivity": 0.2
+    },
+    "archetype": "random",
+    "bank": 9995,
+    "hands_played": 0,
+    "hands_won": 0,
+    "total_profit": 0,
+    "opponent_memories": {}
+  },
+  {
+    "id": 29,
+    "name": "邦德",
+    "personality": {
+      "tight_loose": 0.32,
+      "passive_aggressive": 0.61,
+      "bluff_frequency": 0.34,
+      "call_tendency": 0.36,
+      "adaptivity": 0.35
+    },
+    "archetype": "random",
+    "bank": 4614,
+    "hands_played": 27,
+    "hands_won": 4,
+    "total_profit": 537,
+    "opponent_memories": {
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 4.0,
+        "bets": 3,
+        "raises": 1,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 0.782608695652174,
+        "pfr": 0.043478260869565216,
+        "hands_observed": 23,
+        "hands_vpip": 18,
+        "hands_pfr": 1,
+        "aggression_factor": 0.7,
+        "bets": 16,
+        "raises": 5,
+        "calls": 30
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "22": {
+        "vpip": 0.6,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 6,
+        "hands_pfr": 1,
+        "aggression_factor": 1.3333333333333333,
+        "bets": 6,
+        "raises": 6,
+        "calls": 9
+      },
+      "25": {
+        "vpip": 0.18181818181818182,
+        "pfr": 0.0,
+        "hands_observed": 11,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "18": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 2,
+        "raises": 0,
+        "calls": 6
+      },
+      "31": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 3,
+        "raises": 0,
+        "calls": 1
+      },
+      "4": {
+        "vpip": 0.7777777777777778,
+        "pfr": 0.1111111111111111,
+        "hands_observed": 9,
+        "hands_vpip": 7,
+        "hands_pfr": 1,
+        "aggression_factor": 0.8333333333333334,
+        "bets": 6,
+        "raises": 4,
+        "calls": 12
+      },
+      "27": {
+        "vpip": 0.4444444444444444,
+        "pfr": 0.0,
+        "hands_observed": 9,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 7
+      }
+    }
+  },
+  {
+    "id": 30,
+    "name": "封不觉",
+    "personality": {
+      "tight_loose": 0.62,
+      "passive_aggressive": 0.19,
+      "bluff_frequency": 0.08,
+      "call_tendency": 0.66,
+      "adaptivity": 0.22
+    },
+    "archetype": "random",
+    "bank": 8137,
+    "hands_played": 8,
+    "hands_won": 2,
+    "total_profit": 725,
+    "opponent_memories": {
+      "human": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "11": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2,
+        "bets": 1,
+        "raises": 0,
+        "calls": 5
+      },
+      "39": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2,
+        "bets": 1,
+        "raises": 0,
+        "calls": 5
+      }
+    }
+  },
+  {
+    "id": 31,
+    "name": "福尔摩斯",
+    "personality": {
+      "tight_loose": 0.24076318550421602,
+      "passive_aggressive": 0.2751705880756388,
+      "bluff_frequency": 0.05,
+      "call_tendency": 0.3,
+      "adaptivity": 0.4
+    },
+    "archetype": "random",
+    "bank": 9447,
+    "hands_played": 16,
+    "hands_won": 6,
+    "total_profit": 1763,
+    "opponent_memories": {
+      "1": {
+        "vpip": 0.2,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 5.0,
+        "bets": 2,
+        "raises": 3,
+        "calls": 1
+      },
+      "human": {
+        "vpip": 0.7333333333333333,
+        "pfr": 0.2,
+        "hands_observed": 15,
+        "hands_vpip": 11,
+        "hands_pfr": 3,
+        "aggression_factor": 0.5789473684210527,
+        "bets": 4,
+        "raises": 7,
+        "calls": 19
+      },
+      "25": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.6666666666666667,
+        "bets": 3,
+        "raises": 2,
+        "calls": 3
+      },
+      "20": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "8": {
+        "vpip": 0.5,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 5,
+        "hands_pfr": 1,
+        "aggression_factor": 0.75,
+        "bets": 5,
+        "raises": 1,
+        "calls": 8
+      },
+      "18": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 2,
+        "raises": 0,
+        "calls": 6
+      },
+      "29": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 5
+      },
+      "2": {
+        "vpip": 0.5714285714285714,
+        "pfr": 0.14285714285714285,
+        "hands_observed": 7,
+        "hands_vpip": 4,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 3,
+        "raises": 2,
+        "calls": 5
+      }
+    }
+  },
+  {
+    "id": 32,
+    "name": "狐尼克",
+    "personality": {
+      "tight_loose": 0.16,
+      "passive_aggressive": 0.52,
+      "bluff_frequency": 0.2,
+      "call_tendency": 0.71,
+      "adaptivity": 0.34
+    },
+    "archetype": "random",
+    "bank": 4763,
+    "hands_played": 22,
+    "hands_won": 4,
+    "total_profit": -146,
+    "opponent_memories": {
+      "human": {
+        "vpip": 0.75,
+        "pfr": 0.25,
+        "hands_observed": 12,
+        "hands_vpip": 9,
+        "hands_pfr": 3,
+        "aggression_factor": 0.5454545454545454,
+        "bets": 3,
+        "raises": 3,
+        "calls": 11
+      },
+      "21": {
+        "vpip": 0.36363636363636365,
+        "pfr": 0.0,
+        "hands_observed": 11,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.25,
+        "bets": 5,
+        "raises": 0,
+        "calls": 4
+      },
+      "17": {
+        "vpip": 0.6153846153846154,
+        "pfr": 0.07692307692307693,
+        "hands_observed": 13,
+        "hands_vpip": 8,
+        "hands_pfr": 1,
+        "aggression_factor": 0.5,
+        "bets": 4,
+        "raises": 2,
+        "calls": 12
+      }
+    }
+  },
+  {
+    "id": 33,
+    "name": "路飞",
+    "personality": {
+      "tight_loose": 0.7683338696344933,
+      "passive_aggressive": 0.25153257639552684,
+      "bluff_frequency": 0.1,
+      "call_tendency": 0.8,
+      "adaptivity": 0.2
+    },
+    "archetype": "random",
+    "bank": 10010,
+    "hands_played": 1,
+    "hands_won": 0,
+    "total_profit": 0,
+    "opponent_memories": {
+      "38": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "human": {
+        "vpip": 1.0,
+        "pfr": 0.25,
+        "hands_observed": 4,
+        "hands_vpip": 4,
+        "hands_pfr": 1,
+        "aggression_factor": 1.25,
+        "bets": 3,
+        "raises": 2,
+        "calls": 4
+      },
+      "35": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 0,
+        "raises": 1,
+        "calls": 3
+      },
+      "20": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "14": {
+        "vpip": 1.0,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 3,
+        "hands_pfr": 2,
+        "aggression_factor": 1.5,
+        "bets": 1,
+        "raises": 2,
+        "calls": 2
+      },
+      "8": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "17": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 34,
+    "name": "奎托斯",
+    "personality": {
+      "tight_loose": 0.6247827705182296,
+      "passive_aggressive": 0.6823098071506306,
+      "bluff_frequency": 0.4,
+      "call_tendency": 0.5,
+      "adaptivity": 0.5
+    },
+    "archetype": "random",
+    "bank": 6769,
+    "hands_played": 24,
+    "hands_won": 11,
+    "total_profit": -1832,
+    "opponent_memories": {
+      "21": {
+        "vpip": 0.3333333333333333,
+        "pfr": 0.0,
+        "hands_observed": 21,
+        "hands_vpip": 7,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 4,
+        "raises": 5,
+        "calls": 9
+      },
+      "human": {
+        "vpip": 0.7333333333333333,
+        "pfr": 0.16666666666666666,
+        "hands_observed": 30,
+        "hands_vpip": 22,
+        "hands_pfr": 5,
+        "aggression_factor": 0.5,
+        "bets": 11,
+        "raises": 6,
+        "calls": 34
+      },
+      "19": {
+        "vpip": 0.3684210526315789,
+        "pfr": 0.10526315789473684,
+        "hands_observed": 19,
+        "hands_vpip": 7,
+        "hands_pfr": 2,
+        "aggression_factor": 2.8333333333333335,
+        "bets": 8,
+        "raises": 9,
+        "calls": 6
+      },
+      "1": {
+        "vpip": 0.2,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5,
+        "bets": 1,
+        "raises": 1,
+        "calls": 4
+      },
+      "23": {
+        "vpip": 0.6,
+        "pfr": 0.2,
+        "hands_observed": 5,
+        "hands_vpip": 3,
+        "hands_pfr": 1,
+        "aggression_factor": 1.25,
+        "bets": 3,
+        "raises": 2,
+        "calls": 4
+      },
+      "0": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "25": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "18": {
+        "vpip": 0.5,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 0
+      },
+      "16": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "36": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 3,
+        "calls": 4
+      },
+      "10": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 1
+      }
+    }
+  },
+  {
+    "id": 35,
+    "name": "提利昂",
+    "personality": {
+      "tight_loose": 0.21,
+      "passive_aggressive": 0.67,
+      "bluff_frequency": 0.18,
+      "call_tendency": 0.66,
+      "adaptivity": 0.23
+    },
+    "archetype": "random",
+    "bank": 8883,
+    "hands_played": 1,
+    "hands_won": 0,
+    "total_profit": 0,
+    "opponent_memories": {
+      "9": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "38": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "human": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 3,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 3,
+        "raises": 1,
+        "calls": 4
+      },
+      "33": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 0,
+        "calls": 1
+      },
+      "20": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 1
+      },
+      "0": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 1
+      }
+    }
+  },
+  {
+    "id": 36,
+    "name": "韦小宝",
+    "personality": {
+      "tight_loose": 0.17574437556463685,
+      "passive_aggressive": 0.2163331058722359,
+      "bluff_frequency": 0.03,
+      "call_tendency": 0.25,
+      "adaptivity": 0.3
+    },
+    "archetype": "random",
+    "bank": 10740,
+    "hands_played": 7,
+    "hands_won": 3,
+    "total_profit": 785,
+    "opponent_memories": {
+      "20": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "0": {
+        "vpip": 0.4,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 2
+      },
+      "human": {
+        "vpip": 0.7142857142857143,
+        "pfr": 0.0,
+        "hands_observed": 7,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.8333333333333334,
+        "bets": 5,
+        "raises": 0,
+        "calls": 6
+      },
+      "13": {
+        "vpip": 0.4,
+        "pfr": 0.0,
+        "hands_observed": 5,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 1.5,
+        "bets": 2,
+        "raises": 1,
+        "calls": 2
+      },
+      "26": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "18": {
+        "vpip": 0.5,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 1.0,
+        "bets": 0,
+        "raises": 1,
+        "calls": 0
+      },
+      "16": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "34": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "10": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 1,
+        "raises": 1,
+        "calls": 1
+      }
+    }
+  },
+  {
+    "id": 37,
+    "name": "魏无羡",
+    "personality": {
+      "tight_loose": 0.49,
+      "passive_aggressive": 0.57,
+      "bluff_frequency": 0.1,
+      "call_tendency": 0.35,
+      "adaptivity": 0.15
+    },
+    "archetype": "random",
+    "bank": 6990,
+    "hands_played": 7,
+    "hands_won": 1,
+    "total_profit": -848,
+    "opponent_memories": {
+      "20": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "16": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "24": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "27": {
+        "vpip": 1.0,
+        "pfr": 0.5,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 1,
+        "aggression_factor": 0.6666666666666666,
+        "bets": 0,
+        "raises": 2,
+        "calls": 3
+      },
+      "11": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 5
+      },
+      "18": {
+        "vpip": 1.0,
+        "pfr": 1.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 1,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 0,
+        "raises": 1,
+        "calls": 3
+      },
+      "1": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 3.0,
+        "bets": 2,
+        "raises": 1,
+        "calls": 1
+      },
+      "19": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 1,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      }
+    }
+  },
+  {
+    "id": 38,
+    "name": "阿甘",
+    "personality": {
+      "tight_loose": 0.65,
+      "passive_aggressive": 0.3,
+      "bluff_frequency": 0.23,
+      "call_tendency": 0.24,
+      "adaptivity": 0.23
+    },
+    "archetype": "random",
+    "bank": 4235,
+    "hands_played": 28,
+    "hands_won": 5,
+    "total_profit": -3972,
+    "opponent_memories": {
+      "18": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 0.0,
+        "bets": 0,
+        "raises": 0,
+        "calls": 0
+      },
+      "human": {
+        "vpip": 1.0,
+        "pfr": 0.1,
+        "hands_observed": 10,
+        "hands_vpip": 10,
+        "hands_pfr": 1,
+        "aggression_factor": 0.5238095238095238,
+        "bets": 6,
+        "raises": 5,
+        "calls": 21
+      },
+      "4": {
+        "vpip": 0.4444444444444444,
+        "pfr": 0.0,
+        "hands_observed": 9,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 0.4,
+        "bets": 0,
+        "raises": 2,
+        "calls": 5
+      },
+      "35": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 0.3333333333333333,
+        "bets": 0,
+        "raises": 1,
+        "calls": 3
+      },
+      "33": {
+        "vpip": 0.5,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 1.0,
+        "bets": 1,
+        "raises": 0,
+        "calls": 1
+      },
+      "2": {
+        "vpip": 0.16666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 6,
+        "hands_vpip": 1,
+        "hands_pfr": 0,
+        "aggression_factor": 4.0,
+        "bets": 3,
+        "raises": 1,
+        "calls": 1
+      },
+      "24": {
+        "vpip": 0.5714285714285714,
+        "pfr": 0.0,
+        "hands_observed": 7,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.1666666666666667,
+        "bets": 6,
+        "raises": 1,
+        "calls": 6
+      }
+    }
+  },
+  {
+    "id": 39,
+    "name": "利威尔",
+    "personality": {
+      "tight_loose": 0.5756782928999525,
+      "passive_aggressive": 0.7450564756197463,
+      "bluff_frequency": 0.4,
+      "call_tendency": 0.5,
+      "adaptivity": 0.5
+    },
+    "archetype": "random",
+    "bank": 9891,
+    "hands_played": 14,
+    "hands_won": 3,
+    "total_profit": 459,
+    "opponent_memories": {
+      "20": {
+        "vpip": 0.45454545454545453,
+        "pfr": 0.0,
+        "hands_observed": 11,
+        "hands_vpip": 5,
+        "hands_pfr": 0,
+        "aggression_factor": 0.5714285714285714,
+        "bets": 2,
+        "raises": 2,
+        "calls": 7
+      },
+      "human": {
+        "vpip": 0.7857142857142857,
+        "pfr": 0.14285714285714285,
+        "hands_observed": 14,
+        "hands_vpip": 11,
+        "hands_pfr": 2,
+        "aggression_factor": 0.8181818181818182,
+        "bets": 7,
+        "raises": 2,
+        "calls": 11
+      },
+      "14": {
+        "vpip": 0.7,
+        "pfr": 0.0,
+        "hands_observed": 10,
+        "hands_vpip": 7,
+        "hands_pfr": 0,
+        "aggression_factor": 0.6363636363636364,
+        "bets": 2,
+        "raises": 5,
+        "calls": 11
+      },
+      "23": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.6666666666666666,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 2,
+        "aggression_factor": 5.0,
+        "bets": 1,
+        "raises": 4,
+        "calls": 0
+      },
+      "4": {
+        "vpip": 1.0,
+        "pfr": 0.0,
+        "hands_observed": 4,
+        "hands_vpip": 4,
+        "hands_pfr": 0,
+        "aggression_factor": 1.4,
+        "bets": 5,
+        "raises": 2,
+        "calls": 5
+      },
+      "30": {
+        "vpip": 0.0,
+        "pfr": 0.0,
+        "hands_observed": 2,
+        "hands_vpip": 0,
+        "hands_pfr": 0,
+        "aggression_factor": 2.0,
+        "bets": 2,
+        "raises": 0,
+        "calls": 0
+      },
+      "11": {
+        "vpip": 0.6666666666666666,
+        "pfr": 0.0,
+        "hands_observed": 3,
+        "hands_vpip": 2,
+        "hands_pfr": 0,
+        "aggression_factor": 0.2,
+        "bets": 1,
+        "raises": 0,
+        "calls": 5
+      }
+    }
+  }
+]

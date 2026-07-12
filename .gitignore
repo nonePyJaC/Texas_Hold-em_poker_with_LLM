@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# 运行时生成的数据（存档、记忆、日志）
+data/save.json
+data/memory/
+logs/
+
+# LLM 配置（含 API Key，不提交）
+config/llm_config.json
+
+# 未使用的素材包
+kenney_playing-cards-pack/
+kenney_playing-cards-pack.zip
+poker_pack/
+poker_pack.zip
+sbs_-_2d_poker_pack/
+sbs_-_2d_poker_pack.zip
+SBS - 2D Poker Pack.rar
+Kenney Solitaire - Windows/
+Kenney Solitaire - Windows.zip
+kenney_boardgame-pack.zip
+
+# 临时文件
+game_assets.txt
+game_output.txt
+*.log
+
+# IDE
+.vscode/
+.idea/
+__pycache__/
