@@ -199,6 +199,7 @@ class ChatController:
             chat_history=tuple(
                 f"{m['name']}: {m['text']}"
                 for m in self.messages[-10:]
+                if m.get("source") == "llm"
             ) if self.messages else (),
         )
 
