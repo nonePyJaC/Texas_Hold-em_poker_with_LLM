@@ -43,7 +43,8 @@ class LLMBridge(DialogueProvider):
 
         try:
             prompt = self.prompt_builder.build_prompt(ctx, emotion_tag, intensity)
-            text = self._call_api(prompt)
+            temp = self._get_dynamic_temperature(ctx)
+            text = self._call_api(prompt, temperature=temp)
             if text:
                 text = text.strip().strip('"').strip('"').strip('"')
             return text if text else None
@@ -60,7 +61,8 @@ class LLMBridge(DialogueProvider):
             system, user = self.prompt_builder.build_reply_prompt(ctx, human_message)
             print(f"[Chat] generate_reply system for {ctx.char_name}:\n{system}")
             print(f"[Chat] generate_reply user for {ctx.char_name}:\n{user}\n---")
-            text = self._call_api_with_system(system, user)
+            temp = self._get_dynamic_temperature(ctx)
+            text = self._call_api_with_system(system, user, temperature=temp)
             print(f"[Chat] generate_reply raw response for {ctx.char_name}: {repr(text)}")
             if not text:
                 # 重试：更短更直接的 prompt
@@ -69,6 +71,7 @@ class LLMBridge(DialogueProvider):
                 text = self._call_api_with_system(
                     "你正在德州扑克牌桌上，请用一句话中文回应其他玩家。只输出台词，不要解释。",
                     retry_user,
+                    temperature=temp,
                 )
                 print(f"[Chat] generate_reply retry raw response for {ctx.char_name}: {repr(text)}")
             if text:
@@ -91,7 +94,28 @@ class LLMBridge(DialogueProvider):
         ]
         return "\n".join(lines)
 
-    def _call_api_with_system(self, system: str, user: str) -> Optional[str]:
+    def _get_dynamic_temperature(self, ctx: DialogueContext) -> float:
+        """根据情绪状态动态调整 temperature
+
+        - tilt 高 → 更冲动随机 (temperature +)
+        - confidence 高 → 更沉稳简洁 (temperature -)
+        """
+        temp = self.config.temperature
+        emo = ctx.emotion_state
+        if emo:
+            if emo.tilt > 0.5:
+                temp += 0.2
+            elif emo.tilt > 0.3:
+                temp += 0.1
+            if emo.confidence > 0.7:
+                temp -= 0.2
+            elif emo.confidence > 0.5:
+                temp -= 0.1
+            if emo.excitement > 0.5:
+                temp += 0.1
+        return max(0.3, min(temp, 1.2))
+
+    def _call_api_with_system(self, system: str, user: str, temperature: Optional[float] = None) -> Optional[str]:
         """使用 system + user 消息格式调用 LLM"""
         if self._client is None:
             try:
@@ -110,7 +134,7 @@ class LLMBridge(DialogueProvider):
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},
             ],
-            temperature=self.config.temperature,
+            temperature=temperature if temperature is not None else self.config.temperature,
             max_tokens=self.config.max_tokens,
             timeout=self.config.timeout,
         )
@@ -129,7 +153,7 @@ class LLMBridge(DialogueProvider):
         """LLM 是否可用 (需要配置 API Key)"""
         return self.config is not None and bool(self.config.api_key)
 
-    def _call_api(self, prompt: str) -> Optional[str]:
+    def _call_api(self, prompt: str, temperature: Optional[float] = None) -> Optional[str]:
         """调用 LLM API
 
         当前使用 OpenAI 兼容接口，换模型只改此方法。
@@ -148,7 +172,7 @@ class LLMBridge(DialogueProvider):
         kwargs = dict(
             model=self.config.model,
             messages=[{"role": "user", "content": prompt}],
-            temperature=self.config.temperature,
+            temperature=temperature if temperature is not None else self.config.temperature,
             max_tokens=self.config.max_tokens,
             timeout=self.config.timeout,
         )

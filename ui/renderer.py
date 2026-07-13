@@ -458,32 +458,72 @@ class Renderer:
                 self.screen.blit(card_surf, (x, y))
 
     def draw_pot(self, pot_amount):
-        """绘制底池（左上角，第几手信息下方）— 按面值拆分多摞并排展示"""
-        base_x = 10
-        base_y = 60
+        """绘制底池（居中，公共牌上方）— 带半透明背景的醒目展示"""
+        cx = self.w // 2
+        cy = self.h // 2 - 110
 
-        # 筹码图标（多面值堆叠）
+        # 筹码图标
         chip = get_pot_chip_surface(pot_amount, 14)
-        chip_x = base_x
-        chip_y = base_y
+
+        # 底池金额
+        pot_text = f"底池 {pot_amount:,}"
+        pot_surf = self.font_large.render(pot_text, True, COLOR_GOLD)
+
+        # 计算背景尺寸
+        bg_w = chip.get_width() + 10 + pot_surf.get_width() + 24
+        bg_h = max(chip.get_height(), pot_surf.get_height()) + 16
+        bg_x = cx - bg_w // 2
+        bg_y = cy - bg_h // 2
+
+        # 半透明圆角背景
+        bg = pygame.Surface((bg_w, bg_h), pygame.SRCALPHA)
+        pygame.draw.rect(bg, (0, 0, 0, 120), (0, 0, bg_w, bg_h), border_radius=8)
+        pygame.draw.rect(bg, (255, 215, 0, 80), (0, 0, bg_w, bg_h), 1, border_radius=8)
+        self.screen.blit(bg, (bg_x, bg_y))
+
+        # 筹码 + 文字
+        chip_x = bg_x + 12
+        chip_y = bg_y + (bg_h - chip.get_height()) // 2
         self.screen.blit(chip, (chip_x, chip_y))
 
-        # 底池金额标签
-        pot_surf = self.font_large.render(f"底池: {pot_amount}", True, COLOR_GOLD)
-        self.screen.blit(pot_surf, (base_x + chip.get_width() + 10, base_y + chip.get_height() // 2 - pot_surf.get_height() // 2))
+        text_x = chip_x + chip.get_width() + 10
+        text_y = bg_y + (bg_h - pot_surf.get_height()) // 2
+        self.screen.blit(pot_surf, (text_x, text_y))
 
     def draw_phase_info(self, phase, hand_number):
-        """绘制阶段信息"""
-        text = f"第 {hand_number} 手 - {PHASE_NAMES.get(phase, phase)}"
-        surf = self.font_normal.render(text, True, COLOR_TEXT_DIM)
-        self.screen.blit(surf, (10, 10))
+        """绘制阶段信息 — 胶囊式徽章，带阶段配色"""
+        phase_colors = {
+            PREFLOP: (80, 140, 200),
+            FLOP: (80, 180, 100),
+            TURN: (200, 160, 60),
+            RIVER: (200, 100, 60),
+            SHOWDOWN: (200, 60, 60),
+        }
+        color = phase_colors.get(phase, (120, 120, 140))
+        text = f"#{hand_number}  {PHASE_NAMES.get(phase, phase)}"
+        surf = self.font_normal.render(text, True, COLOR_WHITE)
+
+        # 胶囊背景
+        pad_x, pad_y = 14, 6
+        bg_w = surf.get_width() + pad_x * 2
+        bg_h = surf.get_height() + pad_y * 2
+        bg = pygame.Surface((bg_w, bg_h), pygame.SRCALPHA)
+        pygame.draw.rect(bg, (*color, 180), (0, 0, bg_w, bg_h), border_radius=bg_h // 2)
+        pygame.draw.rect(bg, (*color, 255), (0, 0, bg_w, bg_h), 1, border_radius=bg_h // 2)
+        self.screen.blit(bg, (10, 8))
+        self.screen.blit(surf, (10 + pad_x, 8 + pad_y))
 
     def draw_betting_info(self, current_bet, min_raise):
-        """绘制下注信息"""
+        """绘制下注信息 — 带背景条，醒目显示"""
         if current_bet > 0:
-            text = f"当前下注: {current_bet}  最小加注: {min_raise}"
-            surf = self.font_small.render(text, True, COLOR_TEXT_DIM)
-            self.screen.blit(surf, (10, 35))
+            text = f"当前下注 {current_bet:,}  ·  最小加注 {min_raise:,}"
+            surf = self.font_small.render(text, True, (255, 220, 100))
+            bg_w = surf.get_width() + 20
+            bg_h = surf.get_height() + 8
+            bg = pygame.Surface((bg_w, bg_h), pygame.SRCALPHA)
+            pygame.draw.rect(bg, (0, 0, 0, 100), (0, 0, bg_w, bg_h), border_radius=6)
+            self.screen.blit(bg, (10, 38))
+            self.screen.blit(surf, (20, 42))
 
     def draw_action_panel(self, game, human_player):
         """绘制操作面板"""
@@ -587,22 +627,58 @@ class Renderer:
             label = self.font_small.render(label_text, True, COLOR_WHITE)
             self.screen.blit(label, (self.raise_slider.rect.x - 55, self.raise_slider.rect.centery - 8))
 
-    def draw_showdown_results(self, results, players, community_cards=None, hand_number=None):
-        """绘制摊牌结果 - 展示牌面"""
+    def draw_showdown_results(self, results, players, community_cards=None, hand_number=None, timer=0.0):
+        """绘制摊牌结果 - 带入场动画和赢家高亮
+
+        Args:
+            timer: 摊牌场景已持续时间（秒），用于控制动画阶段
+        """
         cx = self.w // 2
         cy = self.h // 2
 
-        # 半透明遮罩（复用缓存 surface）
+        # === 动画阶段 ===
+        # Phase 0: 0-0.4s 悬念（仅遮罩 + 提示）
+        # Phase 1: 0.4-0.8s 面板滑入
+        # Phase 2: 0.8s+ 完整显示 + 赢家脉冲
+        SUSPENSE_DUR = 0.4
+        SLIDE_DUR = 0.4
+
+        if timer < SUSPENSE_DUR:
+            # 悬念阶段：渐暗遮罩 + "摊牌中..." 文字
+            alpha = int(160 * (timer / SUSPENSE_DUR))
+            self._overlay.fill((0, 0, 0, alpha))
+            self.screen.blit(self._overlay, (0, 0))
+            pulse = 0.5 + 0.5 * math.sin(timer * 8)
+            text_color = (int(255 * pulse), int(215 * pulse), 0)
+            text = self.font_title.render("摊牌中...", True, text_color)
+            self.screen.blit(text, (cx - text.get_width() // 2, cy - text.get_height() // 2))
+            return
+
+        # 滑入进度
+        slide_t = min(1.0, (timer - SUSPENSE_DUR) / SLIDE_DUR)
+        slide_eased = 1 - (1 - slide_t) ** 3  # ease-out
+
+        # 半透明遮罩
         self._overlay.fill((0, 0, 0, 160))
         self.screen.blit(self._overlay, (0, 0))
 
         # 结果面板 - 加大以容纳牌面
         panel_w, panel_h = 760, 520
         panel_x = cx - panel_w // 2
-        panel_y = cy - panel_h // 2
+        panel_y_offset = int((1 - slide_eased) * 100)  # 从下方滑入
+        panel_y = cy - panel_h // 2 + panel_y_offset
 
-        pygame.draw.rect(self.screen, COLOR_PANEL_BG, (panel_x, panel_y, panel_w, panel_h), border_radius=12)
-        pygame.draw.rect(self.screen, COLOR_GOLD, (panel_x, panel_y, panel_w, panel_h), 3, border_radius=12)
+        # 面板透明度（滑入时渐显）
+        panel_alpha = int(255 * slide_eased)
+
+        panel_surf = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
+        pygame.draw.rect(panel_surf, (*COLOR_PANEL_BG, panel_alpha), (0, 0, panel_w, panel_h), border_radius=12)
+        pygame.draw.rect(panel_surf, (*COLOR_GOLD, panel_alpha), (0, 0, panel_w, panel_h), 3, border_radius=12)
+        self.screen.blit(panel_surf, (panel_x, panel_y))
+
+        # 滑入未完成时只画面板框架
+        if slide_t < 1.0:
+            return
 
         # 左上角对局编号
         if hand_number is not None:
@@ -668,6 +744,12 @@ class Renderer:
                     row_bg.fill((80, 60, 10, 120))
                     self.screen.blit(row_bg, (row_x, y))
                     pygame.draw.rect(self.screen, COLOR_GOLD, (row_x, y, row_w, row_h), 2, border_radius=6)
+                    # 脉冲光效（Phase 2 后）
+                    glow_pulse = 0.5 + 0.5 * math.sin(timer * 4)
+                    glow_alpha = int(60 * glow_pulse)
+                    glow_surf = pygame.Surface((row_w + 8, row_h + 8), pygame.SRCALPHA)
+                    pygame.draw.rect(glow_surf, (255, 215, 0, glow_alpha), (0, 0, row_w + 8, row_h + 8), 3, border_radius=8)
+                    self.screen.blit(glow_surf, (row_x - 4, y - 4))
                 elif is_side_winner:
                     row_bg = pygame.Surface((row_w, row_h), pygame.SRCALPHA)
                     row_bg.fill((60, 40, 10, 80))

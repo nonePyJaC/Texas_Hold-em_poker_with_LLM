@@ -39,7 +39,8 @@ class SceneRenderer:
                 self.app.showdown_results,
                 self.app.players,
                 self.app.game.community_cards,
-                hand_number=self.app.game.hand_number
+                hand_number=self.app.game.hand_number,
+                timer=self.app.showdown_timer
             )
 
     def _render_menu(self):
