@@ -41,6 +41,14 @@ class DialogueContextBuilder:
 
         is_all_in = any(p.all_in and not p.folded for p in app.players)
 
+        # 本局聊天历史（最近10条，格式："名字: 消息"）
+        chat_history = ()
+        if hasattr(app, 'chat_controller') and app.chat_controller.messages:
+            chat_history = tuple(
+                f"{m['name']}: {m['text']}"
+                for m in app.chat_controller.messages[-10:]
+            )
+
         return DialogueContext(
             char_id=char_id,
             char_name=player.name,
@@ -58,4 +66,8 @@ class DialogueContextBuilder:
             phase=app.game.phase,
             is_all_in=is_all_in,
             hand_number=app.game.hand_number,
+            hole_cards=tuple(player.hole_cards) if player.hole_cards else (),
+            community_cards=tuple(app.game.community_cards) if app.game.community_cards else (),
+            last_hand_result=getattr(player, '_last_hand_result', ''),
+            chat_history=chat_history,
         )

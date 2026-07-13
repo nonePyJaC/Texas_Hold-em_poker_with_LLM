@@ -41,6 +41,8 @@ class PromptBuilder:
             self.build_emotion_prompt(ctx, emotion_tag, intensity),
             self.build_relationship_prompt(ctx),
             self.build_memory_prompt(ctx),
+            self.build_cards_prompt(ctx),
+            self.build_context_prompt(ctx),
             self.build_task_prompt(ctx, emotion_tag, intensity),
         ])
 
@@ -129,6 +131,31 @@ class PromptBuilder:
         parts.append("提示: 可以自然地引用过往事件，但不要生硬复述。")
         return "\n".join(parts)
 
+    def build_cards_prompt(self, ctx: DialogueContext) -> str:
+        """牌局信息 (仅用于语气参考)"""
+        parts = ["## 当前牌局信息（仅作参考，可据此诈唬，但绝不要暴露真实底牌）"]
+        if ctx.hole_cards:
+            parts.append(f"你的真实底牌: {self._format_cards(ctx.hole_cards)} (仅限你知，不可对外泄露)")
+        else:
+            parts.append("你的真实底牌: 未知")
+        if ctx.community_cards:
+            parts.append(f"公共牌: {self._format_cards(ctx.community_cards)}")
+        else:
+            parts.append("公共牌: 尚未发出")
+        return "\n".join(parts)
+
+    def build_context_prompt(self, ctx: DialogueContext) -> str:
+        """上下文信息：上一局结果 + 本局聊天历史"""
+        parts = ["## 上下文"]
+        if ctx.last_hand_result:
+            parts.append(f"上一局结果: {ctx.last_hand_result}")
+        if ctx.chat_history:
+            parts.append("本局聊天记录:")
+            for msg in ctx.chat_history[-10:]:
+                parts.append(f"  {msg}")
+        parts.append("提示: 可以自然地引用聊天内容，但不要生硬复述。")
+        return "\n".join(parts)
+
     def build_task_prompt(self, ctx: DialogueContext, emotion_tag: str, intensity: float) -> str:
         """任务指令"""
         trigger_desc = {
@@ -166,6 +193,7 @@ class PromptBuilder:
             self._build_reply_character_user(ctx),
             self._build_cards_prompt(ctx),
             self._build_relationship_user(ctx),
+            self._build_reply_context_user(ctx),
             self._build_reply_task_prompt(ctx, human_message),
         ])
         return system, user
@@ -224,6 +252,17 @@ class PromptBuilder:
         elif sentiment < -0.3:
             desc = "敌对"
         return f"对手: {ctx.opponent_name}{tags}，态度{desc}（交手{ctx.relationship.hands_vs_target}次）"
+
+    def _build_reply_context_user(self, ctx: DialogueContext) -> str:
+        """上下文信息：上一局结果 + 本局聊天历史（回复路径）"""
+        parts = ["上下文:"]
+        if ctx.last_hand_result:
+            parts.append(f"上一局结果: {ctx.last_hand_result}")
+        if ctx.chat_history:
+            parts.append("本局聊天记录:")
+            for msg in ctx.chat_history[-10:]:
+                parts.append(f"  {msg}")
+        return "\n".join(parts)
 
     def _build_reply_task_prompt(self, ctx: DialogueContext, human_message: str) -> str:
         """构建回复任务指令"""

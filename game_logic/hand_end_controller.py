@@ -109,6 +109,14 @@ class HandEndController:
                                 "color": (100, 255, 150),
                             })
 
+                # 记录上一局结果，供下次对话使用
+                if player.folded and not ai_won:
+                    player._last_hand_result = "弃牌"
+                elif ai_won:
+                    player._last_hand_result = f"赢了{ai_profit:+d}筹码"
+                else:
+                    player._last_hand_result = f"输了{ai_profit:+d}筹码"
+
         # 更新记忆系统
         if hasattr(app, 'memory_manager'):
             for player in app.players:

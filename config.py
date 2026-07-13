@@ -4,7 +4,7 @@
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 FPS = 60
-TITLE = "德州扑克 - Texas Hold'em V1.1"
+TITLE = "德州扑克 - Texas Hold'em V1.2"
 
 # 颜色
 COLOR_TABLE_FELT = (27, 94, 58)

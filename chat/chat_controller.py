@@ -195,6 +195,11 @@ class ChatController:
             hand_number=self.app.game.hand_number,
             hole_cards=tuple(ai_player.hole_cards) if ai_player.hole_cards else (),
             community_cards=tuple(self.app.game.community_cards) if self.app.game.community_cards else (),
+            last_hand_result=getattr(ai_player, '_last_hand_result', ''),
+            chat_history=tuple(
+                f"{m['name']}: {m['text']}"
+                for m in self.messages[-10:]
+            ) if self.messages else (),
         )
 
     def render(self, screen, renderer):

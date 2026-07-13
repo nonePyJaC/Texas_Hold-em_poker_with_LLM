@@ -49,5 +49,9 @@ class DialogueContext:
     hole_cards: Tuple[Any, ...] = field(default_factory=tuple)       # AI 自己的底牌
     community_cards: Tuple[Any, ...] = field(default_factory=tuple)  # 当前公共牌
 
+    # === 上下文增强 ===
+    last_hand_result: str = ""     # 上一局结果描述，如 "赢了800筹码" / "弃牌" / "输了500筹码"
+    chat_history: Tuple[str, ...] = field(default_factory=tuple)  # 本局聊天历史（格式："名字: 消息"）
+
     # === 扩展预留 ===
     extra: Dict[str, Any] = field(default_factory=dict)
