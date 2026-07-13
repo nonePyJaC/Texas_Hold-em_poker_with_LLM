@@ -851,8 +851,8 @@ class Renderer:
             return
 
         # 气泡最大宽度
-        max_bubble_w = 280
-        padding = 10
+        max_bubble_w = 360
+        padding = 12
         line_h = self.font_small.get_height()
 
         # 折行

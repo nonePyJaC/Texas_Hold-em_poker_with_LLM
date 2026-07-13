@@ -4,7 +4,7 @@
   "api_base": "https://api.deepseek.com/v1",
   "model": "deepseek-v4-flash",
   "temperature": 0.8,
-  "max_tokens": 60,
+  "max_tokens": 100,
   "timeout": 5.0,
   "llm_probability": 0.3
 }

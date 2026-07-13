@@ -431,7 +431,7 @@ class GameApp:
             "api_base": self.settings_components["llm_api_base"].text.strip() or "https://api.deepseek.com/v1",
             "model": model,
             "temperature": 0.8,
-            "max_tokens": 60,
+            "max_tokens": 100,
             "timeout": 5.0,
             "llm_probability": prob,
         }
@@ -506,7 +506,7 @@ class GameApp:
                 api_base=cfg.get("api_base", "https://api.deepseek.com/v1"),
                 model=cfg.get("model", "deepseek-v4-flash"),
                 temperature=cfg.get("temperature", 0.8),
-                max_tokens=cfg.get("max_tokens", 60),
+                max_tokens=cfg.get("max_tokens", 100),
                 timeout=cfg.get("timeout", 5.0),
             )
             bridge = LLMBridge(config=llm_config)
