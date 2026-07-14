@@ -688,13 +688,13 @@ class Renderer:
                     pygame.draw.rect(self.screen, (80, 160, 255), (card_x - 3, comm_y - 3, card_w + 6, card_h + 6), 2, border_radius=4)
 
             # 玩家结果区域
-            non_folded = [(i, p) for i, p in enumerate(players) if not p.folded and i in evaluations]
+            non_folded = [(p, p.seat_index) for p in players if not p.folded and p.seat_index in evaluations]
             y = panel_y + 145
 
-            for idx, player in non_folded:
-                ev = evaluations.get(idx)
+            for player, seat_idx in non_folded:
+                ev = evaluations.get(seat_idx)
                 ev_name = ev.name if ev else "未知"
-                won = payouts.get(idx, 0)
+                won = payouts.get(seat_idx, 0)
                 is_main_winner = won > 0 and won == max_payout
                 is_side_winner = won > 0 and won < max_payout
 
