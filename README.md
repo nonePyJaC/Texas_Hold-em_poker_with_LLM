@@ -1,4 +1,4 @@
-# 德州扑克 - Texas Hold'em with LLM (V1.2)
+# 德州扑克 - Texas Hold'em with LLM (V1.4)
 
 一个基于 Python + Pygame 开发的德州扑克游戏，集成 LLM（大语言模型）驱动的 AI 对手对话系统。
 

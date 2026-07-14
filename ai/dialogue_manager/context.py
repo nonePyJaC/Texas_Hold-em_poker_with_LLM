@@ -51,6 +51,8 @@ class DialogueContext:
 
     # === 上下文增强 ===
     last_hand_result: str = ""     # 上一局结果描述，如 "赢了800筹码" / "弃牌" / "输了500筹码"
+    recent_hand_results: Tuple[str, ...] = field(default_factory=tuple)  # 最近 3-5 手结果
+    session_summary: str = ""      # 本局会话摘要，如 "已打15手，赢6手，连胜2手"
     chat_history: Tuple[str, ...] = field(default_factory=tuple)  # 本局聊天历史（格式："名字: 消息"）
 
     # === 扩展预留 ===

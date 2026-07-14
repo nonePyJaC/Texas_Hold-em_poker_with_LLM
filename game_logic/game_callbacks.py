@@ -99,7 +99,7 @@ class GameCallbacks:
         # 其他 AI 感知到全押局面
         if at == ActionType.ALL_IN:
             for p in app.players:
-                if not p.is_human and p.seat_index != action.player_index and hasattr(p, 'emotion_engine'):
+                if not p.is_human and p is not actor and hasattr(p, 'emotion_engine'):
                     p.emotion_engine.on_event(EVENT_ALL_IN_SITUATION)
 
     def _update_ai_opponent_models(self, action):

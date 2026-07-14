@@ -1,4 +1,5 @@
 """GameSetup：负责从设置界面创建并初始化一局游戏"""
+import random
 from config import (
     DEFAULT_STARTING_CHIPS,
     MIN_PLAYERS,
@@ -112,6 +113,14 @@ class GameSetup:
             }
             p.emotion_engine = EmotionEngine(session_personality)
             app.players.append(p)
+
+        # 分配物理座位，确保 players 列表按物理座位顺序排列（逆时针）
+        # 人类玩家固定在底部 0 号位，AI 随机入座
+        app.players[0].seat_index = 0
+        ai_seats = random.sample(range(1, 8), num_players - 1)
+        for i, p in enumerate(app.players[1:], start=1):
+            p.seat_index = ai_seats[i - 1]
+        app.players.sort(key=lambda p: p.seat_index)
 
         # 创建游戏
         app.game = PokerGame(

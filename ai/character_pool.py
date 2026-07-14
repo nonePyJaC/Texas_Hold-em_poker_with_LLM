@@ -6,7 +6,8 @@ from dataclasses import dataclass, field, asdict
 from typing import List, Optional, Dict
 
 from ai.personality import Personality
-from config import AI_POOL_SIZE, AI_POOL_MIN_BANK, DEFAULT_BANK_CHIPS
+from config import AI_POOL_SIZE, AI_POOL_MIN_BANK, DEFAULT_BANK_CHIPS, CHARACTERS_FILE
+from data.character_db import CharacterDB
 
 
 # 对手持久记忆 key（人类玩家固定用此 key）
@@ -102,6 +103,7 @@ class CharacterPool:
     """AI 角色池管理器"""
     def __init__(self, filepath="data/characters.json"):
         self.filepath = filepath
+        self.db = CharacterDB()
         self.characters: List[AICharacter] = []
         self._character_by_id: Dict[int, AICharacter] = {}
         # 专用随机数生成器，用于角色选取，避免受全局随机状态影响
@@ -142,25 +144,42 @@ class CharacterPool:
             self._character_by_id[char.id] = char
 
     def load(self):
-        """从文件加载角色池"""
-        if os.path.exists(self.filepath):
-            with open(self.filepath, "r", encoding="utf-8") as f:
-                data = json.load(f)
+        """从 SQLite 加载角色池
+
+        首次启动时若 SQLite 为空且 JSON 文件存在，自动迁移。
+        """
+        # 尝试从 SQLite 加载
+        if self.db.count() > 0:
+            data = self.db.load_all()
             self.characters = [AICharacter.from_dict(d) for d in data]
             self._character_by_id = {c.id: c for c in self.characters}
-            # 如果名字池已更新，为旧角色刷新名字，保留银行与统计
             self._refresh_names_if_needed()
             return True
+
+        # SQLite 为空，尝试从 JSON 迁移
+        if os.path.exists(self.filepath):
+            migrated = self.db.migrate_from_json(self.filepath)
+            if migrated > 0:
+                data = self.db.load_all()
+                self.characters = [AICharacter.from_dict(d) for d in data]
+                self._character_by_id = {c.id: c for c in self.characters}
+                self._refresh_names_if_needed()
+                return True
+
         return False
 
     def _refresh_names_if_needed(self):
         """当名字池更新时，为旧角色重新分配名字，保留银行与统计"""
         if not self.characters or not AI_NAMES:
+            # 池为空时直接补充到目标数量
+            self._supplement_pool()
             return
 
         current_names = set(c.name for c in self.characters)
         # 如果所有名字都不在当前姓名池中，说明需要更新
         if all(name in AI_NAMES for name in current_names):
+            # 名字都有效，但仍需检查数量是否足够
+            self._supplement_pool()
             return
 
         # 替换不在新姓名池中的名字
@@ -174,7 +193,11 @@ class CharacterPool:
                 except StopIteration:
                     break
 
-        # 如果池子小于目标数量，补充新名字
+        # 补充到目标数量
+        self._supplement_pool()
+
+    def _supplement_pool(self):
+        """补充角色池到 AI_POOL_SIZE"""
         used_names = set(c.name for c in self.characters)
         while len(self.characters) < AI_POOL_SIZE:
             added = False
@@ -203,11 +226,8 @@ class CharacterPool:
                 break
 
     def save(self):
-        """保存角色池到文件"""
-        os.makedirs(os.path.dirname(self.filepath), exist_ok=True)
-        with open(self.filepath, "w", encoding="utf-8") as f:
-            json.dump([c.to_dict() for c in self.characters], f,
-                      ensure_ascii=False, indent=2)
+        """保存角色池到 SQLite"""
+        self.db.save_all([c.to_dict() for c in self.characters])
 
     def get_available_characters(self) -> List[AICharacter]:
         """获取可参与游戏的角色（银行余额足够）"""
@@ -244,8 +264,79 @@ class CharacterPool:
             if won:
                 char.hands_won += 1
 
+    def evolve_personality(self, char_id: int):
+        """基于累积经验微调角色基础性格
+
+        根据角色的历史表现（胜率、盈亏、手数）对 personality 做小幅调整。
+        调整幅度与 adaptivity 成正比——适应性高的角色变化更大。
+        每次调整幅度很小（0.01-0.03），累积多局后才会产生明显变化。
+
+        规则:
+        - 胜率低 → 收紧（tight_loose 降低），减少诈唬
+        - 胜率高 → 略微放松，增加激进
+        - 持续亏损 → 降低诈唬频率，提高跟注倾向（更谨慎）
+        - 持续盈利 → 增加激进，适度增加诈唬
+        """
+        char = self.get_by_id(char_id)
+        if not char or char.hands_played < 10:
+            return
+
+        p = char.personality
+        adapt = p.adaptivity
+        win_rate = char.hands_won / char.hands_played if char.hands_played > 0 else 0.5
+        avg_profit = char.total_profit / max(char.hands_played, 1)
+
+        # 基础调整幅度与 adaptivity 成正比
+        base_shift = 0.02 * adapt
+
+        new_tl = p.tight_loose
+        new_pa = p.passive_aggressive
+        new_bf = p.bluff_frequency
+        new_ct = p.call_tendency
+
+        if win_rate < 0.25:
+            # 输太多 → 收紧，减少诈唬
+            new_tl = p.tight_loose - base_shift * 1.5
+            new_bf = p.bluff_frequency - base_shift
+            new_ct = p.call_tendency + base_shift * 0.5
+        elif win_rate > 0.55:
+            # 赢多 → 略微放松，增加激进
+            new_tl = p.tight_loose + base_shift * 0.5
+            new_pa = p.passive_aggressive + base_shift
+        else:
+            # 正常范围 → 微调
+            if avg_profit < 0:
+                new_pa = p.passive_aggressive - base_shift * 0.5
+                new_bf = p.bluff_frequency - base_shift * 0.3
+            else:
+                new_pa = p.passive_aggressive + base_shift * 0.3
+
+        # 盈亏趋势影响
+        if char.total_profit < -5000:
+            # 大亏 → 更保守
+            new_pa = new_pa - base_shift * 0.5
+            new_bf = new_bf - base_shift * 0.5
+        elif char.total_profit > 5000:
+            # 大赢 → 更自信，适度激进
+            new_pa = new_pa + base_shift * 0.5
+            new_bf = new_bf + base_shift * 0.3
+
+        # 应用调整（clamp + 保留 2 位小数）
+        char.personality = Personality(
+            tight_loose=round(Personality._clamp(new_tl), 2),
+            passive_aggressive=round(Personality._clamp(new_pa), 2),
+            bluff_frequency=round(Personality._clamp(new_bf), 2),
+            call_tendency=round(Personality._clamp(new_ct), 2),
+            adaptivity=p.adaptivity,  # adaptivity 本身不变
+        )
+
     def get_top_rich(self, count: int = 10, exclude_id: int = -1) -> List[AICharacter]:
         """获取银行余额最高的 count 个角色，排除指定 ID"""
+        # 优先用 SQLite 查询（更快）
+        rich_data = self.db.get_richest(count, exclude_id)
+        if rich_data:
+            return [AICharacter.from_dict(d) for d in rich_data]
+        # fallback 到内存
         candidates = [c for c in self.characters if c.id != exclude_id and c.bank > 0]
         candidates.sort(key=lambda c: c.bank, reverse=True)
         return candidates[:count]

@@ -1,18 +1,24 @@
-"""对局日志模块 - 记录每手牌的详细信息，按周自动清理"""
+"""对局日志模块 - 记录每手牌的详细信息到 SQLite，支持回放"""
 import os
 import json
 from datetime import datetime, timedelta
+from typing import List, Optional
+
+from data.hand_history_db import HandHistoryDB
 
 LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 LOG_RETENTION_DAYS = 7
+MAX_HAND_LOGS = 50  # 最多保留 50 手牌日志
 
 
 class GameLogger:
-    """对局日志记录器"""
+    """对局日志记录器 — SQLite 存储，每手都记录"""
 
     def __init__(self):
         os.makedirs(LOG_DIR, exist_ok=True)
+        self.db = HandHistoryDB()
         self._cleanup_old_logs()
+        self._cleanup_old_db()
 
     def _get_log_filename(self, dt=None):
         """获取给定日期的日志文件名（按天分文件）"""
@@ -21,7 +27,7 @@ class GameLogger:
         return os.path.join(LOG_DIR, f"game_{dt.strftime('%Y%m%d')}.log")
 
     def _cleanup_old_logs(self):
-        """清理超过保留天数的日志文件"""
+        """清理超过保留天数的旧 JSON 日志文件"""
         cutoff = datetime.now() - timedelta(days=LOG_RETENTION_DAYS)
         try:
             for filename in os.listdir(LOG_DIR):
@@ -38,9 +44,13 @@ class GameLogger:
         except Exception:
             pass
 
+    def _cleanup_old_db(self):
+        """清理旧 SQLite 记录，只保留最近 MAX_HAND_LOGS 条"""
+        self.db.clear_old(keep=MAX_HAND_LOGS)
+
     def log_hand(self, hand_number, players, community_cards, action_history,
                  results, payouts, evaluations):
-        """记录一手牌的完整日志
+        """记录一手牌的完整日志到 SQLite
 
         Args:
             hand_number: 手牌编号
@@ -80,14 +90,22 @@ class GameLogger:
                 f"{c.rank_name}{c.suit_symbol}" for c in community_cards
             )
 
-        # 动作历史
+        # 动作历史 — 带阶段标记
         actions = []
+        current_phase = "preflop"
         for act in action_history:
             player = players[act.player_index] if act.player_index < len(players) else None
             name = player.name if player else f"Seat{act.player_index}"
-            phase = self._guess_phase(actions, len(community_cards))
+            # 优先使用 Action 中记录的 phase
+            act_phase = getattr(act, "phase", "")
+            if act_phase:
+                current_phase = act_phase
+            else:
+                phase = self._guess_phase(actions, len(community_cards))
+                if phase != "unknown":
+                    current_phase = phase
             actions.append({
-                "phase": phase,
+                "phase": current_phase,
                 "player": name,
                 "action": act.action_type.value,
                 "amount": act.amount,
@@ -138,13 +156,12 @@ class GameLogger:
             "pot_total": sum(p.total_bet for p in players),
         }
 
-        line = json.dumps(entry, ensure_ascii=False) + "\n"
-        filepath = self._get_log_filename()
-        try:
-            with open(filepath, "a", encoding="utf-8") as f:
-                f.write(line)
-        except Exception:
-            pass
+        # 写入 SQLite
+        self.db.add_hand(hand_number, entry)
+
+        # 每 10 手清理一次旧记录
+        if hand_number % 10 == 0:
+            self.db.clear_old(keep=MAX_HAND_LOGS)
 
     def _guess_phase(self, actions_so_far, comm_count):
         """根据公共牌数量推断当前阶段"""
@@ -159,67 +176,17 @@ class GameLogger:
         return "unknown"
 
     def get_hand_log(self, hand_number):
-        """查询指定手牌编号的日志
-
-        Args:
-            hand_number: 手牌编号
-
-        Returns:
-            dict or None: 该手牌的日志记录
-        """
-        try:
-            for filename in sorted(os.listdir(LOG_DIR), reverse=True):
-                if not filename.startswith("game_") or not filename.endswith(".log"):
-                    continue
-                filepath = os.path.join(LOG_DIR, filename)
-                with open(filepath, "r", encoding="utf-8") as f:
-                    for line in f:
-                        line = line.strip()
-                        if not line:
-                            continue
-                        try:
-                            entry = json.loads(line)
-                            if entry.get("hand_number") == hand_number:
-                                return entry
-                        except json.JSONDecodeError:
-                            continue
-        except Exception:
-            pass
+        """查询指定手牌编号的日志（从 SQLite）"""
+        recent = self.db.get_recent_hands(count=MAX_HAND_LOGS)
+        for entry in recent:
+            if entry.get("hand_number") == hand_number:
+                return entry
         return None
 
     def get_recent_hands(self, count=10):
-        """获取最近几手牌的日志摘要
+        """获取最近几手牌的日志摘要"""
+        return self.db.get_recent_summaries(count=count)
 
-        Args:
-            count: 返回条数
-
-        Returns:
-            list of dict: 最近几手牌的摘要
-        """
-        results = []
-        try:
-            for filename in sorted(os.listdir(LOG_DIR), reverse=True):
-                if not filename.startswith("game_") or not filename.endswith(".log"):
-                    continue
-                filepath = os.path.join(LOG_DIR, filename)
-                with open(filepath, "r", encoding="utf-8") as f:
-                    lines = f.readlines()
-                for line in reversed(lines):
-                    line = line.strip()
-                    if not line:
-                        continue
-                    try:
-                        entry = json.loads(line)
-                        results.append({
-                            "hand_number": entry.get("hand_number"),
-                            "timestamp": entry.get("timestamp"),
-                            "community_cards": entry.get("community_cards"),
-                            "showdown": entry.get("showdown"),
-                        })
-                        if len(results) >= count:
-                            return results
-                    except json.JSONDecodeError:
-                        continue
-        except Exception:
-            pass
-        return results
+    def get_recent_full_hands(self, count=20):
+        """获取最近 count 手牌的完整日志（供回放使用）"""
+        return self.db.get_recent_hands(count=count)

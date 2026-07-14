@@ -176,6 +176,24 @@ class ChatController:
         emotion_state = None
         if hasattr(ai_player, 'emotion_engine'):
             emotion_state = ai_player.emotion_engine.get_state()
+
+        # 跨手记忆
+        recent_hand_results = ()
+        hand_result_history = getattr(ai_player, '_hand_result_history', [])
+        if hand_result_history:
+            recent_hand_results = tuple(hand_result_history[-5:])
+
+        session_summary = ""
+        hand_number = self.app.game.hand_number if self.app.game else 0
+        if hand_number > 0:
+            results = hand_result_history[-10:] if hand_result_history else []
+            wins = sum(1 for r in results if "赢" in r)
+            losses = sum(1 for r in results if "输" in r)
+            parts = [f"已打{hand_number}手"]
+            if results:
+                parts.append(f"近{len(results)}手赢{wins}输{losses}")
+            session_summary = "，".join(parts)
+
         return DialogueContext(
             char_id=char_id,
             char_name=ai_player.name,
@@ -196,6 +214,8 @@ class ChatController:
             hole_cards=tuple(ai_player.hole_cards) if ai_player.hole_cards else (),
             community_cards=tuple(self.app.game.community_cards) if self.app.game.community_cards else (),
             last_hand_result=getattr(ai_player, '_last_hand_result', ''),
+            recent_hand_results=recent_hand_results,
+            session_summary=session_summary,
             chat_history=tuple(
                 f"{m['name']}: {m['text']}"
                 for m in self.messages[-10:]

@@ -50,6 +50,38 @@ class DialogueContextBuilder:
                 if m.get("source") == "llm"
             )
 
+        # 跨手记忆：最近 3-5 手结果
+        recent_hand_results = ()
+        hand_result_history = getattr(player, '_hand_result_history', [])
+        if hand_result_history:
+            recent_hand_results = tuple(hand_result_history[-5:])
+
+        # 本局会话摘要
+        session_summary = ""
+        hand_number = app.game.hand_number if app.game else 0
+        if hand_number > 0:
+            results = hand_result_history[-10:] if hand_result_history else []
+            wins = sum(1 for r in results if "赢" in r)
+            losses = sum(1 for r in results if "输" in r)
+            folds = sum(1 for r in results if "弃牌" in r)
+            # 连胜/连败
+            streak = 0
+            for r in reversed(results):
+                if "赢" in r:
+                    streak = streak + 1 if streak >= 0 else 1
+                elif "输" in r:
+                    streak = streak - 1 if streak <= 0 else -1
+                else:
+                    break
+            parts = [f"已打{hand_number}手"]
+            if results:
+                parts.append(f"近{len(results)}手赢{wins}输{losses}弃{folds}")
+            if streak >= 2:
+                parts.append(f"连胜{streak}手")
+            elif streak <= -2:
+                parts.append(f"连败{abs(streak)}手")
+            session_summary = "，".join(parts)
+
         return DialogueContext(
             char_id=char_id,
             char_name=player.name,
@@ -70,5 +102,7 @@ class DialogueContextBuilder:
             hole_cards=tuple(player.hole_cards) if player.hole_cards else (),
             community_cards=tuple(app.game.community_cards) if app.game.community_cards else (),
             last_hand_result=getattr(player, '_last_hand_result', ''),
+            recent_hand_results=recent_hand_results,
+            session_summary=session_summary,
             chat_history=chat_history,
         )

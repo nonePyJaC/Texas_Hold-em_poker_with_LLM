@@ -143,17 +143,19 @@ class SaveManager:
             self.player_data.best_hand = hand_name
         self.mark_dirty()
 
-    def add_hand_history(self, winners_info):
+    def add_hand_history(self, winners_info, game_hand_number=None):
         """记录一手牌的历史
 
         Args:
             winners_info: list of dicts, each with keys:
                 name, hand_type, amount, is_human
+            game_hand_number: 游戏内手数（与 game_logger 的 hand_number 一致，用于回放匹配）
         """
         from datetime import datetime
         entry = {
             "time": datetime.now().strftime("%m-%d %H:%M"),
             "hand_num": self.player_data.total_hands,
+            "game_hand_number": game_hand_number if game_hand_number is not None else self.player_data.total_hands,
             "winners": winners_info,
         }
         self.player_data.hand_history.append(entry)

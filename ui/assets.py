@@ -25,6 +25,27 @@ _chip_cache = {}
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KENNEY_CARDS_DIR = os.path.join(_PROJECT_ROOT, "kenney_boardgame-pack", "PNG", "Cards")
 
+# 牌桌素材（已预缩放为 1280x720，避免运行时使用 pygame.transform 缩放）
+_TABLE_PATH = os.path.join(_PROJECT_ROOT, "ui", "images", "table.png")
+_table_surface = None
+
+
+def get_table_surface():
+    """加载并缓存牌桌背景图"""
+    global _table_surface
+    if _table_surface is None:
+        if os.path.exists(_TABLE_PATH):
+            try:
+                img = pygame.image.load(_TABLE_PATH)
+                # 贴图带透明通道，必须用 convert_alpha 保留 alpha，否则透明区会显示原始 RGB 噪点
+                if img.get_flags() & pygame.SRCALPHA or img.get_alpha() is not None:
+                    _table_surface = img.convert_alpha()
+                else:
+                    _table_surface = img.convert()
+            except Exception:
+                _table_surface = None
+    return _table_surface
+
 # 映射字典
 SUIT_MAP = {
     's': 'Spades',

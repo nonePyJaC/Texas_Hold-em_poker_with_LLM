@@ -20,7 +20,7 @@ class SceneEventHandler:
         app = self.app
         if not app.game or not app.players:
             return -1
-        positions = app.renderer.get_seat_positions(len(app.players))
+        positions = app.renderer.get_seat_positions(app.players)
         for i, player in enumerate(app.players):
             if player.is_human or not hasattr(player, '_char_stats'):
                 continue
@@ -45,8 +45,14 @@ class SceneEventHandler:
             self.app._quit()
 
         if event.type == pygame.VIDEORESIZE:
-            self.app._window_size = (max(event.w, SCREEN_WIDTH), max(event.h, SCREEN_HEIGHT))
-            self.app.display = pygame.display.set_mode(self.app._window_size, self.app._window_flags)
+            new_w = max(event.w, SCREEN_WIDTH)
+            new_h = max(event.h, SCREEN_HEIGHT)
+            if new_w != event.w or new_h != event.h:
+                pygame.display.set_mode((new_w, new_h), pygame.RESIZABLE)
+            self.app._window_size = (new_w, new_h)
+            self.app.display = pygame.display.get_surface()
+            self.app.screen = self.app.display
+            self.app.renderer.screen = self.app.display
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F11:
@@ -59,7 +65,7 @@ class SceneEventHandler:
                     self.app.player_popup_close_btn = None
                     return
                 # 其他场景按 ESC 返回菜单
-                if self.app.scene in ("playing", "setup", "settings", "history"):
+                if self.app.scene in ("playing", "setup", "settings", "history", "replay"):
                     self.app.selected_player_index = None
                     self.app.player_popup_close_btn = None
                     self.app.scene = "menu"
@@ -69,6 +75,16 @@ class SceneEventHandler:
             elif event.key == pygame.K_SPACE:
                 if self.app.scene == "showdown":
                     self.app._next_hand()
+                elif self.app.scene == "replay":
+                    self.app._replay_toggle_play()
+            elif event.key == pygame.K_LEFT:
+                if self.app.scene == "replay":
+                    self.app._replay_prev()
+                    return
+            elif event.key == pygame.K_RIGHT:
+                if self.app.scene == "replay":
+                    self.app._replay_next()
+                    return
 
         if self.app.scene == "menu":
             for btn in self.app.menu_buttons.values():
@@ -104,6 +120,48 @@ class SceneEventHandler:
         elif self.app.scene == "showdown":
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.app._next_hand()
+
+        elif self.app.scene == "history":
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self._handle_history_click(event.pos)
+
+        elif self.app.scene == "replay":
+            self._handle_replay_event(event)
+
+    def _handle_replay_event(self, event):
+        """处理回放场景事件"""
+        for btn in self.app.replay_buttons.values():
+            btn.handle_event(event)
+
+    def _handle_history_click(self, pos):
+        """处理对战记录页面的点击 — 检测回放按钮点击"""
+        app = self.app
+        history = app.save_manager.player_data.hand_history
+        if not history:
+            return
+
+        recent_hands = app.game_logger.get_recent_hands(count=50)
+        display = list(reversed(history))
+        header_y = 80
+        col_replay = 740
+        max_rows = (SCREEN_HEIGHT - 130) // 28
+
+        for i, entry in enumerate(display[:max_rows]):
+            y = header_y + 30 + i * 28
+            hand_num = entry.get("game_hand_number", entry.get("hand_num", -1))
+            has_full_log = any(rh.get("hand_number") == hand_num for rh in recent_hands)
+            if not has_full_log:
+                continue
+
+            # 检测点击是否在回放按钮区域
+            replay_rect = pygame.Rect(col_replay - 5, y - 2, 60, 22)
+            if replay_rect.collidepoint(pos):
+                # 找到完整日志并启动回放
+                full_hands = app.game_logger.get_recent_full_hands(count=50)
+                for hand in full_hands:
+                    if hand.get("hand_number") == hand_num:
+                        app._start_replay(hand)
+                        return
 
     def _handle_playing_event(self, event):
         """处理游戏中的事件"""

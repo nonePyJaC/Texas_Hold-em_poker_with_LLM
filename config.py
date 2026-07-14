@@ -4,7 +4,7 @@
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 FPS = 60
-TITLE = "德州扑克 - Texas Hold'em V1.2"
+TITLE = "德州扑克 - Texas Hold'em V1.4"
 
 # 颜色
 COLOR_TABLE_FELT = (27, 94, 58)
@@ -80,7 +80,7 @@ DIFFICULTY_SIMS = {
 }
 
 # AI 角色池
-AI_POOL_SIZE = 40
+AI_POOL_SIZE = 52
 AI_POOL_MIN_BANK = 100
 
 # MCTS

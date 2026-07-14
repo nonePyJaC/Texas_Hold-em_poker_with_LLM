@@ -4,7 +4,7 @@ from engine.hand_evaluator import evaluate_best
 
 
 class Player:
-    def __init__(self, name, chips, is_human=False, seat_index=0):
+    def __init__(self, name, chips, is_human=False, seat_index=None):
         self.name = name
         self.chips = chips
         self.is_human = is_human
@@ -57,37 +57,35 @@ class Player:
     def fold(self):
         self.folded = True
         self.acted = True
-        self.last_action = Action(self.seat_index, ActionType.FOLD)
 
     def check(self):
         self.acted = True
-        self.last_action = Action(self.seat_index, ActionType.CHECK)
 
     def call(self, amount):
         """跟注到指定金额（current_bet 需要达到的总额）"""
         need = amount - self.current_bet
         actual = self.place_bet(need)
         self.acted = True
-        self.last_action = Action(self.seat_index, ActionType.CALL, actual)
+        return actual
 
     def bet(self, amount):
         """下注（当前轮无人下注时）"""
         actual = self.place_bet(amount)
         self.acted = True
-        self.last_action = Action(self.seat_index, ActionType.BET, actual)
+        return actual
 
     def raise_to(self, target_amount):
         """加注到指定总额"""
         need = target_amount - self.current_bet
         actual = self.place_bet(need)
         self.acted = True
-        self.last_action = Action(self.seat_index, ActionType.RAISE, actual)
+        return actual
 
     def all_in_bet(self):
         """全押"""
         actual = self.place_bet(self.chips)
         self.acted = True
-        self.last_action = Action(self.seat_index, ActionType.ALL_IN, actual)
+        return actual
 
     def can_act(self):
         """是否可以行动"""

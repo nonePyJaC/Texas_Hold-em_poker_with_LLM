@@ -89,6 +89,10 @@ class HandEndController:
                 ai_won = player.seat_index in winner_indices
                 app.save_manager.update_character_after_hand(player._char_id, ai_profit, ai_won)
                 char = app.character_pool.get_by_id(player._char_id)
+
+                # 每 10 手进行一次性格演化（基于累积经验微调基础性格）
+                if char and char.hands_played > 0 and char.hands_played % 10 == 0:
+                    app.character_pool.evolve_personality(player._char_id)
                 if char:
                     player._char_stats = {
                         "hands_played": char.hands_played,
@@ -116,6 +120,13 @@ class HandEndController:
                     player._last_hand_result = f"赢了{ai_profit:+d}筹码"
                 else:
                     player._last_hand_result = f"输了{ai_profit:+d}筹码"
+
+                # 维护最近手牌结果历史（保留最近 10 手）
+                if not hasattr(player, '_hand_result_history'):
+                    player._hand_result_history = []
+                player._hand_result_history.append(player._last_hand_result)
+                if len(player._hand_result_history) > 10:
+                    player._hand_result_history = player._hand_result_history[-10:]
 
         # 更新记忆系统
         if hasattr(app, 'memory_manager'):
@@ -229,11 +240,10 @@ class HandEndController:
                 "winners": winners_info,
             }
             app.session_hand_history.append(entry)
-            app.save_manager.add_hand_history(winners_info)
+            app.save_manager.add_hand_history(winners_info, game_hand_number=app.game.hand_number)
 
-        # 记录详细对局日志（每 3 手一次，减少 I/O）
-        if app.game.hand_number % 3 == 0:
-            app.game_logger.log_hand(
+        # 记录详细对局日志（每手都记录到 SQLite）
+        app.game_logger.log_hand(
                 hand_number=app.game.hand_number,
                 players=app.players,
                 community_cards=app.game.community_cards,

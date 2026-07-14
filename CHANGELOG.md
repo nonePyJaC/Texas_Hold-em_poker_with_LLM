@@ -1,5 +1,51 @@
 # 更新日志 / Changelog
 
+## V1.4 (2026-07-14)
+
+### Bug 修复
+- **修复 IndexError: list index out of range**：`game_callbacks.py` 中 `action.player_index` 越界崩溃
+  - 根因：`engine/player.py` 的 `fold()`/`check()`/`call()`/`bet()`/`raise_to()`/`all_in_bet()` 方法内部用 `self.seat_index`（物理座位号 0-7）创建 `last_action`，而回调函数用 `action.player_index`（列表索引）访问 `game.players` 列表，两者不一致导致越界
+  - 修复：移除 Player 方法内的 `last_action` 赋值，统一在 `engine/game.py` 的 `execute_action` 中用正确的列表索引创建 `last_action`
+- **修复 `game_callbacks.py:102`**：ALL_IN 感知逻辑中 `p.seat_index != action.player_index` 混用座位号与列表索引，改为对象身份比较 `p is not actor`
+- **修复 `engine/game.py:590`**：`_calculate_side_pots` 中 `payouts.keys()` 返回 `seat_index` 值，却用于索引 `self.players` 列表，改为通过 `seat_index -> player` 映射查找
+- **修复 `engine/game.py` get_legal_actions**：玩家筹码不够跟注时始终包含 FOLD 选项
+
+### 优化
+- **牌桌背景渲染**：`draw_table` 先填充黑色背景再 blit 桌面图，消除透明通道导致的噪点
+- **LLM Prompt 约束**：添加明确规则禁止 AI 在诈唬时做出与牌力矛盾的陈述
+- 清理 `_calculate_side_pots` 中的无用代码
+
+---
+
+## V1.3 (2026-07-13)
+
+### 新功能
+- **SQLite 存储迁移**：AI 角色数据和手牌历史从 JSON 迁移到 SQLite
+  - `CharacterDB` 管理角色数据，支持 JSON 自动迁移
+  - `HandHistoryDB` 存储完整手牌日志（玩家、动作、摊牌结果）
+  - 性能更好，存储量更大，自动清理超过 50 手的旧记录
+- **手牌历史回放**：可在对战记录页面回放最近 50 手完整牌局
+  - 逐步回放每个动作，显示玩家信息、底牌、公共牌、底池
+  - 控制按钮：播放/暂停、上一步/下一步、返回
+  - 键盘快捷键：SPACE（播放/暂停）、←/→（步进）、ESC（返回）
+  - `Action.phase` 字段记录每个动作的游戏阶段，回放更准确
+- **跨手对话记忆**：AI 对话上下文扩展至跨手维度
+  - `recent_hand_results`：最近 5 手结果（如 "弃牌 → 输了-200 → 赢了+500"）
+  - `session_summary`：本局会话摘要（如 "已打15手，近3手赢1输1弃1，连胜2手"）
+  - 聊天历史 Token 优化：超过 5 条自动压缩，仅保留最近 5 条
+- **AI 性格动态演化**：角色基础性格基于累积经验自动微调
+  - 每 10 手触发一次，根据胜率、盈亏趋势调整 5 个性格维度
+  - 适应性（adaptivity）高的角色变化更快
+  - 调整幅度极小（0.01-0.03），多局累积后产生明显风格变化
+  - 性格值始终限制在 [0.05, 0.95] 范围内
+
+### 优化
+- AI 角色池从 40 扩展到 52 个，覆盖全部预设名字
+- 手牌日志每手都记录到 SQLite（原来每 3 手记录一次）
+- Prompt Token 优化：完整 prompt 约 467 tokens，重负载约 601 tokens
+
+---
+
 ## V1.2 (2026-07-13)
 
 ### 新功能

@@ -57,7 +57,8 @@ class PromptBuilder:
             "- 用中文\n"
             "- 不要给出任何策略建议或牌局分析\n"
             "- 台词要自然，像真人说话\n"
-            "- 允许根据当前牌面诈唬，例如声称自己已成顺子/同花等，但绝对不要透露或暗示真实底牌的具体点数、花色或组合"
+            "- 允许根据当前牌面诈唬，例如声称自己已成顺子/同花等，但绝对不要透露或暗示真实底牌的具体点数、花色或组合\n"
+            "- 注意：台词中不能出现与德州扑克牌型大小规则矛盾的逻辑错误。牌型大小顺序为：高牌 < 一对 < 两对 < 三条 < 顺子 < 同花 < 葫芦 < 四条 < 同花顺。即使诈唬，也不能说\"两对能赢顺子\"这类错误的话"
         )
 
     def build_character_prompt(self, ctx: DialogueContext) -> str:
@@ -145,15 +146,36 @@ class PromptBuilder:
         return "\n".join(parts)
 
     def build_context_prompt(self, ctx: DialogueContext) -> str:
-        """上下文信息：上一局结果 + 本局聊天历史"""
+        """上下文信息：近期手牌结果 + 会话摘要 + 聊天历史（Token 优化版）"""
         parts = ["## 上下文"]
-        if ctx.last_hand_result:
+
+        # 会话摘要（压缩信息，1 行）
+        if ctx.session_summary:
+            parts.append(f"本局概况: {ctx.session_summary}")
+
+        # 最近手牌结果（最多 5 手，压缩为 1 行）
+        if ctx.recent_hand_results:
+            results = list(ctx.recent_hand_results[-5:])
+            parts.append(f"近期手牌: {' → '.join(results)}")
+        elif ctx.last_hand_result:
             parts.append(f"上一局结果: {ctx.last_hand_result}")
+
+        # 聊天历史（Token 优化：最多 5 条，超出则压缩）
         if ctx.chat_history:
-            parts.append("本局聊天记录:")
-            for msg in ctx.chat_history[-10:]:
-                parts.append(f"  {msg}")
-        parts.append("提示: 可以自然地引用聊天内容，但不要生硬复述。")
+            msgs = list(ctx.chat_history)
+            if len(msgs) <= 5:
+                parts.append("本局聊天记录:")
+                for msg in msgs:
+                    parts.append(f"  {msg}")
+            else:
+                # 保留最近 5 条，更早的压缩为摘要
+                older = msgs[:-5]
+                recent = msgs[-5:]
+                parts.append(f"本局聊天记录（较早 {len(older)} 条已省略）:")
+                for msg in recent:
+                    parts.append(f"  {msg}")
+
+        parts.append("提示: 可以自然地引用近期手牌和聊天内容，但不要生硬复述。")
         return "\n".join(parts)
 
     def build_task_prompt(self, ctx: DialogueContext, emotion_tag: str, intensity: float) -> str:
@@ -203,7 +225,8 @@ class PromptBuilder:
         return (
             "你正在参与一场德州扑克游戏，需要扮演一个角色回应其他玩家的话。\n"
             "请只输出一句简短的中文台词（1-2句话，不超过50字），不要解释、不要策略建议。\n"
-            "你可以根据当前牌面进行诈唬，例如声称自己已中顺子、同花等，但绝对不要透露或暗示真实底牌的具体点数、花色或组合。"
+            "你可以根据当前牌面进行诈唬，例如声称自己已中顺子、同花等，但绝对不要透露或暗示真实底牌的具体点数、花色或组合。\n"
+            "注意：回复中不能出现与德州扑克牌型大小规则矛盾的逻辑错误。牌型大小顺序为：高牌 < 一对 < 两对 < 三条 < 顺子 < 同花 < 葫芦 < 四条 < 同花顺。即使诈唬，也不能说\"两对能赢顺子\"这类错误的话"
         )
 
     def _build_reply_character_user(self, ctx: DialogueContext) -> str:
@@ -254,14 +277,26 @@ class PromptBuilder:
         return f"对手: {ctx.opponent_name}{tags}，态度{desc}（交手{ctx.relationship.hands_vs_target}次）"
 
     def _build_reply_context_user(self, ctx: DialogueContext) -> str:
-        """上下文信息：上一局结果 + 本局聊天历史（回复路径）"""
+        """上下文信息：近期手牌结果 + 会话摘要 + 聊天历史（回复路径，Token 优化）"""
         parts = ["上下文:"]
-        if ctx.last_hand_result:
+        if ctx.session_summary:
+            parts.append(f"本局概况: {ctx.session_summary}")
+        if ctx.recent_hand_results:
+            results = list(ctx.recent_hand_results[-5:])
+            parts.append(f"近期手牌: {' → '.join(results)}")
+        elif ctx.last_hand_result:
             parts.append(f"上一局结果: {ctx.last_hand_result}")
         if ctx.chat_history:
-            parts.append("本局聊天记录:")
-            for msg in ctx.chat_history[-10:]:
-                parts.append(f"  {msg}")
+            msgs = list(ctx.chat_history)
+            if len(msgs) <= 5:
+                parts.append("聊天记录:")
+                for msg in msgs:
+                    parts.append(f"  {msg}")
+            else:
+                recent = msgs[-5:]
+                parts.append(f"聊天记录（最近 {len(recent)} 条）:")
+                for msg in recent:
+                    parts.append(f"  {msg}")
         return "\n".join(parts)
 
     def _build_reply_task_prompt(self, ctx: DialogueContext, human_message: str) -> str:

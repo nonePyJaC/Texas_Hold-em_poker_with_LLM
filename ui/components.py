@@ -260,7 +260,7 @@ class Dropdown:
         text_surf = self.font.render(text, True, COLOR_WHITE)
         surface.blit(text_surf, (self.rect.x + 10, self.rect.centery - text_surf.get_height() // 2))
 
-        arrow = "▼" if self.expanded else "▶"
+        arrow = "v" if self.expanded else ">"
         arrow_surf = self.font.render(arrow, True, COLOR_TEXT_DIM)
         surface.blit(arrow_surf, (self.rect.right - 25, self.rect.centery - arrow_surf.get_height() // 2))
 

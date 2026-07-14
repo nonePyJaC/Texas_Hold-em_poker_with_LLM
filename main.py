@@ -1,9 +1,7 @@
 """德州扑克游戏 - 主入口"""
 import sys
 import os
-import random
 import pygame
-from pygame import transform
 
 # PyInstaller frozen 模式下获取正确的根目录
 if getattr(sys, 'frozen', False):
@@ -22,6 +20,7 @@ from config import (
 from engine.action import Action, ActionType
 from ui.renderer import Renderer
 from ui.scenes import SceneRenderer, SceneEventHandler
+from ui.scenes.replay_renderer import fix_blind_phases, normalize_action_order
 from ui.components import Button, Dropdown, Panel, TextInput
 from ui.animations import AnimationManager, DealCardAnimation, ChipAnimation, FlipCardAnimation, WinAnimation, TextPopupAnimation
 from ui.audio import AudioEngine
@@ -51,18 +50,10 @@ class GameApp:
         self._fullscreen = False
         self._window_flags = pygame.RESIZABLE
         self._window_size = (SCREEN_WIDTH, SCREEN_HEIGHT)
-        # 实际显示表面
+        # 直接在 display surface 上渲染，无虚拟屏幕无缩放
         self.display = pygame.display.set_mode(self._window_size, self._window_flags)
-        # 虚拟渲染表面，固定 1280x720 逻辑分辨率；self.screen 指向它，兼容现有代码
-        self.virtual_screen = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.screen = self.virtual_screen
+        self.screen = self.display
         pygame.display.set_caption(TITLE)
-        # 尝试最大化窗口
-        try:
-            from pygame._sdl2 import Window
-            Window.from_display_module().maximize()
-        except Exception:
-            pass
         self.clock = pygame.time.Clock()
         self.renderer = Renderer(self.screen)
         self.audio = AudioEngine()
@@ -78,7 +69,7 @@ class GameApp:
         self.human_player = None
 
         # UI 状态
-        self.scene = "menu"  # menu, setup, playing, showdown
+        self.scene = "menu"  # menu, setup, playing, showdown, replay
         self.showdown_results = None
         self.showdown_timer = 0
         self.ai_thinking = False
@@ -103,6 +94,10 @@ class GameApp:
         self._dealing_timer = 0.0  # 发牌动画计时器
         self._dealing_card_index = 0  # 当前已播放音效的牌索引
         self._dealing_total_cards = 0  # 本手需发的总牌数
+
+        # 回放状态
+        self.replay_state = None  # {hand_data, step, timer, paused, speed}
+        self.replay_buttons = {}  # 回放控制按钮
 
         # 聊天系统
         self.chat_controller = ChatController(self)
@@ -137,6 +132,7 @@ class GameApp:
         self._init_setup()
         self._init_settings()
         self._init_bankruptcy()
+        self._init_replay_buttons()
 
     def _init_menu(self):
         """初始化主菜单"""
@@ -228,6 +224,12 @@ class GameApp:
             cx - 320, 220, 200, 20, 0.0, 1.0, 0.5, show_value=False
         )
 
+        # 全屏切换按钮
+        self.settings_components["fullscreen_toggle"] = Button(
+            cx - 320, 270, 200, 40, "全屏: 关", color=(60, 80, 120)
+        )
+        self.settings_components["fullscreen_toggle"].on_click = self._toggle_fullscreen_from_settings
+
         # 返回按钮
         self.settings_components["back_btn"] = Button(
             cx - 320, 610, 200, 50, "返回", color=(80, 80, 80)
@@ -315,6 +317,62 @@ class GameApp:
         self.bankruptcy_buttons["loan"].on_click = self._handle_loan
         self.bankruptcy_buttons["bonus"].on_click = self._handle_daily_bonus
 
+    def _init_replay_buttons(self):
+        """初始化回放控制按钮"""
+        cx = SCREEN_WIDTH // 2
+        btn_y = SCREEN_HEIGHT - 50
+        self.replay_buttons = {
+            "replay_prev": Button(cx - 210, btn_y, 90, 36, "上一步", color=(60, 80, 120)),
+            "replay_play": Button(cx - 100, btn_y, 90, 36, "播放", color=(50, 120, 60)),
+            "replay_next": Button(cx + 10, btn_y, 90, 36, "下一步", color=(60, 80, 120)),
+            "replay_back": Button(cx + 120, btn_y, 90, 36, "返回", color=(100, 50, 50)),
+        }
+        self.replay_buttons["replay_prev"].on_click = self._replay_prev
+        self.replay_buttons["replay_play"].on_click = self._replay_toggle_play
+        self.replay_buttons["replay_next"].on_click = self._replay_next
+        self.replay_buttons["replay_back"].on_click = lambda: self._goto_scene("history")
+
+    def _start_replay(self, hand_data):
+        """开始回放指定手牌"""
+        # 预处理动作数据：修复盲注阶段 + 按阶段排序（只做一次）
+        actions = hand_data.get("actions", [])
+        actions = fix_blind_phases(actions)
+        actions = normalize_action_order(actions)
+        hand_data = {**hand_data, "actions": actions}
+
+        self.replay_state = {
+            "hand_data": hand_data,
+            "step": 0,
+            "timer": 0.0,
+            "paused": False,
+            "speed": 1.0,
+        }
+        self.scene = "replay"
+
+    def _replay_next(self):
+        """回放前进一步"""
+        if not self.replay_state:
+            return
+        actions = self.replay_state["hand_data"].get("actions", [])
+        total = len(actions) + 1
+        if self.replay_state["step"] < total:
+            self.replay_state["step"] += 1
+            self.replay_state["timer"] = 0.0
+
+    def _replay_prev(self):
+        """回放后退一步"""
+        if not self.replay_state:
+            return
+        if self.replay_state["step"] > 0:
+            self.replay_state["step"] -= 1
+            self.replay_state["timer"] = 0.0
+
+    def _replay_toggle_play(self):
+        """切换回放播放/暂停"""
+        if not self.replay_state:
+            return
+        self.replay_state["paused"] = not self.replay_state.get("paused", False)
+
     def _handle_rebuy(self):
         # 补充筹码
         rebuy_amount = getattr(self, 'setup_buy_in', DEFAULT_STARTING_CHIPS)
@@ -356,46 +414,30 @@ class GameApp:
         self.scene = scene
 
     def _toggle_fullscreen(self):
-        """切换全屏/窗口模式"""
+        """切换全屏/窗口模式 — 全屏切换显示器分辨率到 1280x720，零缩放"""
         self._fullscreen = not self._fullscreen
-        flags = pygame.FULLSCREEN if self._fullscreen else self._window_flags
         if self._fullscreen:
-            self.display = pygame.display.set_mode((0, 0), flags)
+            self.display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
         else:
-            self.display = pygame.display.set_mode(self._window_size, flags)
-        # self.screen 继续指向虚拟表面，Renderer 不变
+            self.display = pygame.display.set_mode(self._window_size, pygame.RESIZABLE)
+        self.screen = self.display
+        self.renderer.screen = self.display
+
+    def _toggle_fullscreen_from_settings(self):
+        """从设置界面切换全屏，并更新按钮文字"""
+        self._toggle_fullscreen()
+        btn = self.settings_components.get("fullscreen_toggle")
+        if btn:
+            btn.text = "全屏: 开" if self._fullscreen else "全屏: 关"
+            btn.color = (40, 60, 100) if self._fullscreen else (60, 80, 120)
 
     def _map_mouse_pos(self, pos):
-        """将实际窗口鼠标坐标映射到虚拟 1280x720 坐标"""
-        win_w, win_h = self.display.get_size()
-        if win_w == 0 or win_h == 0:
-            return pos
-        # 等比缩放，保持纵横比
-        scale = min(win_w / SCREEN_WIDTH, win_h / SCREEN_HEIGHT)
-        virt_w = int(SCREEN_WIDTH * scale)
-        virt_h = int(SCREEN_HEIGHT * scale)
-        offset_x = (win_w - virt_w) // 2
-        offset_y = (win_h - virt_h) // 2
-        x = (pos[0] - offset_x) / scale
-        y = (pos[1] - offset_y) / scale
-        return (int(x), int(y))
+        """窗口和虚拟表面同为 1280x720，直接返回"""
+        return pos
 
     def _present(self):
-        """将虚拟表面等比缩放并居中绘制到实际窗口"""
-        win_w, win_h = self.display.get_size()
-        if win_w == SCREEN_WIDTH and win_h == SCREEN_HEIGHT:
-            self.display.blit(self.virtual_screen, (0, 0))
-            return
-        scale = min(win_w / SCREEN_WIDTH, win_h / SCREEN_HEIGHT)
-        new_w = int(SCREEN_WIDTH * scale)
-        new_h = int(SCREEN_HEIGHT * scale)
-        if new_w <= 0 or new_h <= 0:
-            return
-        scaled = transform.smoothscale(self.virtual_screen, (new_w, new_h))
-        offset_x = (win_w - new_w) // 2
-        offset_y = (win_h - new_h) // 2
-        self.display.fill((0, 0, 0))
-        self.display.blit(scaled, (offset_x, offset_y))
+        """直接渲染到 display surface，无需 blit"""
+        pass
 
     def _quit(self):
         pygame.quit()
@@ -510,10 +552,8 @@ class GameApp:
                 timeout=cfg.get("timeout", 5.0),
             )
             bridge = LLMBridge(config=llm_config)
-            print(f"[LLM] 已启用: model={llm_config.model}, base={llm_config.api_base}")
             return bridge, llm_prob
-        except Exception as e:
-            print(f"[LLM] 初始化失败，将使用模板台词: {e}")
+        except Exception:
             return None, llm_prob
 
     # ==================== 游戏循环 ====================
@@ -726,7 +766,7 @@ class GameApp:
         from ui.animations import DealCardAnimation
 
         num_players = len(self.players)
-        positions = self.renderer.get_seat_positions(num_players)
+        positions = self.renderer.get_seat_positions(self.players)
         # 牌堆位置：桌面中央偏上
         deck_x = SCREEN_WIDTH // 2
         deck_y = SCREEN_HEIGHT // 2 - 50
@@ -872,6 +912,19 @@ class GameApp:
         elif self.scene == "showdown":
             self.showdown_timer += dt
 
+        elif self.scene == "replay":
+            if self.replay_state and not self.replay_state.get("paused", False):
+                self.replay_state["timer"] += dt * self.replay_state.get("speed", 1.0)
+                step_delay = 1.2  # 每步 1.2 秒
+                if self.replay_state["timer"] >= step_delay:
+                    self.replay_state["timer"] = 0.0
+                    actions = self.replay_state["hand_data"].get("actions", [])
+                    total = len(actions) + 1
+                    if self.replay_state["step"] < total:
+                        self.replay_state["step"] += 1
+                    else:
+                        self.replay_state["paused"] = True
+
     def handle_event(self, event):
         """处理事件"""
         self.scene_event_handler.handle_event(event)
@@ -879,15 +932,16 @@ class GameApp:
     def _on_human_action(self, action_key):
         """人类玩家执行动作"""
         player = self.human_player
-        legal = self.game.get_legal_actions(player.seat_index)
+        player_index = self.game.players.index(player)
+        legal = self.game.get_legal_actions(player_index)
         legal_types = set(legal)
 
         if action_key == "fold" and ActionType.FOLD in legal_types:
-            self.game.execute_action(Action(player.seat_index, ActionType.FOLD))
+            self.game.execute_action(Action(player_index, ActionType.FOLD))
         elif action_key == "check" and ActionType.CHECK in legal_types:
-            self.game.execute_action(Action(player.seat_index, ActionType.CHECK))
+            self.game.execute_action(Action(player_index, ActionType.CHECK))
         elif action_key == "call" and ActionType.CALL in legal_types:
-            self.game.execute_action(Action(player.seat_index, ActionType.CALL))
+            self.game.execute_action(Action(player_index, ActionType.CALL))
         elif action_key == "raise":
             # 确保从输入框同步最新数值到滑块
             ri = self.renderer.raise_input
@@ -897,11 +951,11 @@ class GameApp:
                 self.renderer.raise_slider.value = clamped
             raise_to = self.renderer.raise_slider.value
             if ActionType.RAISE in legal_types:
-                self.game.execute_action(Action(player.seat_index, ActionType.RAISE, raise_to))
+                self.game.execute_action(Action(player_index, ActionType.RAISE, raise_to))
             elif ActionType.BET in legal_types:
-                self.game.execute_action(Action(player.seat_index, ActionType.BET, raise_to))
+                self.game.execute_action(Action(player_index, ActionType.BET, raise_to))
         elif action_key == "all_in" and ActionType.ALL_IN in legal_types:
-            self.game.execute_action(Action(player.seat_index, ActionType.ALL_IN))
+            self.game.execute_action(Action(player_index, ActionType.ALL_IN))
         else:
             return
 
@@ -911,27 +965,35 @@ class GameApp:
     def render(self):
         """渲染当前场景"""
         self.scene_renderer.render(self.scene)
-
-        # 将虚拟表面等比缩放绘制到实际窗口
         self._present()
 
     def run(self):
         """主循环"""
+        import traceback as _tb
         while True:
-            dt = self.clock.tick(FPS) / 1000.0
+            try:
+                dt = self.clock.tick(FPS) / 1000.0
 
-            for event in pygame.event.get():
-                self.handle_event(event)
+                for event in pygame.event.get():
+                    self.handle_event(event)
 
-            self.update(dt)
-            self.render()
+                self.update(dt)
+                self.render()
 
-            pygame.display.flip()
+                pygame.display.flip()
+            except Exception:
+                _tb.print_exc()
+                raise
 
 
 def main():
-    app = GameApp()
-    app.run()
+    import traceback
+    try:
+        app = GameApp()
+        app.run()
+    except Exception:
+        traceback.print_exc()
+        raise
 
 
 if __name__ == "__main__":

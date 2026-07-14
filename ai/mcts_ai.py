@@ -362,7 +362,7 @@ class MCTSAI:
                 # 加注
                 if ActionType.RAISE in legal_set:
                     raise_to = self._calculate_raise_amount(
-                        strength_effective, pot, player, game, p)
+                        strength_effective, pot, player, game, p, player_index)
                     return Action(player_index, ActionType.RAISE, raise_to)
                 elif ActionType.CALL in legal_set:
                     return Action(player_index, ActionType.CALL)
@@ -391,10 +391,10 @@ class MCTSAI:
         return bet
 
     def _calculate_raise_amount(self, strength: float, pot: int, player,
-                                game, p: Personality) -> int:
+                                game, p: Personality, player_index: int) -> int:
         """计算加注到的金额"""
-        min_raise = game.get_min_raise_to(player.seat_index)
-        max_raise = game.get_max_raise_to(player.seat_index)
+        min_raise = game.get_min_raise_to(player_index)
+        max_raise = game.get_max_raise_to(player_index)
 
         # 基于牌力和激进度
         base = game.current_bet + (pot * (0.3 + strength * 0.4))

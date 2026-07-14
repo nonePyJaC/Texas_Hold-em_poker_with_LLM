@@ -223,7 +223,7 @@ class AdvancedAI(MCTSAI):
 
         if should_raise and to_call > 0:
             if ActionType.RAISE in legal_set:
-                raise_to = self._calculate_raise_amount(0.8, pot, player, game, p)
+                raise_to = self._calculate_raise_amount(0.8, pot, player, game, p, player_index)
                 return Action(player_index, ActionType.RAISE, raise_to)
             if ActionType.CALL in legal_set:
                 return Action(player_index, ActionType.CALL)

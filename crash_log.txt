@@ -1,0 +1,14 @@
+[FATAL] failed to create renderer
+Traceback (most recent call last):
+  File "D:\dezhou\main.py", line 981, in main
+    app.run()
+  File "D:\dezhou\main.py", line 965, in run
+    self.handle_event(event)
+  File "D:\dezhou\main.py", line 918, in handle_event
+    self.scene_event_handler.handle_event(event)
+  File "D:\dezhou\ui\scenes\scene_event_handler.py", line 52, in handle_event
+    self.app._toggle_fullscreen()
+  File "D:\dezhou\main.py", line 418, in _toggle_fullscreen
+    self.display = pygame.display.set_mode(self._window_size, flags)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pygame.error: failed to create renderer

@@ -77,9 +77,11 @@ class PokerGame:
         # 动作历史（本手牌）
         self.action_history = []
 
-        # 设置座位索引
+        # 座位索引由 GameSetup 预先设置，保持物理座位位置
+        # 如果未设置，则按 players 列表顺序兜底
         for i, p in enumerate(self.players):
-            p.seat_index = i
+            if p.seat_index is None:
+                p.seat_index = i
 
     @property
     def active_players(self):
@@ -221,9 +223,13 @@ class PokerGame:
 
         self.current_bet = self.big_blind
 
-        # 记录盲注动作
-        self.action_history.append(Action(self.small_blind_index, ActionType.CALL, sb_amount))
-        self.action_history.append(Action(self.big_blind_index, ActionType.CALL, bb_amount))
+        # 记录盲注动作（明确标记为翻牌前，避免日志阶段推断错误）
+        sb_action = Action(self.small_blind_index, ActionType.CALL, sb_amount)
+        sb_action.phase = PREFLOP
+        self.action_history.append(sb_action)
+        bb_action = Action(self.big_blind_index, ActionType.CALL, bb_amount)
+        bb_action.phase = PREFLOP
+        self.action_history.append(bb_action)
 
     def _set_first_to_act(self):
         """设置本轮第一个行动玩家"""
@@ -281,9 +287,10 @@ class PokerGame:
             if player.chips >= to_call:
                 actions.append(ActionType.CALL)
             else:
-                # 筹码不够跟注，只能 all-in
+                # 筹码不够跟注，可以选择全押或弃牌
                 actions.append(ActionType.ALL_IN)
-                return actions  # 只能 all-in
+                actions.append(ActionType.FOLD)
+                return actions
 
         # 下注/加注
         if self.current_bet == 0:
@@ -341,9 +348,11 @@ class PokerGame:
 
         if at == ActionType.FOLD:
             player.fold()
+            player.last_action = Action(action.player_index, ActionType.FOLD, 0)
 
         elif at == ActionType.CHECK:
             player.check()
+            player.last_action = Action(action.player_index, ActionType.CHECK, 0)
 
         elif at == ActionType.CALL:
             to_call = self.current_bet - player.current_bet
@@ -394,6 +403,7 @@ class PokerGame:
             player.acted = True
             player.last_action = Action(action.player_index, ActionType.ALL_IN, actual)
 
+        player.last_action.phase = self.phase
         self.action_history.append(player.last_action)
 
         if self.on_player_action:
@@ -536,7 +546,7 @@ class PokerGame:
         # 加上最大下注
         max_bet = max(p.total_bet for p in self.players)
 
-        payouts = {}  # player_index -> amount_won
+        payouts = {}  # seat_index -> amount_won
 
         # 将最大下注加入层级，并去重排序
         levels = sorted(list(set(all_in_levels + [max_bet])))
@@ -571,13 +581,12 @@ class PokerGame:
                     amount = share + (remainder if i == 0 else 0)
                     payouts[w.seat_index] = payouts.get(w.seat_index, 0) + amount
                     w.chips += amount
-                    if w not in [r for r in []]:  # track winners
-                        pass
 
             prev_level = level
 
         # 记录获胜者
-        winners = [self.players[idx] for idx in payouts.keys()]
+        seat_to_player = {p.seat_index: p for p in self.players}
+        winners = [seat_to_player[idx] for idx in payouts.keys() if idx in seat_to_player]
         for w in winners:
             w.hands_won += 1
 

@@ -139,7 +139,8 @@ class AIController:
         player = self.app.game.get_current_player()
         if not player or player.is_human:
             return
-        self._pending_future = self._executor.submit(self._decision_worker, player)
+        player_index = self.app.game.players.index(player)
+        self._pending_future = self._executor.submit(self._decision_worker, player, player_index)
 
     def poll_decision(self):
         """轮询后台 AI 决策结果
@@ -158,7 +159,7 @@ class AIController:
         self._pending_future = None
         return action
 
-    def _decision_worker(self, player):
+    def _decision_worker(self, player, player_index):
         """在后台线程执行 AI 决策"""
         # 通过 StrategyAdapter 生成动态策略画像
         original_personality = player.ai_brain.personality if player.ai_brain else None
@@ -169,14 +170,14 @@ class AIController:
             player.ai_brain.personality = Personality.from_dict(profile.to_personality_dict())
 
         if player.ai_brain:
-            action = player.ai_brain.decide(self.app.game, player.seat_index)
+            action = player.ai_brain.decide(self.app.game, player_index)
         else:
             # Fallback: 简单策略
-            legal = self.app.game.get_legal_actions()
+            legal = self.app.game.get_legal_actions(player_index)
             if legal:
-                action = legal[0]
+                action = Action(player_index, legal[0].action_type)
             else:
-                action = Action(player.seat_index, ActionType.FOLD)
+                action = Action(player_index, ActionType.FOLD)
 
         # 生成行动对话 (通过 DialogueManager)
         if player.personality and hasattr(self.app, 'dialogue_manager'):

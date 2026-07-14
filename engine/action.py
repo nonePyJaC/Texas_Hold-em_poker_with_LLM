@@ -18,6 +18,7 @@ class Action:
     player_index: int
     action_type: ActionType
     amount: int = 0  # 下注/加注金额（总投入差额）
+    phase: str = ""  # 动作发生时的游戏阶段（用于日志/回放）
 
     def __repr__(self):
         if self.amount > 0:

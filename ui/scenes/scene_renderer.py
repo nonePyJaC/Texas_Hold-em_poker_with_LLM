@@ -5,6 +5,7 @@ from config import (
     DEFAULT_STARTING_CHIPS,
     PREFLOP, SHOWDOWN,
 )
+from ui.scenes.replay_renderer import HandReplayRenderer
 
 
 class SceneRenderer:
@@ -15,6 +16,7 @@ class SceneRenderer:
             game_app: GameApp 实例
         """
         self.app = game_app
+        self.replay_renderer = HandReplayRenderer(game_app)
 
     def render(self, scene):
         """根据场景名分发渲染"""
@@ -28,6 +30,8 @@ class SceneRenderer:
             self._render_bankruptcy()
         elif scene == "history":
             self._render_history()
+        elif scene == "replay":
+            self.replay_renderer.render()
         elif scene == "dealing":
             self._render_playing()
             self.app.animations.draw(self.app.screen)
@@ -277,8 +281,11 @@ class SceneRenderer:
         title = app.renderer.font_title.render("对战记录", True, (255, 215, 0))
         app.screen.blit(title, (cx - title.get_width() // 2, 30))
 
+        # 获取 SQLite 中的完整手牌日志（供回放）
+        recent_hands = app.game_logger.get_recent_hands(count=50)
+
         history = app.save_manager.player_data.hand_history
-        if not history:
+        if not history and not recent_hands:
             hint = app.renderer.font_normal.render("暂无对战记录，开始游戏后会有记录", True, (180, 180, 180))
             app.screen.blit(hint, (cx - hint.get_width() // 2, 200))
         else:
@@ -288,8 +295,9 @@ class SceneRenderer:
             col_winner = 230
             col_type = 450
             col_amount = 620
+            col_replay = 740
 
-            headers = [("时间", col_time), ("手数", col_hand), ("获胜者", col_winner), ("牌型", col_type), ("净赢", col_amount)]
+            headers = [("时间", col_time), ("手数", col_hand), ("获胜者", col_winner), ("牌型", col_type), ("净赢", col_amount), ("回放", col_replay)]
             for label, x in headers:
                 surf = app.renderer.font_small.render(label, True, (255, 215, 0))
                 app.screen.blit(surf, (x, header_y))
@@ -298,6 +306,8 @@ class SceneRenderer:
 
             display = list(reversed(history))
             max_rows = (SCREEN_HEIGHT - 130) // 28
+            mouse_pos = pygame.mouse.get_pos()
+
             for i, entry in enumerate(display[:max_rows]):
                 y = header_y + 30 + i * 28
 
@@ -339,12 +349,29 @@ class SceneRenderer:
                 amount_surf = app.renderer.font_tiny.render(amount_text, True, amount_color)
                 app.screen.blit(amount_surf, (col_amount, y))
 
+                # 回放按钮 — 检查是否有对应的完整日志
+                hand_num_int = entry.get("game_hand_number", entry.get("hand_num", -1))
+                has_full_log = any(rh.get("hand_number") == hand_num_int for rh in recent_hands)
+                if has_full_log:
+                    replay_text = "> 回放"
+                    replay_color = (100, 180, 255)
+                else:
+                    replay_text = "无日志"
+                    replay_color = (60, 60, 60)
+                replay_surf = app.renderer.font_tiny.render(replay_text, True, replay_color)
+                app.screen.blit(replay_surf, (col_replay, y))
+
             if len(display) > max_rows:
                 more_text = app.renderer.font_tiny.render(f"... 共 {len(display)} 条记录，仅显示最近 {max_rows} 条", True, (120, 120, 120))
                 app.screen.blit(more_text, (cx - more_text.get_width() // 2, SCREEN_HEIGHT - 50))
 
-        hint = app.renderer.font_normal.render("按 ESC 返回主菜单", True, (120, 120, 120))
-        app.screen.blit(hint, (cx - hint.get_width() // 2, SCREEN_HEIGHT - 30))
+        # 底部提示
+        hints = ["按 ESC 返回主菜单"]
+        if recent_hands:
+            hints.append(f"可回放手牌: {len(recent_hands)} 手")
+        for j, h in enumerate(hints):
+            hint = app.renderer.font_small.render(h, True, (120, 120, 120))
+            app.screen.blit(hint, (cx - hint.get_width() // 2, SCREEN_HEIGHT - 30 + j * 18))
 
     def _render_playing(self):
         """渲染游戏画面"""
@@ -355,7 +382,7 @@ class SceneRenderer:
         if not app.game:
             return
 
-        positions = app.renderer.get_seat_positions(len(app.players))
+        positions = app.renderer.get_seat_positions(app.players)
         app.renderer._last_players = app.players
 
         mouse_pos = pygame.mouse.get_pos()

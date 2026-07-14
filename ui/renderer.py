@@ -12,7 +12,7 @@ from config import (
 )
 from engine.action import ActionType
 from engine.hand_evaluator import HAND_RANK_NAMES
-from ui.assets import get_card_surface, get_card_back, get_chip_surface, get_pot_chip_surface, get_dealer_button
+from ui.assets import get_card_surface, get_card_back, get_chip_surface, get_pot_chip_surface, get_dealer_button, get_table_surface
 from ui.components import Button, Slider, Panel, TextInput
 from ui.font_util import get_font
 
@@ -97,61 +97,37 @@ class Renderer:
     def draw_background(self):
         self.screen.fill(COLOR_BG)
 
+    # 8 个固定座位坐标（对应 1280x720 的牌桌素材）
+    # 从底部人类玩家开始逆时针编号：0 底部，1 左下，2 左侧，3 左上，4 顶部，5 右上，6 右侧，7 右下
+    SEAT_POSITIONS = [
+        (640, 565),  # 0 底部（人类玩家）
+        (300, 530),  # 1 左下
+        (160, 360),  # 2 左侧
+        (300, 190),  # 3 左上
+        (640, 130),  # 4 顶部
+        (980, 190),  # 5 右上
+        (1120, 360), # 6 右侧
+        (980, 530),  # 7 右下
+    ]
+
     def draw_table(self):
-        """绘制扑克桌"""
-        cx, cy = self.w // 2, self.h // 2 - 30
-        table_w, table_h = 800, 400
-
-        # 外框（木质）
-        rim_rect = pygame.Rect(cx - table_w // 2 - 15, cy - table_h // 2 - 15,
-                               table_w + 30, table_h + 30)
-        pygame.draw.ellipse(self.screen, COLOR_TABLE_RIM_DARK, rim_rect)
-
-        rim_rect2 = pygame.Rect(cx - table_w // 2 - 10, cy - table_h // 2 - 10,
-                                table_w + 20, table_h + 20)
-        pygame.draw.ellipse(self.screen, COLOR_TABLE_RIM, rim_rect2)
-
-        # 桌面（绿色）
-        table_rect = pygame.Rect(cx - table_w // 2, cy - table_h // 2, table_w, table_h)
-        pygame.draw.ellipse(self.screen, COLOR_TABLE_FELT, table_rect)
-
-        # 内圈装饰线
-        inner_rect = pygame.Rect(cx - table_w // 2 + 20, cy - table_h // 2 + 20,
-                                 table_w - 40, table_h - 40)
-        pygame.draw.ellipse(self.screen, (20, 70, 45), inner_rect, 2)
-
-    def get_seat_positions(self, num_players):
-        """计算每个座位的坐标位置"""
-        cx, cy = self.w // 2, self.h // 2 - 30
-        positions = []
-
-        if num_players == 2:
-            # 1V1: 底部和顶部
-            positions = [
-                (cx, cy + 180),   # 人类玩家（底部）
-                (cx, cy - 180),   # AI（顶部）
-            ]
+        """绘制牌桌背景（使用预缩放素材，零缩放）"""
+        table = get_table_surface()
+        if table:
+            # 先铺纯黑底，让贴图透明/半透明区域统一为黑色，避免 alpha 处理不当出现噪点
+            self.screen.fill(COLOR_BLACK)
+            self.screen.blit(table, (0, 0))
         else:
-            # 多人：环绕椭圆排列，玩家多时拉大椭圆半径避免拥挤
-            if num_players >= 8:
-                table_w, table_h = 800, 400
-                scale = 0.50
-            elif num_players >= 6:
-                table_w, table_h = 760, 380
-                scale = 0.46
-            else:
-                table_w, table_h = 720, 360
-                scale = 0.44
-            # 人类玩家固定在底部中央
-            angle_start = math.pi / 2  # 底部
+            # 备用：绘制简单绿色椭圆
+            self.screen.fill(COLOR_BG)
+            cx, cy = self.w // 2, self.h // 2 - 30
+            table_w, table_h = 800, 400
+            pygame.draw.ellipse(self.screen, COLOR_TABLE_FELT,
+                                pygame.Rect(cx - table_w // 2, cy - table_h // 2, table_w, table_h))
 
-            for i in range(num_players):
-                angle = angle_start + (2 * math.pi * i / num_players)
-                x = cx + int(table_w * scale * math.cos(angle))
-                y = cy + int(table_h * scale * math.sin(angle))
-                positions.append((x, y))
-
-        return positions
+    def get_seat_positions(self, players):
+        """根据玩家 seat_index 返回对应座位坐标"""
+        return [self.SEAT_POSITIONS[p.seat_index] for p in players]
 
     def _get_avatar_color(self, name):
         """根据名字生成稳定的头像颜色"""
@@ -259,7 +235,7 @@ class Renderer:
 
     def get_player_pos(self, player_index):
         """获取指定玩家的座位坐标"""
-        positions = self.get_seat_positions(len(self._last_players) if hasattr(self, '_last_players') and self._last_players else 4)
+        positions = self.get_seat_positions(self._last_players if hasattr(self, '_last_players') and self._last_players else [])
         if player_index < len(positions):
             return positions[player_index]
         return (self.w // 2, self.h // 2)
@@ -434,11 +410,8 @@ class Renderer:
 
     def draw_community_cards(self, cards):
         """绘制公共牌"""
-        if not cards:
-            return
-
         cx = self.w // 2
-        cy = self.h // 2 - 50
+        cy = self.h // 2 - 30
 
         card_w, card_h = 60, 85
         gap = 8
@@ -458,9 +431,9 @@ class Renderer:
                 self.screen.blit(card_surf, (x, y))
 
     def draw_pot(self, pot_amount):
-        """绘制底池（居中，公共牌上方）— 带半透明背景的醒目展示"""
+        """绘制底池（公共牌下方，无背景边框）"""
         cx = self.w // 2
-        cy = self.h // 2 - 110
+        cy = self.h // 2 + 50
 
         # 筹码图标
         chip = get_pot_chip_surface(pot_amount, 14)
@@ -469,26 +442,15 @@ class Renderer:
         pot_text = f"底池 {pot_amount:,}"
         pot_surf = self.font_large.render(pot_text, True, COLOR_GOLD)
 
-        # 计算背景尺寸
-        bg_w = chip.get_width() + 10 + pot_surf.get_width() + 24
-        bg_h = max(chip.get_height(), pot_surf.get_height()) + 16
-        bg_x = cx - bg_w // 2
-        bg_y = cy - bg_h // 2
-
-        # 半透明圆角背景
-        bg = pygame.Surface((bg_w, bg_h), pygame.SRCALPHA)
-        pygame.draw.rect(bg, (0, 0, 0, 120), (0, 0, bg_w, bg_h), border_radius=8)
-        pygame.draw.rect(bg, (255, 215, 0, 80), (0, 0, bg_w, bg_h), 1, border_radius=8)
-        self.screen.blit(bg, (bg_x, bg_y))
+        # 总宽度
+        total_w = chip.get_width() + 10 + pot_surf.get_width()
+        start_x = cx - total_w // 2
+        chip_y = cy - chip.get_height() // 2
+        text_y = cy - pot_surf.get_height() // 2
 
         # 筹码 + 文字
-        chip_x = bg_x + 12
-        chip_y = bg_y + (bg_h - chip.get_height()) // 2
-        self.screen.blit(chip, (chip_x, chip_y))
-
-        text_x = chip_x + chip.get_width() + 10
-        text_y = bg_y + (bg_h - pot_surf.get_height()) // 2
-        self.screen.blit(pot_surf, (text_x, text_y))
+        self.screen.blit(chip, (start_x, chip_y))
+        self.screen.blit(pot_surf, (start_x + chip.get_width() + 10, text_y))
 
     def draw_phase_info(self, phase, hand_number):
         """绘制阶段信息 — 胶囊式徽章，带阶段配色"""
@@ -540,7 +502,8 @@ class Renderer:
             self.screen.blit(label, (110, SCREEN_HEIGHT - 75))
             return
 
-        legal = game.get_legal_actions(human_player.seat_index)
+        human_index = game.players.index(human_player)
+        legal = game.get_legal_actions(human_index)
         legal_types = set(legal)
 
         to_call = game.current_bet - human_player.current_bet
@@ -580,8 +543,8 @@ class Renderer:
 
         # 加注滑块
         if is_raise or is_bet:
-            min_raise_to = game.get_min_raise_to(human_player.seat_index)
-            max_raise_to = game.get_max_raise_to(human_player.seat_index)
+            min_raise_to = game.get_min_raise_to(human_index)
+            max_raise_to = game.get_max_raise_to(human_index)
             if max_raise_to > min_raise_to:
                 self.raise_slider.min_val = min_raise_to
                 self.raise_slider.max_val = max_raise_to
@@ -951,7 +914,7 @@ class Renderer:
         if pos:
             bx, by = pos
         elif player_name and hasattr(self, '_last_players') and self._last_players:
-            positions = self.get_seat_positions(len(self._last_players))
+            positions = self.get_seat_positions(self._last_players)
             for i, p in enumerate(self._last_players):
                 if p.name == player_name and i < len(positions):
                     px, py = positions[i]
@@ -976,7 +939,7 @@ class Renderer:
 
         # 绘制小三角指向玩家
         if player_name and hasattr(self, '_last_players') and self._last_players:
-            positions = self.get_seat_positions(len(self._last_players))
+            positions = self.get_seat_positions(self._last_players)
             for i, p in enumerate(self._last_players):
                 if p.name == player_name and i < len(positions):
                     px, py = positions[i]
