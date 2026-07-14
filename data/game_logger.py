@@ -125,13 +125,14 @@ class GameLogger:
                     "net_profit": net,
                 })
         else:
-            for idx, amount in payouts.items():
-                if idx < len(players):
-                    p = players[idx]
-                    ev = evaluations.get(idx)
+            seat_to_player = {p.seat_index: p for p in players}
+            for seat_idx, amount in payouts.items():
+                p = seat_to_player.get(seat_idx)
+                if p:
+                    ev = evaluations.get(seat_idx)
                     net = amount - p.total_bet
                     showdown.append({
-                        "seat": idx,
+                        "seat": seat_idx,
                         "name": p.name,
                         "hand_type": ev.name if ev else "未知",
                         "payout": amount,
@@ -141,9 +142,11 @@ class GameLogger:
 
         # 所有未弃牌玩家的牌型（包括输家）
         all_evals = {}
-        for idx, ev in evaluations.items():
-            if idx < len(players):
-                all_evals[players[idx].name] = ev.name if ev else "未知"
+        seat_to_player = {p.seat_index: p for p in players}
+        for seat_idx, ev in evaluations.items():
+            p = seat_to_player.get(seat_idx)
+            if p:
+                all_evals[p.name] = ev.name if ev else "未知"
 
         entry = {
             "timestamp": timestamp,

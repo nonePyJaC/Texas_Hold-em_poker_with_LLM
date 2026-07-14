@@ -221,17 +221,19 @@ class HandEndController:
                     "is_human": w.is_human,
                 })
         else:
-            for idx, amount in payouts.items():
-                if amount > 0 and idx < len(app.players):
-                    p = app.players[idx]
-                    ev = evaluations.get(idx)
-                    net = amount - p.total_bet
-                    winners_info.append({
-                        "name": p.name,
-                        "hand_type": ev.name if ev else "未知",
-                        "amount": net,
-                        "is_human": p.is_human,
-                    })
+            seat_to_player = {p.seat_index: p for p in app.players}
+            for seat_idx, amount in payouts.items():
+                if amount > 0:
+                    p = seat_to_player.get(seat_idx)
+                    if p:
+                        ev = evaluations.get(seat_idx)
+                        net = amount - p.total_bet
+                        winners_info.append({
+                            "name": p.name,
+                            "hand_type": ev.name if ev else "未知",
+                            "amount": net,
+                            "is_human": p.is_human,
+                        })
         if winners_info:
             from datetime import datetime
             entry = {
