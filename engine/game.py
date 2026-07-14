@@ -190,14 +190,14 @@ class PokerGame:
         return current
 
     def _assign_blinds(self):
-        """分配盲注位置"""
+        """分配盲注位置（跳过筹码为0的玩家）"""
         if self.num_players == 2:
             # Heads-up: 庄家是小盲
             self.small_blind_index = self.dealer_index
-            self.big_blind_index = (self.dealer_index + 1) % self.num_players
+            self.big_blind_index = self._next_active_seat(self.dealer_index)
         else:
-            self.small_blind_index = (self.dealer_index + 1) % self.num_players
-            self.big_blind_index = (self.dealer_index + 2) % self.num_players
+            self.small_blind_index = self._next_active_seat(self.dealer_index)
+            self.big_blind_index = self._next_active_seat(self.small_blind_index)
 
     def _deal_hole_cards(self):
         """发手牌，每人2张，先发一圈每人1张再发第二张"""

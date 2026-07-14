@@ -61,6 +61,7 @@ class GameApp:
         self.animations = AnimationManager()
         self.save_manager = SaveManager()
         self.save_manager.load()
+        self.character_pool = self.save_manager.character_pool
         self.game_logger = GameLogger()
 
         # 游戏状态
@@ -393,19 +394,29 @@ class GameApp:
             self.bankruptcy_buttons["rebuy"].text = "银行余额不足"
 
     def _handle_bankruptcy_quit(self):
+        # 结算 AI 玩家筹码回银行
+        self._settle_ai_banks()
         # 保存并退回主菜单
         self.audio.stop_all_sounds()
         self.save_manager.save(force=True)
+        # 清空聊天记录
+        self.chat_controller.messages = []
+        self.chat_controller.active = False
+        if self.chat_controller.input:
+            self.chat_controller.input.text = ""
+            self.chat_controller.input.active = False
         self.scene = "menu"
 
     def _handle_loan(self):
         """申请贷款5000筹码"""
+        self.audio.stop_all_sounds()
         if self.save_manager.can_take_loan():
             self.save_manager.take_loan(5000)
             self.save_manager.save(force=True)
 
     def _handle_daily_bonus(self):
         """领取每日奖励2000筹码"""
+        self.audio.stop_all_sounds()
         if self.save_manager.can_get_daily_bonus():
             self.save_manager.get_daily_bonus()
             self.save_manager.save(force=True)
@@ -440,6 +451,12 @@ class GameApp:
         pass
 
     def _quit(self):
+        # 如果在游戏中，先结算保存
+        if self.scene in ("playing", "showdown", "dealing", "bankruptcy"):
+            if self.human_player:
+                self.save_manager.deposit_to_bank(self.human_player.chips)
+            self._settle_ai_banks()
+            self.save_manager.save(force=True)
         pygame.quit()
         sys.exit()
 
@@ -710,8 +727,10 @@ class GameApp:
                                     else:
                                         p.ai_brain.opponent_models[opp_key] = OpponentModel.from_dict(mem_dict)
                             else:
-                                # 没有可用新角色，标记为弃牌
+                                # 没有可用新角色，标记为淘汰（筹码0且不再参与）
+                                p.chips = 0
                                 p.folded = True
+                                p.all_in = True  # 标记为淘汰，防止被分配盲注
 
         # 2. 检查人类玩家是否破产（输光了且 0 筹码）
         if self.human_player.chips == 0:
