@@ -56,6 +56,7 @@ class AICharacter:
     opponent_memories: Dict[str, dict] = field(default_factory=dict)  # 持久化的对手模型
     debt: int = 0           # 欠债总额
     lender_id: int = -1     # 债主角色ID（-1 表示无债主）
+    tournament_wins: int = 0  # 锦标赛冠军次数
 
     def to_dict(self):
         return {
@@ -70,6 +71,7 @@ class AICharacter:
             "opponent_memories": self.opponent_memories,
             "debt": self.debt,
             "lender_id": self.lender_id,
+            "tournament_wins": self.tournament_wins,
         }
 
     @classmethod
@@ -86,6 +88,7 @@ class AICharacter:
             opponent_memories=d.get("opponent_memories", {}),
             debt=d.get("debt", 0),
             lender_id=d.get("lender_id", -1),
+            tournament_wins=d.get("tournament_wins", 0),
         )
 
     @property

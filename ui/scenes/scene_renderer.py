@@ -46,6 +46,14 @@ class SceneRenderer:
                 hand_number=self.app.game.hand_number,
                 timer=self.app.showdown_timer
             )
+        elif scene == "tournament_setup":
+            self._render_tournament_setup()
+        elif scene == "tournament":
+            self._render_tournament()
+        elif scene == "tournament_waiting":
+            self._render_tournament_waiting()
+        elif scene == "tournament_result":
+            self._render_tournament_result()
 
     def _render_menu(self):
         """渲染主菜单"""
@@ -88,8 +96,14 @@ class SceneRenderer:
                 surf = small.render(line, True, (180, 180, 180))
                 app.screen.blit(surf, (cx - surf.get_width() // 2, 470 + i * 20))
 
+        # 锦标赛冠军信息
+        champion_name = ""
+        human_tw = getattr(app.save_manager.player_data, 'tournament_wins', 0)
+        if hasattr(app, 'tournament_controller') and app.tournament_controller:
+            champion_name = app.tournament_controller.get_current_champion_name()
         app.renderer.draw_bank_leaderboard(
-            "你", stats['bank'], app.save_manager.character_pool.characters
+            "你", stats['bank'], app.save_manager.character_pool.characters,
+            champion_name=champion_name, human_tournament_wins=human_tw,
         )
 
         history_count = len(app.save_manager.player_data.hand_history)
@@ -452,3 +466,198 @@ class SceneRenderer:
 
         # 聊天框 (左下角)
         app.chat_controller.render(app.screen, app.renderer)
+
+    # ==================== 锦标赛渲染 ====================
+
+    def _render_tournament_setup(self):
+        """渲染锦标赛报名页"""
+        app = self.app
+        screen = app.screen
+        screen.fill((18, 18, 18))
+        cx = SCREEN_WIDTH // 2
+
+        # 标题
+        title = app.renderer.font_title.render("锦标赛", True, (255, 215, 0))
+        screen.blit(title, (cx - title.get_width() // 2, 60))
+
+        # 规则说明
+        rules = [
+            "阶段1: 8桌×3人 短牌德州, 盲注10/20, 最多30局, 胜者出线",
+            "阶段2: 8人决赛圈 标准牌, 盲注25/50, 24局, 前3名进最终局",
+            "阶段3: 最终局 短牌, 盲注50/100, 打到只剩1人",
+            "",
+            "入场费: 5,000 筹码 (24人共120,000池子)",
+            "冠军: 独吞池子 + 额外10,000 奖励",
+            "决赛圈出局: 每人3,000 筹码奖励",
+            "最终局失败者: 每人7,500 筹码奖励",
+        ]
+        for i, line in enumerate(rules):
+            surf = app.renderer.font_normal.render(line, True, (200, 200, 200) if line else (100, 100, 100))
+            screen.blit(surf, (cx - 300, 130 + i * 28))
+
+        # 检查条件
+        tc = app.tournament_controller
+        eligible = tc.get_eligible_ai_count()
+        human_bank = app.save_manager.player_data.bank
+
+        y = 380
+        if human_bank < 5000:
+            surf = app.renderer.font_normal.render(f"你的银行余额不足5,000 (当前: {human_bank:,})", True, (220, 80, 80))
+            screen.blit(surf, (cx - 200, y))
+            app.tournament_buttons["start"].enabled = False
+            app.tournament_buttons["start"].text = "余额不足"
+        elif eligible < 23:
+            surf = app.renderer.font_normal.render(f"符合条件的AI玩家不足23人 (当前: {eligible}人, 需>5,000筹码)", True, (220, 80, 80))
+            screen.blit(surf, (cx - 250, y))
+            app.tournament_buttons["start"].enabled = False
+            app.tournament_buttons["start"].text = "人数不足"
+        else:
+            surf = app.renderer.font_normal.render(f"符合条件的AI玩家: {eligible}人  你的银行: {human_bank:,}", True, (80, 200, 80))
+            screen.blit(surf, (cx - 200, y))
+            app.tournament_buttons["start"].enabled = True
+            app.tournament_buttons["start"].text = "开始锦标赛"
+
+        # 检查是否有存档
+        has_save = tc.has_saved_tournament()
+        if has_save:
+            app.tournament_buttons["continue"].visible = True
+        else:
+            app.tournament_buttons["continue"].visible = False
+
+        # 绘制按钮
+        mouse_pos = pygame.mouse.get_pos()
+        for key in ["start", "continue", "back"]:
+            btn = app.tournament_buttons[key]
+            if hasattr(btn, 'visible') and not btn.visible:
+                continue
+            btn.update(mouse_pos)
+            btn.draw(screen)
+
+    def _render_tournament(self):
+        """渲染锦标赛进行中（复用 playing 渲染 + 锦标赛信息条）"""
+        app = self.app
+        screen = app.screen
+
+        # 先渲染正常的游戏画面
+        self._render_playing()
+
+        # 在顶部绘制锦标赛阶段信息条
+        state = app.tournament_controller.state
+        if state:
+            phase_names = {
+                "group": f"阶段1: 小组赛 (桌{state.current_table_id + 1}/8)",
+                "final": f"阶段2: 决赛圈 ({state.final_hand_count}/{state.FINAL_MAX_HANDS}局)",
+                "ultimate": "阶段3: 最终局",
+            }
+            phase_text = phase_names.get(state.phase.value, "")
+            if phase_text:
+                # 半透明背景条
+                bar_surf = pygame.Surface((SCREEN_WIDTH, 28), pygame.SRCALPHA)
+                bar_surf.fill((40, 20, 60, 200))
+                screen.blit(bar_surf, (0, 0))
+                text_surf = app.renderer.font_small.render(phase_text, True, (255, 215, 0))
+                screen.blit(text_surf, (SCREEN_WIDTH // 2 - text_surf.get_width() // 2, 4))
+
+                # 阶段1显示当前桌局数
+                if state.phase.value == "group":
+                    table = state.get_table(state.current_table_id)
+                    if table:
+                        hand_text = f"第{table.hand_count}/{state.GROUP_MAX_HANDS}局"
+                        hand_surf = app.renderer.font_small.render(hand_text, True, (200, 200, 200))
+                        screen.blit(hand_surf, (SCREEN_WIDTH - hand_surf.get_width() - 20, 4))
+
+    def _render_tournament_waiting(self):
+        """渲染等待其他桌完成页面"""
+        app = self.app
+        screen = app.screen
+        screen.fill((18, 18, 18))
+        cx = SCREEN_WIDTH // 2
+
+        title = app.renderer.font_title.render("等待其他桌完成...", True, (255, 215, 0))
+        screen.blit(title, (cx - title.get_width() // 2, 60))
+
+        # 显示各桌进度
+        state = app.tournament_controller.state
+        if state:
+            progress = state.get_group_stage_progress()
+            for i, t in enumerate(progress.get("tables", [])):
+                y = 140 + i * 50
+                # 桌号
+                table_text = f"桌 {t['table_id'] + 1}"
+                surf = app.renderer.font_normal.render(table_text, True, (200, 200, 200))
+                screen.blit(surf, (cx - 300, y))
+
+                # 玩家
+                for j, p in enumerate(t["players"]):
+                    color = (100, 255, 150) if p["is_human"] else (200, 200, 200)
+                    name = p["name"][:6]
+                    psurf = app.renderer.font_small.render(f"{name}: {p['chips']:,}", True, color)
+                    screen.blit(psurf, (cx - 200 + j * 130, y))
+
+                # 进度
+                if t["finished"]:
+                    status = f"完成 - 胜者: {t['winner_name']}"
+                    color = (80, 200, 80)
+                else:
+                    status = f"进行中 {t['hand_count']}/{t['max_hands']}"
+                    color = (200, 200, 80)
+                ssurf = app.renderer.font_small.render(status, True, color)
+                screen.blit(ssurf, (cx + 200, y))
+
+        # 提示
+        hint = app.renderer.font_normal.render("其他桌正在后台进行，请稍候...", True, (160, 160, 160))
+        screen.blit(hint, (cx - hint.get_width() // 2, SCREEN_HEIGHT - 100))
+
+    def _render_tournament_result(self):
+        """渲染锦标赛结果页"""
+        app = self.app
+        screen = app.screen
+        screen.fill((18, 18, 18))
+        cx = SCREEN_WIDTH // 2
+
+        state = app.tournament_controller.state
+        if not state:
+            return
+
+        title = app.renderer.font_title.render("锦标赛结束", True, (255, 215, 0))
+        screen.blit(title, (cx - title.get_width() // 2, 50))
+
+        # 冠军
+        if state.champion_id is not None:
+            champion = state.get_player_by_id(state.champion_id)
+            if champion:
+                champ_text = f"冠军: {champion.name} 🏆"
+                champ_surf = app.renderer.font_title.render(champ_text, True, (255, 215, 0))
+                screen.blit(champ_surf, (cx - champ_surf.get_width() // 2, 120))
+
+        # 排名
+        y = 180
+        ranked = sorted(state.players, key=lambda p: p.final_rank if p.final_rank else 99)
+        for i, p in enumerate(ranked):
+            rank = p.final_rank if p.final_rank else "-"
+            if p.is_human:
+                name = "你"
+                color = (100, 255, 150)
+            else:
+                name = p.name
+                color = (200, 200, 200)
+
+            line = f"第{rank}名  {name}  筹码: {p.chips:,}"
+            surf = app.renderer.font_normal.render(line, True, color)
+            screen.blit(surf, (cx - 200, y + i * 30))
+
+        # 返回按钮
+        if not hasattr(app, 'tournament_result_buttons'):
+            from ui.components import Button
+            app.tournament_result_buttons = {
+                "back": Button(cx - 100, SCREEN_HEIGHT - 80, 200, 50, "返回菜单", color=(80, 80, 80)),
+            }
+            app.tournament_result_buttons["back"].on_click = lambda: (
+                app.tournament_controller.clear_save(),
+                setattr(app, 'scene', 'menu'),
+            )
+
+        mouse_pos = pygame.mouse.get_pos()
+        for btn in app.tournament_result_buttons.values():
+            btn.update(mouse_pos)
+            btn.draw(screen)

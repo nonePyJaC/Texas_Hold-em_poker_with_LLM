@@ -64,8 +64,13 @@ class SceneEventHandler:
                     self.app.selected_player_index = None
                     self.app.player_popup_close_btn = None
                     return
+                # 锦标赛场景按 ESC 提示存档离开
+                if self.app.scene in ("tournament", "dealing") and self.app.tournament_controller and self.app.tournament_controller.state:
+                    # 锦标赛进行中，ESC 存档离开
+                    self.app._leave_tournament()
+                    return
                 # 其他场景按 ESC 返回菜单
-                if self.app.scene in ("playing", "setup", "settings", "history", "replay"):
+                if self.app.scene in ("playing", "setup", "settings", "history", "replay", "tournament_setup", "tournament_waiting", "tournament_result"):
                     self.app.selected_player_index = None
                     self.app.player_popup_close_btn = None
                     self.app.scene = "menu"
@@ -127,6 +132,24 @@ class SceneEventHandler:
 
         elif self.app.scene == "replay":
             self._handle_replay_event(event)
+
+        elif self.app.scene == "tournament_setup":
+            for btn in self.app.tournament_buttons.values():
+                if hasattr(btn, 'visible') and not btn.visible:
+                    continue
+                btn.handle_event(event)
+
+        elif self.app.scene == "tournament":
+            self._handle_tournament_event(event)
+
+        elif self.app.scene == "tournament_waiting":
+            # 等待页只处理自动跳转（在 update 中处理）
+            pass
+
+        elif self.app.scene == "tournament_result":
+            if hasattr(self.app, 'tournament_result_buttons'):
+                for btn in self.app.tournament_result_buttons.values():
+                    btn.handle_event(event)
 
     def _handle_replay_event(self, event):
         """处理回放场景事件"""
@@ -211,6 +234,72 @@ class SceneEventHandler:
             return
 
         if self.app.scene != "playing":
+            return
+
+        current = self.app.game.get_current_player()
+        if not current or not current.is_human or not current.can_act():
+            return
+
+        # 操作面板按钮
+        for key, btn in self.app.renderer.action_buttons.items():
+            if btn.handle_event(event):
+                self.app._on_human_action(key)
+                return
+
+        # 加注滑块
+        if self.app.renderer.raise_slider.handle_event(event):
+            return
+
+        # 加注数值输入框
+        if self.app.renderer.raise_input.handle_event(event):
+            return
+
+    def _handle_tournament_event(self, event):
+        """处理锦标赛进行中的事件（复用 playing 逻辑，但离开按钮调用 _leave_tournament）"""
+        # 聊天输入处理
+        if self.app.chat_controller.handle_event(event):
+            return
+
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN
+                and self.app.chat_controller.input and not self.app.renderer.raise_input.active):
+            self.app.chat_controller.input.active = True
+            self.app.chat_controller.active = True
+            return
+
+        # 弹窗关闭
+        if self.app.selected_player_index is not None:
+            if self.app.player_popup_close_btn and self.app.player_popup_close_btn.handle_event(event):
+                self.app.selected_player_index = None
+                self.app.player_popup_close_btn = None
+                return
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self.app.selected_player_index = None
+                self.app.player_popup_close_btn = None
+                return
+
+        # 离开按钮 → 存档离开锦标赛
+        if self.app.renderer.leave_button.handle_event(event):
+            self.app._leave_tournament()
+            return
+
+        # 点击 AI 玩家卡片打开详情
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.app.game:
+            idx = self._find_clicked_player_index(event.pos)
+            if idx >= 0:
+                self.app.selected_player_index = idx
+                return
+
+        # 右键点击 AI 玩家：艾特
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3 and self.app.game:
+            idx = self._find_clicked_player_index(event.pos)
+            if idx >= 0:
+                self.app.chat_controller.activate_with_target(self.app.players[idx].name)
+                return
+
+        if self.app.ai_thinking:
+            return
+
+        if self.app.scene != "tournament":
             return
 
         current = self.app.game.get_current_player()

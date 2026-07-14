@@ -20,6 +20,7 @@ class PlayerSaveData:
     loan: int = 0          # 当前欠款
     daily_bonus_date: str = ""  # 上次领取每日奖励的日期
     hand_history: list = field(default_factory=list)  # 对战历史记录
+    tournament_wins: int = 0  # 锦标赛冠军次数
 
     def to_dict(self):
         return asdict(self)

@@ -797,7 +797,8 @@ class Renderer:
         for item in menu_items:
             item.draw(self.screen)
 
-    def draw_bank_leaderboard(self, human_name, human_bank, ai_characters, max_entries=10):
+    def draw_bank_leaderboard(self, human_name, human_bank, ai_characters, max_entries=10,
+                              champion_name="", human_tournament_wins=0):
         """绘制银行存款排行榜（主菜单用）
 
         Args:
@@ -805,11 +806,14 @@ class Renderer:
             human_bank: 人类玩家银行余额
             ai_characters: AI角色列表 (AICharacter)
             max_entries: 最多显示条目数
+            champion_name: 当前锦标赛冠军名字（显示🏆）
+            human_tournament_wins: 人类玩家锦标赛冠军次数
         """
         # 合并人类和AI玩家，按银行余额排序
-        entries = [("你", human_bank, True)]
+        entries = [("你", human_bank, True, human_tournament_wins)]
         for c in ai_characters:
-            entries.append((c.name, c.bank, False))
+            tw = getattr(c, 'tournament_wins', 0)
+            entries.append((c.name, c.bank, False, tw))
         entries.sort(key=lambda x: x[1], reverse=True)
         entries = entries[:max_entries]
 
@@ -833,7 +837,7 @@ class Renderer:
 
         # 排名列表
         medals = ["1", "2", "3"]
-        for i, (name, bank, is_human) in enumerate(entries):
+        for i, (name, bank, is_human, tw) in enumerate(entries):
             y = panel_y + header_h + i * line_h
 
             # 排名
@@ -841,10 +845,15 @@ class Renderer:
             rank_surf = self.font_tiny.render(medals[i] if i < 3 else str(i + 1), True, rank_color)
             self.screen.blit(rank_surf, (panel_x + 10, y + 5))
 
-            # 名字（截断过长名字）
+            # 名字（截断过长名字）+ 🏆标记
             display_name = name
             if len(display_name) > 7:
                 display_name = display_name[:6] + ".."
+            # 锦标赛冠军标记
+            if tw > 0 and name == champion_name:
+                display_name = "🏆" + display_name
+            elif tw > 0:
+                display_name = display_name + f" ×{tw}"
             name_color = (100, 255, 150) if is_human else COLOR_WHITE
             if bank <= 0:
                 name_color = COLOR_TEXT_DIM

@@ -27,7 +27,7 @@ class AIController:
 
     def check_turn(self):
         """检查当前是否轮到 AI，如果是则启动思考"""
-        if self.app.scene != "playing":
+        if self.app.scene not in ("playing", "tournament"):
             return
 
         current = self.app.game.get_current_player()
