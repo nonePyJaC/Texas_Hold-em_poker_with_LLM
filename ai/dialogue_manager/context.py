@@ -54,6 +54,11 @@ class DialogueContext:
     recent_hand_results: Tuple[str, ...] = field(default_factory=tuple)  # 最近 3-5 手结果
     session_summary: str = ""      # 本局会话摘要，如 "已打15手，赢6手，连胜2手"
     chat_history: Tuple[str, ...] = field(default_factory=tuple)  # 本局聊天历史（格式："名字: 消息"）
+    last_hand_winner: str = ""     # 上一手胜者信息，如 "柯南 用同花赢了800筹码" / "柯南 弃牌获胜 拿走300筹码"
+    table_actions_summary: str = ""  # 当前下注轮其他玩家的动作摘要，如 "上家柯南加注200, 下家小林弃牌"
+
+    # === 策略伪装 ===
+    is_slow_playing: bool = False  # 慢打中：台词应伪装成弱牌/中等牌
 
     # === 扩展预留 ===
     extra: Dict[str, Any] = field(default_factory=dict)

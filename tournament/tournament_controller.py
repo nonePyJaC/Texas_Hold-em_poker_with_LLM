@@ -11,7 +11,7 @@ from tournament.table_simulator import TableSimulator
 from config import (
     DECK_SHORT, DECK_STANDARD,
     BETTING_NO_LIMIT,
-    DIFFICULTY_NORMAL,
+    DIFFICULTY_NORMAL, DIFFICULTY_FAST,
 )
 
 logger = logging.getLogger(__name__)
@@ -117,26 +117,37 @@ class TournamentController:
     # ==================== 阶段1: 小组赛 ====================
 
     def _start_background_tables(self):
-        """启动非玩家桌的后台模拟线程"""
+        """启动后台模拟（单线程顺序执行，避免GIL争抢）"""
         if not self.state:
             return
         human = self.state.human_player
         human_table_id = human.table_id if human else -1
 
-        for table in self.state.tables:
-            if table.table_id == human_table_id:
-                continue  # 玩家桌不自动模拟
-            if table.finished:
-                continue
+        tables_to_sim = [
+            table for table in self.state.tables
+            if table.table_id != human_table_id and not table.finished
+        ]
+        if not tables_to_sim:
+            return
 
-            thread = threading.Thread(
-                target=self._run_background_table,
-                args=(table,),
-                daemon=True,
-                name=f"table-{table.table_id}",
-            )
-            thread.start()
-            self._sim_threads.append(thread)
+        # 单线程顺序模拟所有桌（CPU密集型，多线程反而更慢）
+        thread = threading.Thread(
+            target=self._run_all_background_tables,
+            args=(tables_to_sim,),
+            daemon=True,
+            name="bg-tables",
+        )
+        thread.start()
+        self._sim_threads.append(thread)
+
+    def _run_all_background_tables(self, tables):
+        """顺序运行所有后台桌模拟"""
+        for table in tables:
+            try:
+                self._run_background_table(table)
+            except Exception as e:
+                logger.error(f"桌 {table.table_id} 模拟失败: {e}")
+                self._handle_sim_failure(table)
 
     def _run_background_table(self, table: TableInfo):
         """后台运行一桌模拟"""
@@ -147,19 +158,24 @@ class TournamentController:
                 big_blind=TournamentState.GROUP_BIG_BLIND,
                 deck_type=DECK_SHORT,
                 max_hands=TournamentState.GROUP_MAX_HANDS,
-                difficulty=DIFFICULTY_NORMAL,
+                difficulty=DIFFICULTY_FAST,
             )
             sim.run()
         except Exception as e:
             logger.error(f"桌 {table.table_id} 模拟失败: {e}")
-            table.finished = True
-            # 兜底：取筹码最高者为胜者
-            if table.players:
-                winner = max(table.players, key=lambda p: p.chips)
-                table.winner_id = winner.char_id
+            self._handle_sim_failure(table)
 
         with self._sim_lock:
             self._sim_results[table.table_id] = table
+
+    def _handle_sim_failure(self, table: TableInfo):
+        """模拟失败兜底：胜者拿走全部筹码，其他人淘汰"""
+        table.finished = True
+        if table.players:
+            total_chips = sum(p.chips for p in table.players)
+            winner = max(table.players, key=lambda p: p.chips)
+            winner.chips = total_chips
+            table.winner_id = winner.char_id
 
     def check_group_stage_complete(self) -> bool:
         """检查阶段1是否全部完成"""
@@ -191,8 +207,14 @@ class TournamentController:
         if not self.state:
             return
 
-        # 收集8个桌的胜者
+        # 等待后台模拟线程完全结束，确保筹码已同步
+        for thread in self._sim_threads:
+            thread.join(timeout=5.0)
+        self._sim_threads = []
+
+        # 收集8个桌的胜者和非胜者
         winners = []
+        non_winners = []
         for table in self.state.tables:
             if table.winner_id is not None:
                 tp = self.state.get_player_by_id(table.winner_id)
@@ -201,7 +223,13 @@ class TournamentController:
                     for p in table.players:
                         if p.char_id != table.winner_id:
                             p.eliminated = True
+                            non_winners.append(p)
                     winners.append(tp)
+
+        # 小组赛淘汰者按筹码排名 9~24
+        non_winners.sort(key=lambda p: p.chips, reverse=True)
+        for i, p in enumerate(non_winners):
+            p.final_rank = 9 + i  # 8个胜者之后，从第9名开始
 
         # 更新玩家桌号
         for tp in winners:
@@ -240,24 +268,19 @@ class TournamentController:
         if not self.state:
             return
 
-        active = [p for p in self.state.active_players if p.chips > 0]
-        # 按筹码排序
-        active.sort(key=lambda p: p.chips, reverse=True)
+        # 所有未淘汰的决赛圈玩家（包括筹码为0的）
+        all_active = [p for p in self.state.active_players]
+        # 按筹码排序（筹码多的在前）
+        all_active.sort(key=lambda p: p.chips, reverse=True)
 
         # 前3名（或更少如果已经不足3人）进入最终局
-        finalists = active[:3]
+        finalists = all_active[:3]
 
-        # 其他人标记淘汰并发放奖金
-        for p in active[3:]:
+        # 其他人标记淘汰并发放奖金（按筹码排名 4~8）
+        for i, p in enumerate(all_active[3:]):
             p.eliminated = True
-            p.final_rank = len(active) - active.index(p)
+            p.final_rank = 4 + i  # 4th, 5th, 6th...
             self._award_prize(p.char_id, TournamentState.PRIZE_FINAL_ELIMINATED)
-
-        # 已淘汰的人也发奖
-        for p in self.state.players:
-            if p.eliminated and p.final_rank == 0:
-                p.final_rank = len(active) + 1
-                self._award_prize(p.char_id, TournamentState.PRIZE_FINAL_ELIMINATED)
 
         # 更新桌
         for tp in finalists:
@@ -273,33 +296,54 @@ class TournamentController:
     # ==================== 阶段3: 最终局 ====================
 
     def check_ultimate_stage_complete(self) -> bool:
-        """检查阶段3是否结束：只剩1人"""
+        """检查阶段3是否结束：只剩1人或打满30局"""
         if not self.state or self.state.phase != TournamentPhase.ULTIMATE_STAGE:
             return False
         active = [p for p in self.state.active_players if p.chips > 0]
-        return len(active) <= 1
+        if len(active) <= 1:
+            return True
+        if self.state.ultimate_hand_count >= TournamentState.ULTIMATE_MAX_HANDS:
+            return True
+        return False
 
     def finish_tournament(self):
         """结束锦标赛：发放奖金、记录冠军"""
         if not self.state:
             return
 
-        active = [p for p in self.state.active_players if p.chips > 0]
-        if active:
-            champion = max(active, key=lambda p: p.chips)
+        # 最终局桌上的所有玩家（包括筹码为0的）
+        ultimate_table = self.state.tables[0] if self.state.tables else None
+        if ultimate_table and ultimate_table.players:
+            all_players = ultimate_table.players
+        else:
+            all_players = [p for p in self.state.active_players]
+
+        # 按筹码排序
+        all_players = sorted(all_players, key=lambda p: p.chips, reverse=True)
+
+        if all_players:
+            champion = all_players[0]
             champion.final_rank = 1
             self.state.champion_id = champion.char_id
 
-            # 冠军奖金：独吞池子 + 额外1万
-            total_pot = sum(p.chips for p in self.state.players)
-            self._award_prize(champion.char_id, total_pot + TournamentState.PRIZE_CHAMPION_BONUS)
+            # 冠军奖金：额外1万（底池是比赛筹码，不算奖金）
+            total_pot = sum(p.chips for p in all_players)
+            champion.chips = total_pot  # 冠军拿走全部筹码
+            self._award_prize(champion.char_id, TournamentState.PRIZE_CHAMPION_BONUS)
 
-            # 失败者奖金
-            for p in active:
-                if p.char_id != champion.char_id:
-                    p.eliminated = True
-                    p.final_rank = 2
-                    self._award_prize(p.char_id, TournamentState.PRIZE_RUNNER_UP)
+            # 第2名（如果有）
+            if len(all_players) >= 2:
+                runner_up = all_players[1]
+                runner_up.eliminated = True
+                runner_up.final_rank = 2
+                self._award_prize(runner_up.char_id, TournamentState.PRIZE_RUNNER_UP)
+
+            # 第3名（如果有）
+            if len(all_players) >= 3:
+                third = all_players[2]
+                third.eliminated = True
+                third.final_rank = 3
+                self._award_prize(third.char_id, TournamentState.PRIZE_RUNNER_UP)
 
         # 记录冠军到角色数据
         if self.state.champion_id is not None and self.state.champion_id >= 0:
@@ -320,7 +364,12 @@ class TournamentController:
     # ==================== 奖金发放 ====================
 
     def _award_prize(self, char_id: int, amount: int):
-        """发放奖金到角色银行"""
+        """发放奖金到角色银行，并记录到 TournamentPlayer"""
+        # 记录到 TournamentPlayer
+        tp = self.state.get_player_by_id(char_id) if self.state else None
+        if tp:
+            tp.prize_won += amount
+
         if char_id == -1:
             # 人类玩家
             self.app.save_manager.deposit_to_bank(amount)
@@ -340,18 +389,7 @@ class TournamentController:
 
         # 如果在阶段1且还没完成，恢复后台模拟
         if state.phase == TournamentPhase.GROUP_STAGE:
-            # 检查哪些桌还没完成
-            human = state.human_player
-            for table in state.tables:
-                if not table.finished and (not human or table.table_id != human.table_id):
-                    thread = threading.Thread(
-                        target=self._run_background_table,
-                        args=(table,),
-                        daemon=True,
-                        name=f"table-{table.table_id}",
-                    )
-                    thread.start()
-                    self._sim_threads.append(thread)
+            self._start_background_tables()
 
         return True
 

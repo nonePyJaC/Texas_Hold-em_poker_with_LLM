@@ -13,7 +13,7 @@ from engine.action import Action, ActionType
 from engine.hand_evaluator import evaluate_best, HandRank
 from ai.personality import Personality
 from ai.character_pool import HUMAN_OPPONENT_KEY
-from config import MCTS_TIME_LIMIT, DIFFICULTY_SIMS, DIFFICULTY_NORMAL
+from config import MCTS_TIME_LIMIT, DIFFICULTY_SIMS, DIFFICULTY_NORMAL, FLOP, TURN, RIVER
 
 
 class OpponentModel:
@@ -112,6 +112,9 @@ class MCTSAI:
         self.time_limit = time_limit
         self.rng = random.Random()
         self.opponent_models = {}  # player_id -> OpponentModel
+        # 慢打状态（每手牌重置）
+        self._slow_play_hand = -1   # 当前慢打的手牌编号
+        self._is_slow_playing = False
 
     def update_opponent_model(self, player_id, action_type, is_preflop=False, did_enter_pot=False, did_raise_preflop=False):
         """更新指定对手的模型"""
@@ -153,11 +156,19 @@ class MCTSAI:
         if len(legal_types) == 1:
             return Action(player_index, legal_types[0])
 
+        # 每手牌开始时重置慢打状态
+        if game.hand_number != self._slow_play_hand:
+            self._slow_play_hand = game.hand_number
+            self._is_slow_playing = False
+
         # 计算手牌强度（蒙特卡洛模拟）
         strength = self._estimate_hand_strength(game, player_index)
 
         # 根据性格调整
         adjusted_strength = self._adjust_by_personality(strength, game, player_index)
+
+        # 检查是否应该开始慢打（强牌 + flop/turn 阶段）
+        self._check_slow_play(adjusted_strength, game)
 
         # 基于强度和性格选择动作
         return self._select_action(legal_types, adjusted_strength, game, player_index)
@@ -278,6 +289,30 @@ class MCTSAI:
 
         return max(0.0, min(1.0, adjusted))
 
+    def _check_slow_play(self, strength: float, game):
+        """检查是否应该开始或继续慢打"""
+        # 河牌阶段不慢打，切换为价值下注
+        if game.phase == RIVER:
+            self._is_slow_playing = False
+            return
+
+        # 只在 flop/turn 阶段且牌力很强时考虑慢打
+        if game.phase not in (FLOP, TURN):
+            return
+
+        # 已经在慢打中，继续保持
+        if self._is_slow_playing:
+            return
+
+        # 牌力足够强才慢打（0.8+）
+        if strength < 0.8:
+            return
+
+        # 根据 slow_play_frequency 掷骰子
+        slow_play_chance = self.personality.slow_play_frequency
+        if self.rng.random() < slow_play_chance:
+            self._is_slow_playing = True
+
     def _select_action(self, legal_types: list, strength: float,
                        game, player_index: int) -> Action:
         """基于强度和性格选择动作"""
@@ -285,6 +320,20 @@ class MCTSAI:
         p = self.personality
         to_call = game.current_bet - player.current_bet
         pot = game.pot
+
+        # 慢打模式：强牌假装弱牌，check/call 诱敌
+        if self._is_slow_playing and strength >= 0.7:
+            legal_set = set(legal_types)
+            if to_call == 0:
+                # 过牌引诱对手下注
+                if ActionType.CHECK in legal_set:
+                    return Action(player_index, ActionType.CHECK)
+            else:
+                # 跟注而非加注，继续伪装
+                if ActionType.CALL in legal_set:
+                    return Action(player_index, ActionType.CALL)
+            # 如果只能 fold 或 all_in，退出慢打
+            self._is_slow_playing = False
 
         # 计算底池赔率
         if to_call > 0:

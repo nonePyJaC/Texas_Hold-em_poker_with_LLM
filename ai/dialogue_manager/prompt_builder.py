@@ -160,17 +160,25 @@ class PromptBuilder:
         elif ctx.last_hand_result:
             parts.append(f"上一局结果: {ctx.last_hand_result}")
 
-        # 聊天历史（Token 优化：最多 5 条，超出则压缩）
+        # 上一手胜者信息
+        if ctx.last_hand_winner:
+            parts.append(f"上一手结果: {ctx.last_hand_winner}")
+
+        # 当前下注轮其他玩家动作
+        if ctx.table_actions_summary:
+            parts.append(f"本轮其他玩家动作: {ctx.table_actions_summary}")
+
+        # 聊天历史（Token 优化：最多 10 条，超出则压缩）
         if ctx.chat_history:
             msgs = list(ctx.chat_history)
-            if len(msgs) <= 5:
+            if len(msgs) <= 10:
                 parts.append("本局聊天记录:")
                 for msg in msgs:
                     parts.append(f"  {msg}")
             else:
-                # 保留最近 5 条，更早的压缩为摘要
-                older = msgs[:-5]
-                recent = msgs[-5:]
+                # 保留最近 10 条，更早的压缩为摘要
+                older = msgs[:-10]
+                recent = msgs[-10:]
                 parts.append(f"本局聊天记录（较早 {len(older)} 条已省略）:")
                 for msg in recent:
                     parts.append(f"  {msg}")
@@ -202,7 +210,12 @@ class PromptBuilder:
         if ctx.is_all_in:
             parts.append("局面: 全押")
         if ctx.hand_strength:
-            parts.append(f"手牌强度: {ctx.hand_strength:.1f}")
+            # 慢打时向 LLM 报告伪装的弱牌强度
+            reported_strength = ctx.hand_strength
+            if ctx.is_slow_playing and ctx.hand_strength > 0.7:
+                reported_strength = 0.3
+                parts.append("注意: 你正在慢打（强牌伪装弱牌），台词必须表现得像牌一般或不太好，绝不能透露你其实牌很强。")
+            parts.append(f"手牌强度: {reported_strength:.1f}")
 
         emo_desc = _EMOTION_DESC.get(emotion_tag, "平静")
         parts.append(f"\n请生成一句{emo_desc}情绪下的台词，符合角色设定。")
@@ -286,14 +299,22 @@ class PromptBuilder:
             parts.append(f"近期手牌: {' → '.join(results)}")
         elif ctx.last_hand_result:
             parts.append(f"上一局结果: {ctx.last_hand_result}")
+        # 上一手胜者信息
+        if ctx.last_hand_winner:
+            parts.append(f"上一手结果: {ctx.last_hand_winner}")
+
+        # 当前下注轮其他玩家动作
+        if ctx.table_actions_summary:
+            parts.append(f"本轮其他玩家动作: {ctx.table_actions_summary}")
+
         if ctx.chat_history:
             msgs = list(ctx.chat_history)
-            if len(msgs) <= 5:
+            if len(msgs) <= 10:
                 parts.append("聊天记录:")
                 for msg in msgs:
                     parts.append(f"  {msg}")
             else:
-                recent = msgs[-5:]
+                recent = msgs[-10:]
                 parts.append(f"聊天记录（最近 {len(recent)} 条）:")
                 for msg in recent:
                     parts.append(f"  {msg}")

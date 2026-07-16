@@ -50,6 +50,50 @@ class DialogueContextBuilder:
                 if m.get("source") == "llm"
             )
 
+        # 上一手胜者信息
+        last_hand_winner = ""
+        if hasattr(app, 'session_hand_history') and app.session_hand_history:
+            last_entry = app.session_hand_history[-1]
+            winners = last_entry.get("winners", [])
+            if winners:
+                parts = []
+                for w in winners:
+                    name = w.get("name", "?")
+                    hand_type = w.get("hand_type", "")
+                    amount = w.get("amount", 0)
+                    if hand_type == "弃牌获胜":
+                        parts.append(f"{name} 弃牌获胜 拿走{amount}筹码")
+                    else:
+                        parts.append(f"{name} 用{hand_type}赢了{amount}筹码")
+                last_hand_winner = "；".join(parts)
+
+        # 当前下注轮其他玩家的动作摘要
+        table_actions_summary = ""
+        if app.game and hasattr(app.game, 'action_history') and app.game.action_history:
+            action_names = {
+                "fold": "弃牌", "check": "过牌", "call": "跟注",
+                "bet": "下注", "raise": "加注", "all_in": "全押",
+            }
+            # 取当前轮的动作（按phase分组，取最后一组）
+            current_phase = app.game.phase
+            current_round_actions = [
+                a for a in app.game.action_history
+                if getattr(a, 'phase', None) == current_phase
+            ]
+            # 排除自己，只显示其他玩家的动作
+            my_seat = player.seat_index
+            other_actions = []
+            for a in current_round_actions:
+                if a.player_index == my_seat:
+                    continue
+                p = app.game.players[a.player_index] if a.player_index < len(app.game.players) else None
+                p_name = p.name if p else f"玩家{a.player_index}"
+                act_name = action_names.get(a.action_type.value if hasattr(a.action_type, 'value') else str(a.action_type), str(a.action_type))
+                amount_str = f"{a.amount}" if a.amount else ""
+                other_actions.append(f"{p_name}{act_name}{amount_str}")
+            if other_actions:
+                table_actions_summary = "，".join(other_actions)
+
         # 跨手记忆：最近 3-5 手结果
         recent_hand_results = ()
         hand_result_history = getattr(player, '_hand_result_history', [])
@@ -82,6 +126,11 @@ class DialogueContextBuilder:
                 parts.append(f"连败{abs(streak)}手")
             session_summary = "，".join(parts)
 
+        # 慢打状态：用于台词伪装
+        is_slow_playing = False
+        if hasattr(player, 'ai_brain') and player.ai_brain:
+            is_slow_playing = getattr(player.ai_brain, '_is_slow_playing', False)
+
         return DialogueContext(
             char_id=char_id,
             char_name=player.name,
@@ -105,4 +154,7 @@ class DialogueContextBuilder:
             recent_hand_results=recent_hand_results,
             session_summary=session_summary,
             chat_history=chat_history,
+            last_hand_winner=last_hand_winner,
+            table_actions_summary=table_actions_summary,
+            is_slow_playing=is_slow_playing,
         )

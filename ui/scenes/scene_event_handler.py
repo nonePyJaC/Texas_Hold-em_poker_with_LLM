@@ -59,14 +59,18 @@ class SceneEventHandler:
                 self.app._toggle_fullscreen()
                 return
             if event.key == pygame.K_ESCAPE:
-                # 优先关闭弹窗（仅在 playing 场景）
-                if self.app.scene == "playing" and self.app.selected_player_index is not None:
+                # 优先关闭弹窗（playing 和 tournament 场景）
+                if self.app.scene in ("playing", "tournament") and self.app.selected_player_index is not None:
                     self.app.selected_player_index = None
                     self.app.player_popup_close_btn = None
                     return
-                # 锦标赛场景按 ESC 提示存档离开
-                if self.app.scene in ("tournament", "dealing") and self.app.tournament_controller and self.app.tournament_controller.state:
+                # 锦标赛场景按 ESC 存档离开（含 showdown/dealing）
+                is_tournament = (self.app.tournament_controller and self.app.tournament_controller.state)
+                if is_tournament and self.app.scene in ("tournament", "dealing"):
                     # 锦标赛进行中，ESC 存档离开
+                    self.app._leave_tournament()
+                    return
+                if is_tournament and self.app.scene == "showdown" and self.app.game and self.app.game.on_hand_end == self.app._on_tournament_hand_end:
                     self.app._leave_tournament()
                     return
                 # 其他场景按 ESC 返回菜单

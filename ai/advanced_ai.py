@@ -159,10 +159,19 @@ class AdvancedAI(MCTSAI):
         if len(legal_types) == 1:
             return Action(player_index, legal_types[0])
 
+        # 每手牌开始时重置慢打状态
+        if game.hand_number != self._slow_play_hand:
+            self._slow_play_hand = game.hand_number
+            self._is_slow_playing = False
+
         # 2人模式专用策略
         if game.phase == "preflop":
             return self._preflop_decision(legal_types, game, player_index)
         else:
+            # Post-flop: 先检查慢打
+            strength = self._estimate_hand_strength(game, player_index)
+            adjusted = self._adjust_by_personality(strength, game, player_index)
+            self._check_slow_play(adjusted, game)
             return self._postflop_decision(legal_types, game, player_index)
 
     def _preflop_decision(self, legal_types, game, player_index) -> Action:
@@ -270,7 +279,7 @@ class AdvancedAI(MCTSAI):
         adjusted = self._adjust_by_personality(total_strength, game, player_index)
 
         # 对手模型影响（受 adaptivity 控制）
-        adapt = p.adaptivity
+        adapt = self.personality.adaptivity
         if self.opponent_model.hands_observed > 2 and adapt > 0.05:
             if self.opponent_model.is_aggressive() and adjusted < 0.5:
                 # 对手激进，我们弱牌时更谨慎

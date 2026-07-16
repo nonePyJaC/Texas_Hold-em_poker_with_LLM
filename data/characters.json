@@ -10,7 +10,7 @@
       "adaptivity": 0.18
     },
     "archetype": "random",
-    "bank": 9867,
+    "bank": 14867,
     "hands_played": 11,
     "hands_won": 2,
     "total_profit": 947,
@@ -409,7 +409,7 @@
       "adaptivity": 0.37
     },
     "archetype": "random",
-    "bank": 7462,
+    "bank": 12462,
     "hands_played": 23,
     "hands_won": 7,
     "total_profit": 1991,
@@ -559,7 +559,7 @@
       "adaptivity": 0.3
     },
     "archetype": "random",
-    "bank": 8666,
+    "bank": 13666,
     "hands_played": 12,
     "hands_won": 5,
     "total_profit": -1259,
@@ -771,7 +771,7 @@
       "adaptivity": 0.25
     },
     "archetype": "random",
-    "bank": 7771,
+    "bank": 12771,
     "hands_played": 18,
     "hands_won": 5,
     "total_profit": -139,
@@ -888,7 +888,7 @@
       "adaptivity": 0.4
     },
     "archetype": "random",
-    "bank": 9159,
+    "bank": 14159,
     "hands_played": 4,
     "hands_won": 2,
     "total_profit": 221,
@@ -961,7 +961,7 @@
       "adaptivity": 0.41
     },
     "archetype": "random",
-    "bank": 7990,
+    "bank": 12990,
     "hands_played": 2,
     "hands_won": 0,
     "total_profit": -1005,
@@ -1490,7 +1490,7 @@
       "adaptivity": 0.3
     },
     "archetype": "random",
-    "bank": 11658,
+    "bank": 16658,
     "hands_played": 10,
     "hands_won": 2,
     "total_profit": 1703,
@@ -1541,7 +1541,7 @@
       "adaptivity": 0.3
     },
     "archetype": "random",
-    "bank": 10420,
+    "bank": 15420,
     "hands_played": 5,
     "hands_won": 2,
     "total_profit": 440,
@@ -1592,7 +1592,7 @@
       "adaptivity": 0.5
     },
     "archetype": "random",
-    "bank": 9188,
+    "bank": 14188,
     "hands_played": 13,
     "hands_won": 2,
     "total_profit": 263,
@@ -1720,7 +1720,7 @@
       "adaptivity": 0.5
     },
     "archetype": "random",
-    "bank": 8985,
+    "bank": 13985,
     "hands_played": 7,
     "hands_won": 3,
     "total_profit": 25,
@@ -2082,7 +2082,7 @@
       "adaptivity": 0.62
     },
     "archetype": "random",
-    "bank": 7153,
+    "bank": 12153,
     "hands_played": 11,
     "hands_won": 2,
     "total_profit": -497,
@@ -2682,7 +2682,7 @@
       "adaptivity": 0.15
     },
     "archetype": "random",
-    "bank": 6792,
+    "bank": 11792,
     "hands_played": 13,
     "hands_won": 5,
     "total_profit": -1143,
@@ -2861,7 +2861,7 @@
       "adaptivity": 0.42
     },
     "archetype": "random",
-    "bank": 6642,
+    "bank": 11642,
     "hands_played": 15,
     "hands_won": 2,
     "total_profit": 198,
@@ -2989,7 +2989,7 @@
       "adaptivity": 0.64
     },
     "archetype": "random",
-    "bank": 6965,
+    "bank": 11965,
     "hands_played": 19,
     "hands_won": 4,
     "total_profit": 2020,
@@ -3084,7 +3084,7 @@
       "adaptivity": 0.4
     },
     "archetype": "random",
-    "bank": 7970,
+    "bank": 12970,
     "hands_played": 6,
     "hands_won": 1,
     "total_profit": -957,
@@ -3496,7 +3496,7 @@
       "adaptivity": 0.22
     },
     "archetype": "random",
-    "bank": 8137,
+    "bank": 13137,
     "hands_played": 8,
     "hands_won": 2,
     "total_profit": 725,
@@ -3547,7 +3547,7 @@
       "adaptivity": 0.4
     },
     "archetype": "random",
-    "bank": 9447,
+    "bank": 14447,
     "hands_played": 16,
     "hands_won": 6,
     "total_profit": 1763,
@@ -3704,7 +3704,7 @@
       "adaptivity": 0.2
     },
     "archetype": "random",
-    "bank": 10010,
+    "bank": 15010,
     "hands_played": 1,
     "hands_won": 0,
     "total_profit": 0,
@@ -3982,7 +3982,7 @@
       "adaptivity": 0.23
     },
     "archetype": "random",
-    "bank": 8883,
+    "bank": 13883,
     "hands_played": 1,
     "hands_won": 0,
     "total_profit": 0,
@@ -4406,7 +4406,7 @@
       "adaptivity": 0.5
     },
     "archetype": "random",
-    "bank": 9891,
+    "bank": 14891,
     "hands_played": 14,
     "hands_won": 3,
     "total_profit": 459,

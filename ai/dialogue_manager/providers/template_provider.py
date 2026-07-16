@@ -60,19 +60,24 @@ class TemplateProvider(DialogueProvider):
         """根据上下文生成模板台词"""
         line = None
 
+        # 慢打时伪装手牌强度：向台词系统报告弱牌强度
+        effective_strength = ctx.hand_strength
+        if ctx.is_slow_playing and ctx.hand_strength > 0.7:
+            effective_strength = 0.35  # 伪装成中等弱牌
+
         if ctx.trigger == "think":
             line = self.source.get_line(
                 ctx.personality, "think",
                 archetype=ctx.archetype or None,
                 name=ctx.char_name or None,
-                hand_strength=ctx.hand_strength or None,
+                hand_strength=effective_strength or None,
             )
         elif ctx.trigger in ("fold", "check", "call", "bet", "raise", "all_in"):
             line = self.source.get_action_line(
                 ctx.personality, ctx.trigger,
                 archetype=ctx.archetype or None,
                 name=ctx.char_name or None,
-                hand_strength=ctx.hand_strength or None,
+                hand_strength=effective_strength or None,
             )
         elif ctx.trigger == "win":
             line = self.source.get_line(

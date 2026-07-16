@@ -17,6 +17,7 @@ class Button:
         self.font = get_font(font_size)
         self.hovered = False
         self.enabled = True
+        self.visible = True
         self.on_click = None
 
     def update(self, mouse_pos):

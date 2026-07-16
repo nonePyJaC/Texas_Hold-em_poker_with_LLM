@@ -15,7 +15,8 @@ from ai.emotion import EmotionEngine
 from config import (
     DECK_SHORT, DECK_STANDARD,
     BETTING_NO_LIMIT,
-    DIFFICULTY_NORMAL,
+    DIFFICULTY_NORMAL, DIFFICULTY_FAST,
+    MCTS_FAST_TIME_LIMIT,
     PREFLOP, SHOWDOWN,
 )
 
@@ -26,7 +27,7 @@ class TableSimulator:
     """单桌模拟器：纯 AI 对局，快速结算"""
 
     def __init__(self, table_info, small_blind, big_blind,
-                 deck_type=DECK_SHORT, max_hands=30, difficulty=DIFFICULTY_NORMAL):
+                 deck_type=DECK_SHORT, max_hands=30, difficulty=DIFFICULTY_FAST):
         """Args:
             table_info: TableInfo 对象
             small_blind, big_blind: 盲注
@@ -58,11 +59,9 @@ class TableSimulator:
                 personality = Personality.from_archetype(tp.archetype)
             p.personality = personality
 
-            # 重建 AI 大脑
-            if len(self.table_info.players) == 2:
-                p.ai_brain = AdvancedAI(personality, difficulty=self.difficulty)
-            else:
-                p.ai_brain = MCTSAI(personality, difficulty=self.difficulty)
+            # 后台模拟用 MCTSAI + 快速模式（适用于任意人数）
+            p.ai_brain = MCTSAI(personality, difficulty=self.difficulty,
+                                time_limit=MCTS_FAST_TIME_LIMIT)
 
             # 加载对手记忆
             for opp_key, mem_dict in tp.opponent_memories.items():
@@ -100,7 +99,14 @@ class TableSimulator:
         self.game.start_new_hand()
 
         # 快速推进游戏
+        max_iterations = 200  # 安全阀：一手牌最多200次循环
+        iterations = 0
         while self.game.phase != SHOWDOWN:
+            iterations += 1
+            if iterations > max_iterations:
+                logger.warning(f"桌 {self.table_info.table_id}: 手牌超过{max_iterations}次循环，强制结束")
+                self.game.go_to_showdown()
+                break
             current = self.game.get_current_player()
             if not current or not current.can_act():
                 # 检查下注轮是否结束
@@ -136,10 +142,11 @@ class TableSimulator:
             # 检查下注轮
             if self.game.is_betting_round_complete():
                 self.game.end_betting_round()
+            else:
+                # 推进到下一个玩家（否则同一玩家会无限循环）
+                self.game.advance_to_next_player()
 
-        # 摊牌结算
-        if self.game.phase == SHOWDOWN:
-            self.game._do_showdown()
+        # go_to_showdown() 已完成筹码分配，无需额外处理
 
     def run(self):
         """运行整桌直到决出胜者或达到最大局数"""
@@ -172,11 +179,11 @@ class TableSimulator:
             # 所有人都没筹码了（极端情况），取第一个
             self.table_info.winner_id = self.players[0]._char_id
 
-        self.table_info.finished = True
-
-        # 同步筹码回 TableInfo
+        # 同步筹码回 TableInfo（必须在 finished=True 之前，避免竞态条件）
         for tp, p in zip(self.table_info.players, self.players):
             tp.chips = p.chips
+
+        self.table_info.finished = True
 
         logger.info(f"桌 {self.table_info.table_id} 完成，{self.table_info.hand_count} 局，"
                      f"胜者: {winner.name if active else 'N/A'}")

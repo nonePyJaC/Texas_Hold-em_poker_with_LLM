@@ -1,6 +1,7 @@
 """德州扑克游戏 - 主入口"""
 import sys
 import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 
 # PyInstaller frozen 模式下获取正确的根目录
@@ -359,7 +360,7 @@ class GameApp:
     def _start_tournament(self):
         """开始新锦标赛"""
         if self.tournament_controller.start_tournament():
-            self._setup_tournament_player_table()
+            self._setup_tournament_table("group")
         else:
             # 无法开始，显示提示
             pass
@@ -369,102 +370,29 @@ class GameApp:
         if self.tournament_controller.load_saved_tournament():
             state = self.tournament_controller.state
             if state.phase.value == "group":
-                self._setup_tournament_player_table()
+                self._setup_tournament_table("group")
             elif state.phase.value == "final":
-                self._setup_tournament_final_table()
+                self._setup_tournament_table("final")
             elif state.phase.value == "ultimate":
-                self._setup_tournament_ultimate_table()
+                self._setup_tournament_table("ultimate")
             elif state.phase.value == "finished":
                 self.scene = "tournament_result"
 
-    def _setup_tournament_player_table(self):
-        """设置锦标赛阶段1玩家桌"""
+    def _setup_tournament_table(self, phase):
+        """统一设置锦标赛桌（阶段1/2/3共用）
+        Args:
+            phase: "group" | "final" | "ultimate"
+        """
         state = self.tournament_controller.state
         if not state:
             return
-        human = state.human_player
-        if not human:
-            return
-        table = state.get_table(human.table_id)
-        if not table:
-            return
-
-        # 创建 Player 对象
-        from engine.player import Player as EnginePlayer
-        from ai.mcts_ai import MCTSAI, OpponentModel
-        from ai.advanced_ai import AdvancedAI
-        from ai.personality import Personality
-        from ai.emotion import EmotionEngine
-        from ai.memory import MemoryManager
-        from ai.dialogue_manager import DialogueManager
-        from ai.strategy_adapter import StrategyAdapter
-        from engine.game import PokerGame
-        from game_logic import GameCallbacks, HandEndController
-        from config import DECK_SHORT, BETTING_NO_LIMIT, DIFFICULTY_NORMAL
-
-        self.players = []
-        for i, tp in enumerate(table.players):
-            p = EnginePlayer(tp.name, tp.chips, is_human=tp.is_human, seat_index=i)
-            if tp.is_human:
-                self.human_player = p
-            else:
-                if tp.personality_dict:
-                    personality = Personality.from_dict(tp.personality_dict)
-                else:
-                    personality = Personality.from_archetype(tp.archetype)
-                p.personality = personality
-                p._archetype = tp.archetype
-                p._char_id = tp.char_id
-                # 3人桌用 AdvancedAI
-                p.ai_brain = AdvancedAI(personality, difficulty=DIFFICULTY_NORMAL)
-                for opp_key, mem_dict in tp.opponent_memories.items():
-                    p.ai_brain.opponent_model = OpponentModel.from_dict(mem_dict)
-                p.emotion_engine = EmotionEngine(personality)
-            self.players.append(p)
-
-        # 创建游戏
-        self.game = PokerGame(
-            self.players,
-            small_blind=state.GROUP_SMALL_BLIND,
-            big_blind=state.GROUP_BIG_BLIND,
-            betting_mode=BETTING_NO_LIMIT,
-            deck_type=DECK_SHORT,
-        )
-
-        # 设置回调（复用现有系统）
-        self.game_callbacks.bind(self.game)
-        self.game.on_showdown = self.hand_end_controller.on_showdown
-        self.game.on_hand_end = self._on_tournament_hand_end
-
-        # 初始化辅助系统
-        self.memory_manager = MemoryManager()
-        llm_bridge, llm_prob = self._load_llm_bridge()
-        self.dialogue_manager = DialogueManager(llm_bridge=llm_bridge, llm_probability=llm_prob)
-        self.dialogue_manager.reset_all_cooldowns()
-        self.strategy_adapter = StrategyAdapter()
-        self.chat_controller.reset()
-        self.chat_controller.init_input()
-
-        # 开始第一手
-        self.audio.play_background_music()
-        self.audio.play("shuffle")
-        self.game.start_new_hand()
-        self.human_player_initial_chips = self.human_player.chips
-        for p in self.players:
-            p.initial_chips = p.chips
-        self.ai_thinking = False
-        self.showdown_results = None
-        self.session_hand_history = []
-
-        self.scene = "tournament"
-        self._start_dealing_animation()
-
-    def _setup_tournament_final_table(self):
-        """设置锦标赛阶段2决赛圈"""
-        state = self.tournament_controller.state
-        if not state:
-            return
-        table = state.tables[0]
+        if phase == "group":
+            human = state.human_player
+            if not human:
+                return
+            table = state.get_table(human.table_id)
+        else:
+            table = state.tables[0]
         if not table:
             return
 
@@ -478,7 +406,27 @@ class GameApp:
         from ai.strategy_adapter import StrategyAdapter
         from engine.game import PokerGame
         from game_logic import GameCallbacks
-        from config import DECK_STANDARD, BETTING_NO_LIMIT, DIFFICULTY_NORMAL
+        from config import DECK_SHORT, DECK_STANDARD, BETTING_NO_LIMIT, DIFFICULTY_HARD, DIFFICULTY_EXPERT
+
+        # 按阶段确定参数
+        if phase == "group":
+            small_blind = state.GROUP_SMALL_BLIND
+            big_blind = state.GROUP_BIG_BLIND
+            deck_type = DECK_SHORT
+            use_advanced = True  # 3人桌
+            difficulty = DIFFICULTY_HARD  # 阶段1: 困难
+        elif phase == "final":
+            small_blind = state.FINAL_SMALL_BLIND
+            big_blind = state.FINAL_BIG_BLIND
+            deck_type = DECK_STANDARD
+            use_advanced = False  # 8人桌用MCTS
+            difficulty = DIFFICULTY_EXPERT  # 阶段2: 专家
+        else:  # ultimate
+            small_blind = state.ULTIMATE_SMALL_BLIND
+            big_blind = state.ULTIMATE_BIG_BLIND
+            deck_type = DECK_SHORT
+            use_advanced = True  # ≤3人桌
+            difficulty = DIFFICULTY_EXPERT  # 阶段3: 专家
 
         self.players = []
         for i, tp in enumerate(table.players):
@@ -493,92 +441,23 @@ class GameApp:
                 p.personality = personality
                 p._archetype = tp.archetype
                 p._char_id = tp.char_id
-                p.ai_brain = MCTSAI(personality, difficulty=DIFFICULTY_NORMAL)
-                for opp_key, mem_dict in tp.opponent_memories.items():
-                    p.ai_brain.opponent_models[opp_key] = OpponentModel.from_dict(mem_dict)
-                p.emotion_engine = EmotionEngine(personality)
-            self.players.append(p)
-
-        self.game = PokerGame(
-            self.players,
-            small_blind=state.FINAL_SMALL_BLIND,
-            big_blind=state.FINAL_BIG_BLIND,
-            betting_mode=BETTING_NO_LIMIT,
-            deck_type=DECK_STANDARD,
-        )
-
-        self.game_callbacks.bind(self.game)
-        self.game.on_showdown = self.hand_end_controller.on_showdown
-        self.game.on_hand_end = self._on_tournament_hand_end
-
-        self.memory_manager = MemoryManager()
-        llm_bridge, llm_prob = self._load_llm_bridge()
-        self.dialogue_manager = DialogueManager(llm_bridge=llm_bridge, llm_probability=llm_prob)
-        self.dialogue_manager.reset_all_cooldowns()
-        self.strategy_adapter = StrategyAdapter()
-        self.chat_controller.reset()
-        self.chat_controller.init_input()
-
-        self.audio.play_background_music()
-        self.audio.play("shuffle")
-        self.game.start_new_hand()
-        self.human_player_initial_chips = self.human_player.chips
-        for p in self.players:
-            p.initial_chips = p.chips
-        self.ai_thinking = False
-        self.showdown_results = None
-        self.session_hand_history = []
-
-        self.scene = "tournament"
-        self._start_dealing_animation()
-
-    def _setup_tournament_ultimate_table(self):
-        """设置锦标赛阶段3最终局"""
-        state = self.tournament_controller.state
-        if not state:
-            return
-        table = state.tables[0]
-        if not table:
-            return
-
-        from engine.player import Player as EnginePlayer
-        from ai.mcts_ai import MCTSAI, OpponentModel
-        from ai.advanced_ai import AdvancedAI
-        from ai.personality import Personality
-        from ai.emotion import EmotionEngine
-        from ai.memory import MemoryManager
-        from ai.dialogue_manager import DialogueManager
-        from ai.strategy_adapter import StrategyAdapter
-        from engine.game import PokerGame
-        from game_logic import GameCallbacks
-        from config import DECK_SHORT, BETTING_NO_LIMIT, DIFFICULTY_NORMAL
-
-        self.players = []
-        for i, tp in enumerate(table.players):
-            p = EnginePlayer(tp.name, tp.chips, is_human=tp.is_human, seat_index=i)
-            if tp.is_human:
-                self.human_player = p
-            else:
-                if tp.personality_dict:
-                    personality = Personality.from_dict(tp.personality_dict)
+                if use_advanced:
+                    p.ai_brain = AdvancedAI(personality, difficulty=difficulty)
+                    for opp_key, mem_dict in tp.opponent_memories.items():
+                        p.ai_brain.opponent_model = OpponentModel.from_dict(mem_dict)
                 else:
-                    personality = Personality.from_archetype(tp.archetype)
-                p.personality = personality
-                p._archetype = tp.archetype
-                p._char_id = tp.char_id
-                # ≤3人用 AdvancedAI
-                p.ai_brain = AdvancedAI(personality, difficulty=DIFFICULTY_NORMAL)
-                for opp_key, mem_dict in tp.opponent_memories.items():
-                    p.ai_brain.opponent_model = OpponentModel.from_dict(mem_dict)
+                    p.ai_brain = MCTSAI(personality, difficulty=difficulty)
+                    for opp_key, mem_dict in tp.opponent_memories.items():
+                        p.ai_brain.opponent_models[opp_key] = OpponentModel.from_dict(mem_dict)
                 p.emotion_engine = EmotionEngine(personality)
             self.players.append(p)
 
         self.game = PokerGame(
             self.players,
-            small_blind=state.ULTIMATE_SMALL_BLIND,
-            big_blind=state.ULTIMATE_BIG_BLIND,
+            small_blind=small_blind,
+            big_blind=big_blind,
             betting_mode=BETTING_NO_LIMIT,
-            deck_type=DECK_SHORT,
+            deck_type=deck_type,
         )
 
         self.game_callbacks.bind(self.game)
@@ -636,11 +515,14 @@ class GameApp:
         if not state:
             return
 
-        # 同步筹码
-        for p in self.players:
-            tp = state.get_player_by_id(getattr(p, '_char_id', -1) if not p.is_human else -1)
-            if tp:
-                tp.chips = p.chips
+        # 同步筹码 + 更新桌局数（_on_tournament_hand_end 不会被引擎调用，在此补偿）
+        self._on_tournament_hand_end(self.showdown_results)
+
+        # 检查人类玩家是否被淘汰（筹码为0）
+        human = state.human_player
+        if human and human.chips == 0 and not human.eliminated:
+            human.eliminated = True
+            state.save()
 
         if state.phase.value == "group":
             # 检查玩家桌是否结束
@@ -659,33 +541,57 @@ class GameApp:
                 state.save()
 
                 # 检查所有桌是否完成
-                if state.check_group_stage_complete or self._check_all_tables_done():
+                if self._check_all_tables_done():
                     # 进入决赛圈
-                    state.advance_to_final_stage()
-                    self._setup_tournament_final_table()
+                    self.tournament_controller.advance_to_final_stage()
+                    self._setup_tournament_table("final")
                 else:
                     # 等待其他桌
                     self.scene = "tournament_waiting"
             else:
-                # 继续下一手
-                self.audio.play("shuffle")
-                self.game.start_new_hand()
-                self.showdown_results = None
-                self.ai_thinking = False
-                self._pending_hand_end_results = None
-                self.human_player_initial_chips = self.human_player.chips
-                for p in self.players:
-                    p.initial_chips = p.chips
-                self._start_dealing_animation()
+                if human and human.eliminated:
+                    # 人类被淘汰，自动模拟玩家桌剩余牌局
+                    from tournament.table_simulator import TableSimulator
+                    from config import DECK_SHORT
+                    sim = TableSimulator(
+                        table,
+                        small_blind=state.GROUP_SMALL_BLIND,
+                        big_blind=state.GROUP_BIG_BLIND,
+                        deck_type=DECK_SHORT,
+                        max_hands=state.GROUP_MAX_HANDS,
+                    )
+                    sim.run()
+                    state.save()
+                    if self._check_all_tables_done():
+                        self.tournament_controller.advance_to_final_stage()
+                        self._auto_simulate_final_and_ultimate()
+                    else:
+                        self.scene = "tournament_waiting"
+                else:
+                    # 继续下一手
+                    self.audio.play("shuffle")
+                    self.game.start_new_hand()
+                    self.showdown_results = None
+                    self.ai_thinking = False
+                    self._pending_hand_end_results = None
+                    self.human_player_initial_chips = self.human_player.chips
+                    for p in self.players:
+                        p.initial_chips = p.chips
+                    self._start_dealing_animation()
 
         elif state.phase.value == "final":
-            # 检查决赛圈是否结束
-            if state.check_final_stage_complete():
-                state.advance_to_ultimate_stage()
+            # 检查人类玩家是否被淘汰
+            if human and human.chips == 0 and not human.eliminated:
+                human.eliminated = True
+                state.save()
+            if human and human.eliminated:
+                # 人类已淘汰，自动模拟决赛圈剩余牌局
+                self._auto_simulate_final_and_ultimate()
+            elif self.tournament_controller.check_final_stage_complete():
+                self.tournament_controller.advance_to_ultimate_stage()
                 # 检查人类玩家是否还在
-                human = state.human_player
                 if human and not human.eliminated:
-                    self._setup_tournament_ultimate_table()
+                    self._setup_tournament_table("ultimate")
                 else:
                     # 人类已淘汰，自动模拟到结束
                     self._auto_simulate_ultimate()
@@ -702,9 +608,15 @@ class GameApp:
                 self._start_dealing_animation()
 
         elif state.phase.value == "ultimate":
-            # 检查最终局是否结束
-            if state.check_ultimate_stage_complete():
-                state.finish_tournament()
+            # 检查人类玩家是否被淘汰
+            if human and human.chips == 0 and not human.eliminated:
+                human.eliminated = True
+                state.save()
+            if human and human.eliminated:
+                # 人类已淘汰，自动模拟最终局到结束
+                self._auto_simulate_ultimate()
+            elif self.tournament_controller.check_ultimate_stage_complete():
+                self.tournament_controller.finish_tournament()
                 self.audio.stop_background_music()
                 self.scene = "tournament_result"
             else:
@@ -730,7 +642,7 @@ class GameApp:
         return True
 
     def _auto_simulate_ultimate(self):
-        """人类淘汰后自动模拟最终局到结束"""
+        """人类淘汰后自动模拟最终局到结束（后台线程）"""
         state = self.tournament_controller.state
         if not state:
             return
@@ -738,27 +650,85 @@ class GameApp:
         if not table:
             return
 
-        from tournament.table_simulator import TableSimulator
-        from config import DECK_SHORT
+        self.scene = "tournament_waiting"
+        import threading
 
-        sim = TableSimulator(
-            table,
-            small_blind=state.ULTIMATE_SMALL_BLIND,
-            big_blind=state.ULTIMATE_BIG_BLIND,
-            deck_type=DECK_SHORT,
-            max_hands=999,  # 打到只剩1人
-        )
-        sim.run()
+        def _run():
+            from tournament.table_simulator import TableSimulator
+            from config import DECK_SHORT, DIFFICULTY_FAST
+            sim = TableSimulator(
+                table,
+                small_blind=state.ULTIMATE_SMALL_BLIND,
+                big_blind=state.ULTIMATE_BIG_BLIND,
+                deck_type=DECK_SHORT,
+                max_hands=state.ULTIMATE_MAX_HANDS,
+                difficulty=DIFFICULTY_FAST,
+            )
+            sim.run()
 
-        # 同步筹码
-        for tp in table.players:
-            if tp.char_id >= 0:
-                # 标记淘汰
+            # 同步筹码
+            for tp in table.players:
                 if tp.chips == 0:
                     tp.eliminated = True
 
-        state.finish_tournament()
-        self.scene = "tournament_result"
+            self.tournament_controller.finish_tournament()
+            self.scene = "tournament_result"
+
+        thread = threading.Thread(target=_run, daemon=True, name="auto-ultimate")
+        thread.start()
+
+    def _auto_simulate_final_and_ultimate(self):
+        """人类淘汰后自动模拟决赛圈+最终局到结束（后台线程）"""
+        state = self.tournament_controller.state
+        if not state:
+            return
+
+        self.scene = "tournament_waiting"
+        import threading
+
+        def _run():
+            # 模拟决赛圈剩余牌局
+            table = state.tables[0]
+            if table and not self.tournament_controller.check_final_stage_complete():
+                from tournament.table_simulator import TableSimulator
+                from config import DECK_STANDARD, DIFFICULTY_FAST
+                sim = TableSimulator(
+                    table,
+                    small_blind=state.FINAL_SMALL_BLIND,
+                    big_blind=state.FINAL_BIG_BLIND,
+                    deck_type=DECK_STANDARD,
+                    max_hands=state.FINAL_MAX_HANDS,
+                    difficulty=DIFFICULTY_FAST,
+                )
+                sim.run()
+
+            # 进入最终局
+            self.tournament_controller.advance_to_ultimate_stage()
+
+            # 模拟最终局
+            ultimate_table = state.tables[0]
+            if ultimate_table:
+                from tournament.table_simulator import TableSimulator
+                from config import DECK_SHORT, DIFFICULTY_FAST
+                sim = TableSimulator(
+                    ultimate_table,
+                    small_blind=state.ULTIMATE_SMALL_BLIND,
+                    big_blind=state.ULTIMATE_BIG_BLIND,
+                    deck_type=DECK_SHORT,
+                    max_hands=state.ULTIMATE_MAX_HANDS,
+                    difficulty=DIFFICULTY_FAST,
+                )
+                sim.run()
+
+                for tp in ultimate_table.players:
+                    if tp.chips == 0:
+                        tp.eliminated = True
+
+            self.tournament_controller.finish_tournament()
+            self.scene = "tournament_result"
+
+        thread = threading.Thread(target=_run, daemon=True, name="auto-final-ultimate")
+        thread.start()
 
     def _leave_tournament(self):
         """离开锦标赛（存档）"""
@@ -905,14 +875,22 @@ class GameApp:
         pass
 
     def _quit(self):
+        # 锦标赛模式：showdown/dealing 也属于锦标赛
+        if self.scene in ("tournament", "tournament_waiting"):
+            self._leave_tournament()
+            pygame.quit()
+            sys.exit()
+        # 锦标赛 showdown/dealing：检查是否锦标赛进行中
+        if self.scene in ("showdown", "dealing") and self.game and self.game.on_hand_end == self._on_tournament_hand_end:
+            self._leave_tournament()
+            pygame.quit()
+            sys.exit()
         # 如果在游戏中，先结算保存
         if self.scene in ("playing", "showdown", "dealing", "bankruptcy"):
             if self.human_player:
                 self.save_manager.deposit_to_bank(self.human_player.chips)
             self._settle_ai_banks()
             self.save_manager.save(force=True)
-        elif self.scene in ("tournament", "tournament_waiting"):
-            self._leave_tournament()
         pygame.quit()
         sys.exit()
 
@@ -1400,11 +1378,16 @@ class GameApp:
             self.showdown_timer += dt
 
         elif self.scene == "tournament_waiting":
-            # 检查所有桌是否完成
-            if self._check_all_tables_done():
-                state = self.tournament_controller.state
-                state.advance_to_final_stage()
-                self._setup_tournament_final_table()
+            # 仅在小组赛阶段检查所有桌是否完成
+            state = self.tournament_controller.state
+            if state and state.phase.value == "group":
+                if self._check_all_tables_done():
+                    self.tournament_controller.advance_to_final_stage()
+                    human = state.human_player
+                    if human and not human.eliminated:
+                        self._setup_tournament_table("final")
+                    else:
+                        self._auto_simulate_final_and_ultimate()
 
         elif self.scene == "replay":
             if self.replay_state and not self.replay_state.get("paused", False):

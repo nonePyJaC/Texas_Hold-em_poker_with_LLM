@@ -5,16 +5,18 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Personality:
-    """AI 性格矩阵，5 个维度 (0.0-1.0)"""
+    """AI 性格矩阵，6 个维度 (0.0-1.0)"""
     tight_loose: float = 0.5       # 松紧度: 0=极紧, 1=极松
     passive_aggressive: float = 0.5  # 激进性: 0=被动, 1=激进
     bluff_frequency: float = 0.3    # 诈唬倾向: 0=从不诈唬, 1=疯狂诈唬
     call_tendency: float = 0.5      # 跟注倾向: 0=容易弃牌, 1=跟注站
     adaptivity: float = 0.3         # 适应性: 0=不变, 1=高度适应
+    slow_play_frequency: float = 0.2  # 慢打频率: 0=从不慢打, 1=经常慢打钓鱼
 
     def __post_init__(self):
         for f in [self.tight_loose, self.passive_aggressive,
-                  self.bluff_frequency, self.call_tendency, self.adaptivity]:
+                  self.bluff_frequency, self.call_tendency, self.adaptivity,
+                  self.slow_play_frequency]:
             assert 0.0 <= f <= 1.0, "性格维度必须在 0.0-1.0 之间"
 
     @classmethod
@@ -27,20 +29,21 @@ class Personality:
             bluff_frequency=round(r.uniform(0.05, 0.6), 2),
             call_tendency=round(r.uniform(0.2, 0.8), 2),
             adaptivity=round(r.uniform(0.1, 0.7), 2),
+            slow_play_frequency=round(r.uniform(0.05, 0.5), 2),
         )
 
     @classmethod
     def from_archetype(cls, archetype: str):
         """从预设原型生成性格"""
         archetypes = {
-            "rock": cls(0.15, 0.2, 0.05, 0.3, 0.4),       # 岩石型: 紧+被动
-            "tag": cls(0.3, 0.6, 0.2, 0.4, 0.5),          # 紧激进型
-            "lag": cls(0.65, 0.75, 0.4, 0.5, 0.5),        # 松激进型
-            "maniac": cls(0.85, 0.9, 0.6, 0.6, 0.3),      # 疯狂型
-            "calling_station": cls(0.7, 0.25, 0.1, 0.8, 0.2),  # 跟注站
-            "nit": cls(0.1, 0.15, 0.03, 0.25, 0.3),       # 极紧型
-            "shark": cls(0.4, 0.65, 0.3, 0.45, 0.8),      # 鲨鱼型: 均衡+高适应
-            "beginner": cls(0.55, 0.4, 0.15, 0.65, 0.1),  # 新手型
+            "rock": cls(0.15, 0.2, 0.05, 0.3, 0.4, 0.25),       # 岩石型: 紧+被动, 偶尔慢打
+            "tag": cls(0.3, 0.6, 0.2, 0.4, 0.5, 0.3),          # 紧激进型: 适度慢打
+            "lag": cls(0.65, 0.75, 0.4, 0.5, 0.5, 0.15),        # 松激进型: 少慢打, 更直接
+            "maniac": cls(0.85, 0.9, 0.6, 0.6, 0.3, 0.05),      # 疯狂型: 几乎不慢打
+            "calling_station": cls(0.7, 0.25, 0.1, 0.8, 0.2, 0.1),  # 跟注站: 不懂慢打
+            "nit": cls(0.1, 0.15, 0.03, 0.25, 0.3, 0.2),       # 极紧型: 偶尔慢打
+            "shark": cls(0.4, 0.65, 0.3, 0.45, 0.8, 0.45),     # 鲨鱼型: 高适应+经常慢打钓鱼
+            "beginner": cls(0.55, 0.4, 0.15, 0.65, 0.1, 0.08),  # 新手型: 几乎不慢打
         }
         return archetypes.get(archetype, cls.random())
 
@@ -56,6 +59,7 @@ class Personality:
             bluff_frequency=round(cls._clamp(base.bluff_frequency + r.uniform(-variance, variance)), 2),
             call_tendency=round(cls._clamp(base.call_tendency + r.uniform(-variance, variance)), 2),
             adaptivity=round(cls._clamp(base.adaptivity + r.uniform(-variance, variance)), 2),
+            slow_play_frequency=round(cls._clamp(base.slow_play_frequency + r.uniform(-variance, variance)), 2),
         )
 
     @staticmethod
@@ -70,6 +74,7 @@ class Personality:
             "bluff_frequency": self.bluff_frequency,
             "call_tendency": self.call_tendency,
             "adaptivity": self.adaptivity,
+            "slow_play_frequency": self.slow_play_frequency,
         }
 
     @classmethod
@@ -95,6 +100,8 @@ class Personality:
             parts.append("跟注站")
         if self.adaptivity > 0.6:
             parts.append("高适应")
+        if self.slow_play_frequency > 0.35:
+            parts.append("爱钓鱼")
 
         if not parts:
             parts.append("均衡")

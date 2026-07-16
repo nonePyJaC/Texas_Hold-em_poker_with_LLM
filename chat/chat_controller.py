@@ -194,6 +194,48 @@ class ChatController:
                 parts.append(f"近{len(results)}手赢{wins}输{losses}")
             session_summary = "，".join(parts)
 
+        # 上一手胜者信息
+        last_hand_winner = ""
+        if hasattr(self.app, 'session_hand_history') and self.app.session_hand_history:
+            last_entry = self.app.session_hand_history[-1]
+            winners = last_entry.get("winners", [])
+            if winners:
+                parts = []
+                for w in winners:
+                    name = w.get("name", "?")
+                    hand_type = w.get("hand_type", "")
+                    amount = w.get("amount", 0)
+                    if hand_type == "弃牌获胜":
+                        parts.append(f"{name} 弃牌获胜 拿走{amount}筹码")
+                    else:
+                        parts.append(f"{name} 用{hand_type}赢了{amount}筹码")
+                last_hand_winner = "；".join(parts)
+
+        # 当前下注轮其他玩家的动作摘要
+        table_actions_summary = ""
+        if self.app.game and hasattr(self.app.game, 'action_history') and self.app.game.action_history:
+            action_names = {
+                "fold": "弃牌", "check": "过牌", "call": "跟注",
+                "bet": "下注", "raise": "加注", "all_in": "全押",
+            }
+            current_phase = self.app.game.phase
+            current_round_actions = [
+                a for a in self.app.game.action_history
+                if getattr(a, 'phase', None) == current_phase
+            ]
+            my_seat = ai_player.seat_index
+            other_actions = []
+            for a in current_round_actions:
+                if a.player_index == my_seat:
+                    continue
+                p = self.app.game.players[a.player_index] if a.player_index < len(self.app.game.players) else None
+                p_name = p.name if p else f"玩家{a.player_index}"
+                act_name = action_names.get(a.action_type.value if hasattr(a.action_type, 'value') else str(a.action_type), str(a.action_type))
+                amount_str = f"{a.amount}" if a.amount else ""
+                other_actions.append(f"{p_name}{act_name}{amount_str}")
+            if other_actions:
+                table_actions_summary = "，".join(other_actions)
+
         return DialogueContext(
             char_id=char_id,
             char_name=ai_player.name,
@@ -221,6 +263,8 @@ class ChatController:
                 for m in self.messages[-10:]
                 if m.get("source") == "llm"
             ) if self.messages else (),
+            last_hand_winner=last_hand_winner,
+            table_actions_summary=table_actions_summary,
         )
 
     def render(self, screen, renderer):

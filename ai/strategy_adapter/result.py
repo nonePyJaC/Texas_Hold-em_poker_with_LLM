@@ -45,4 +45,5 @@ class DynamicStrategyProfile:
             "bluff_frequency": self.bluff_rate,
             "call_tendency": 1.0 - self.patience,
             "adaptivity": self.adaptability,
+            "slow_play_frequency": 0.2,  # 默认值，StrategyAdapter 不动态调整慢打
         }

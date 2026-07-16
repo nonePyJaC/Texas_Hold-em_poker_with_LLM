@@ -167,7 +167,11 @@ class AIController:
             ctx = self.build_strategy_context(player)
             profile = self.app.strategy_adapter.adapt(ctx)
             # 用 profile 构造临时 Personality 供 MCTS/AdvancedAI 使用
-            player.ai_brain.personality = Personality.from_dict(profile.to_personality_dict())
+            temp_dict = profile.to_personality_dict()
+            # 保留原始 slow_play_frequency（StrategyAdapter 不动态调整此字段）
+            if original_personality:
+                temp_dict["slow_play_frequency"] = original_personality.slow_play_frequency
+            player.ai_brain.personality = Personality.from_dict(temp_dict)
 
         if player.ai_brain:
             action = player.ai_brain.decide(self.app.game, player_index)

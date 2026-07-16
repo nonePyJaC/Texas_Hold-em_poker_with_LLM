@@ -24,6 +24,7 @@ class TournamentPlayer:
     table_id: int = 0         # 所在桌号 (0-7), 阶段2/3 固定为0
     eliminated: bool = False  # 是否被淘汰
     final_rank: int = 0       # 最终排名 (1=冠军)
+    prize_won: int = 0        # 获得的奖金
     # AI 属性快照（用于重建 AI 大脑）
     archetype: str = "tag"
     personality_dict: dict = field(default_factory=dict)
@@ -85,7 +86,8 @@ class TournamentState:
     FINAL_SMALL_BLIND = 25
     FINAL_BIG_BLIND = 50
 
-    # 阶段3: 短牌, 盲注50/100
+    # 阶段3: 短牌, 最多30局, 盲注50/100
+    ULTIMATE_MAX_HANDS = 30
     ULTIMATE_SMALL_BLIND = 50
     ULTIMATE_BIG_BLIND = 100
 
