@@ -2,23 +2,44 @@
 
 ## V1.5 (2026-07-17)
 
+### 新功能
+- **锦标赛模式**：完整的多人锦标赛系统
+  - `tournament/` 模块：`tournament_state.py`（数据模型）、`table_simulator.py`（后台AI桌模拟器）、`tournament_controller.py`（主控制器）、`tournament_flow.py`（流程委托）
+  - 三阶段赛制：分组赛 → 决赛 → 终极对决，每阶段自动推进
+  - 后台 AI 桌快速模拟（MCTS 快速模式 200 次模拟 / 0.3s 超时）
+  - AI 角色新增 `tournament_wins` 字段，排行榜显示 🏆 冠军标记
+  - 锦标赛场景 UI：报名页 / 等待页 / 进行中 / 结果页
+  - 锦标赛存档支持
+- **AI 慢打策略 + 台词伪装**：AI 概率性进入慢打模式
+  - 新增 `slow_play_frequency` 性格特质，强牌时概率性慢打而非激进加注
+  - 台词系统在慢打时伪装弱牌强度，诱导对手加注
+  - 角色台词去除暴露性内容，新增 `dialogue_context_builder.py`
+- **AI 补筹码与换人**：AI 筹码归零时，若银行余额 >= 买入金额则自动补筹码，否则替换为新角色
+- **主菜单 AI 借款系统**：返回主菜单时银行不足的 AI 自动向富有角色借款，保持角色池经济活力
+- **中文输入法支持**：支持 IME 候选框（`TEXTEDITING` 事件 + per-frame `set_text_input_rect`）
+- **LLM 配置管理器**：新增 `llm_config_manager.py`，支持游戏内配置 LLM 参数
+- **场景系统重构**：`main.py` 拆分为独立场景模块
+  - `ui/scenes/` 下新增 `base_scene.py`、`menu_scene.py`、`setup_scene.py`、`settings_scene.py`、`playing_scene.py`、`dealing_scene.py`、`showdown_scene.py`、`bankruptcy_scene.py`、`replay_scene.py`、`history_scene.py` 等
+  - `ui/ui_factory.py` 统一管理 UI 组件初始化
+  - `game_logic/game_flow.py` 抽离对局流程逻辑（离场、AI 补筹码、AI 借款）
+
 ### Bug 修复
 - **修复离开游戏闪退**：`game_flow.py` 缺少 `import pygame`，调用 `pygame.key.stop_text_input()` 时 `NameError`
 - **修复聊天渲染崩溃**：系统消息缺少 `source` 字段导致 `KeyError`，渲染改用 `.get()` 安全访问
 - **修复 LLM 调用超时参数**：`LLMBridge._call_api_with_system()` 不支持 `timeout` 关键字参数
 - **修复破产场景筹码丢失**：破产退出时人类玩家剩余筹码未存回银行
+- **修复破产音乐不停**：破产界面点击贷款/每日奖励时不停止背景音乐
+- **修复 AI 破产卡住**：`character_pool` 未初始化 + 盲注分配不跳过 0 筹码玩家 + 淘汰 AI 未标记 `all_in`
+- **修复离开不结算**：破产离开时 AI 筹码未结算回银行 + 点 X 退出不保存
+- **修复摊牌结果为空**：`ui/renderer.py` 用列表索引而非 `seat_index` 查找 evaluations/payouts
+- **修复回放与赢家信息为空**：`game_logger.py` 和 `hand_end_controller.py` 中 payouts/evaluations 查找使用 `seat_index` 映射
 - **修复存档被覆盖**：诊断脚本意外将玩家银行余额覆盖为 100000，已恢复
-
-### 新功能
-- **AI 补筹码与换人**：AI 筹码归零时，若银行余额 >= 买入金额则自动补筹码，否则替换为新角色
-- **主菜单 AI 借款系统**：返回主菜单时银行不足的 AI 自动向富有角色借款，保持角色池经济活力
-- **中文输入法支持**：支持 IME 候选框（`TEXTEDITING` 事件 + per-frame `set_text_input_rect`）
-- **LLM 配置管理器**：新增 `llm_config_manager.py`，支持游戏内配置 LLM 参数
 
 ### 优化
 - 买入金额阈值从硬编码 1000 改为动态 `app.setup_buy_in`
 - 系统消息统一添加 `source` 字段
 - 破产场景退出时触发 AI 借款处理
+- AI 角色池从 40 扩展到 52 个（V1.3 起已生效，文档补记）
 
 ---
 

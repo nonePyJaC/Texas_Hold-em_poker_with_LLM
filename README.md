@@ -10,6 +10,8 @@
 - **情绪系统**：AI 角色有情绪引擎，赢/输/被诈唬会影响后续行为
 - **记忆系统**：AI 角色会记住与你的对局历史，影响关系和策略
 - **AI 借贷系统**：AI 角色破产时可向富有角色借钱，基于交手关系决定信任度，赢钱后自动还款
+- **锦标赛模式**：完整多人锦标赛系统，三阶段赛制（分组赛 → 决赛 → 终极对决），后台 AI 桌快速模拟，排行榜 🏆 冠军标记
+- **AI 慢打策略**：AI 概率性进入慢打模式，强牌伪装弱牌诱导对手加注，台词系统配合伪装
 - **AI 补筹码与换人**：AI 筹码归零时自动从银行补买入或替换为新角色，对局不中断
 - **主菜单 AI 借款**：返回主菜单时银行不足的 AI 自动向富友借款，保持角色池经济活力
 - **中文输入法支持**：支持 IME 候选框（TEXTEDITING 事件 + per-frame 输入框定位）
@@ -110,6 +112,11 @@ python -m PyInstaller dezhou.spec --noconfirm
 │       └── episode_memory.py
 ├── chat/                   # 聊天系统
 │   └── chat_controller.py
+├── tournament/             # 锦标赛系统
+│   ├── tournament_state.py     # 数据模型（阶段、玩家、桌信息）
+│   ├── table_simulator.py      # 后台 AI 桌快速模拟器
+│   ├── tournament_controller.py  # 主控制器
+│   └── tournament_flow.py      # 流程委托
 ├── game_logic/             # 游戏流程控制
 │   ├── hand_end_controller.py  # 手尾处理
 │   ├── game_setup.py       # 游戏初始化
