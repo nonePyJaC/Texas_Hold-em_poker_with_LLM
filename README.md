@@ -1,4 +1,4 @@
-# 德州扑克 - Texas Hold'em with LLM (V1.4)
+# 德州扑克 - Texas Hold'em with LLM (V1.5)
 
 一个基于 Python + Pygame 开发的德州扑克游戏，集成 LLM（大语言模型）驱动的 AI 对手对话系统。
 
@@ -10,7 +10,10 @@
 - **情绪系统**：AI 角色有情绪引擎，赢/输/被诈唬会影响后续行为
 - **记忆系统**：AI 角色会记住与你的对局历史，影响关系和策略
 - **AI 借贷系统**：AI 角色破产时可向富有角色借钱，基于交手关系决定信任度，赢钱后自动还款
-- **角色池**：40 个预设角色，各有独特性格、背景和对话风格
+- **AI 补筹码与换人**：AI 筹码归零时自动从银行补买入或替换为新角色，对局不中断
+- **主菜单 AI 借款**：返回主菜单时银行不足的 AI 自动向富友借款，保持角色池经济活力
+- **中文输入法支持**：支持 IME 候选框（TEXTEDITING 事件 + per-frame 输入框定位）
+- **角色池**：52 个预设角色，各有独特性格、背景和对话风格
 - **聊天系统**：可在游戏中与 AI 角色实时聊天
 - **发牌动画**：卡牌从牌堆飞向玩家的动画效果
 - **筹码可视化**：按面值分摞展示底池筹码
@@ -110,6 +113,8 @@ python -m PyInstaller dezhou.spec --noconfirm
 ├── game_logic/             # 游戏流程控制
 │   ├── hand_end_controller.py  # 手尾处理
 │   ├── game_setup.py       # 游戏初始化
+│   ├── game_flow.py        # 对局流程（离场、AI补筹码、AI借款）
+│   ├── background_simulator.py  # 后台AI对局模拟器
 │   └── game_callbacks.py   # 回调绑定
 ├── ui/                     # UI 渲染
 │   ├── renderer.py         # 主渲染器
@@ -117,6 +122,7 @@ python -m PyInstaller dezhou.spec --noconfirm
 │   ├── audio.py            # 音效引擎
 │   ├── font_util.py        # 字体工具
 │   ├── animations.py       # 动画系统
+│   ├── broadcast_bar.py    # 滚动播报栏（大牌播报）
 │   ├── scenes/             # 场景渲染
 │   └── components/         # UI 组件
 ├── data/                   # 数据层

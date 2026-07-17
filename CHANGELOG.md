@@ -1,5 +1,27 @@
 # 更新日志 / Changelog
 
+## V1.5 (2026-07-17)
+
+### Bug 修复
+- **修复离开游戏闪退**：`game_flow.py` 缺少 `import pygame`，调用 `pygame.key.stop_text_input()` 时 `NameError`
+- **修复聊天渲染崩溃**：系统消息缺少 `source` 字段导致 `KeyError`，渲染改用 `.get()` 安全访问
+- **修复 LLM 调用超时参数**：`LLMBridge._call_api_with_system()` 不支持 `timeout` 关键字参数
+- **修复破产场景筹码丢失**：破产退出时人类玩家剩余筹码未存回银行
+- **修复存档被覆盖**：诊断脚本意外将玩家银行余额覆盖为 100000，已恢复
+
+### 新功能
+- **AI 补筹码与换人**：AI 筹码归零时，若银行余额 >= 买入金额则自动补筹码，否则替换为新角色
+- **主菜单 AI 借款系统**：返回主菜单时银行不足的 AI 自动向富有角色借款，保持角色池经济活力
+- **中文输入法支持**：支持 IME 候选框（`TEXTEDITING` 事件 + per-frame `set_text_input_rect`）
+- **LLM 配置管理器**：新增 `llm_config_manager.py`，支持游戏内配置 LLM 参数
+
+### 优化
+- 买入金额阈值从硬编码 1000 改为动态 `app.setup_buy_in`
+- 系统消息统一添加 `source` 字段
+- 破产场景退出时触发 AI 借款处理
+
+---
+
 ## V1.4 (2026-07-14)
 
 ### Bug 修复
