@@ -119,7 +119,7 @@ class GameFlow:
         app._stop_background_simulator()
         app.audio.stop_all_sounds()
         if hasattr(app, '_hand_end_thread') and app._hand_end_thread:
-            app._hand_end_thread.join(timeout=2.0)
+            app._hand_end_thread.join(timeout=0.5)
             app._hand_end_thread = None
         if app.human_player:
             app.save_manager.deposit_to_bank(app.human_player.chips)

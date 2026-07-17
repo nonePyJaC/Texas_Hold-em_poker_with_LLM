@@ -5,6 +5,7 @@ from config import (
     DEFAULT_STARTING_CHIPS,
     PREFLOP, SHOWDOWN,
 )
+from ui.font_util import get_font
 from ui.scenes.replay_renderer import HandReplayRenderer
 
 
@@ -448,8 +449,95 @@ class SceneRenderer:
 
         app.animations.draw(app.screen)
 
+        # 后台桌信息（右上角）
+        self._draw_background_info()
+
         # 聊天框 (左下角)
         app.chat_controller.render(app.screen, app.renderer)
+
+    def _draw_background_info(self):
+        """游戏最上方横向展示 8 桌场所状态"""
+        app = self.app
+        if not hasattr(app, '_bg_simulator') or not app._bg_simulator._running:
+            return
+
+        stats = app._bg_simulator.get_stats()
+        active_tables = stats['active_tables']
+        active_players = stats['active_players']
+        total_tables = stats['total_tables']
+        table_occupied = stats.get('table_occupied', {})
+        num_tables = stats.get('num_tables', 8)
+
+        # 含玩家自己这桌
+        total_active = active_tables + 1
+        total_online = active_players + len(app.players)
+
+        font = get_font(13, bold=False)
+        font_bold = get_font(13, bold=True)
+
+        # 横向排列：标题 + 9个桌子格子 + 统计
+        cell_w = 38
+        cell_h = 22
+        cell_gap = 4
+        # 玩家桌"我" + 8后台桌 = 9格
+        total_cells = num_tables + 1
+        grid_w = total_cells * cell_w + (total_cells - 1) * cell_gap
+
+        # 标题文字
+        title_text = f"扑克场所 {total_active}/{num_tables+1}桌"
+        title_surf = font_bold.render(title_text, True, (100, 200, 255))
+        stats_text = f"{total_online}人在线 今日{total_tables}桌"
+        stats_surf = font.render(stats_text, True, (180, 180, 180))
+
+        # 总宽度 = 标题 + 间距 + 网格 + 间距 + 统计
+        bar_h = cell_h + 12
+        bar_w = title_surf.get_width() + 12 + grid_w + 12 + stats_surf.get_width() + 20
+        bar_x = (SCREEN_WIDTH - bar_w) // 2  # 居中
+        bar_y = 4  # 最顶部
+
+        # 半透明背景
+        bg = pygame.Surface((bar_w, bar_h), pygame.SRCALPHA)
+        bg.fill((20, 25, 30, 180))
+        pygame.draw.rect(bg, (60, 80, 100), bg.get_rect(), 1, border_radius=6)
+        app.screen.blit(bg, (bar_x, bar_y))
+
+        # 标题
+        tx = bar_x + 8
+        ty = bar_y + (bar_h - title_surf.get_height()) // 2
+        app.screen.blit(title_surf, (tx, ty))
+        tx += title_surf.get_width() + 12
+
+        # 桌子格子
+        all_tables = [(0, True, "我")]
+        for tid in range(1, num_tables + 1):
+            all_tables.append((tid, table_occupied.get(tid, False), str(tid)))
+
+        for idx, (tid, occupied, label) in enumerate(all_tables):
+            cx = tx + idx * (cell_w + cell_gap)
+            cy = bar_y + (bar_h - cell_h) // 2
+            rect = pygame.Rect(cx, cy, cell_w, cell_h)
+
+            if tid == 0:
+                pygame.draw.rect(app.screen, (60, 50, 10), rect, border_radius=4)
+                pygame.draw.rect(app.screen, (255, 215, 0), rect, 2, border_radius=4)
+                lbl_color = (255, 215, 0)
+            elif occupied:
+                pygame.draw.rect(app.screen, (20, 50, 30), rect, border_radius=4)
+                pygame.draw.rect(app.screen, (50, 200, 80), rect, 1, border_radius=4)
+                lbl_color = (50, 200, 80)
+            else:
+                pygame.draw.rect(app.screen, (35, 35, 35), rect, border_radius=4)
+                pygame.draw.rect(app.screen, (70, 70, 70), rect, 1, border_radius=4)
+                lbl_color = (90, 90, 90)
+
+            lbl_surf = font.render(label, True, lbl_color)
+            app.screen.blit(lbl_surf, (cx + (cell_w - lbl_surf.get_width()) // 2,
+                                        cy + (cell_h - lbl_surf.get_height()) // 2))
+
+        # 统计
+        sx = tx + grid_w + 12
+        sy = bar_y + (bar_h - stats_surf.get_height()) // 2
+        app.screen.blit(stats_surf, (sx, sy))
 
     # ==================== 锦标赛渲染 ====================
 

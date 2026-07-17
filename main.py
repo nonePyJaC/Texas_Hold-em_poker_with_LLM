@@ -2,7 +2,15 @@
 import sys
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+os.environ['SDL_IME_SHOW_UI'] = '1'
 import pygame
+
+# 显式设置 SDL hint 启用 IME 候选窗口（环境变量方式可能不生效）
+try:
+    import ctypes
+    ctypes.CDLL('SDL2.dll').SDL_SetHint(b'SDL_IME_SHOW_UI', b'1')
+except Exception:
+    pass
 
 # PyInstaller frozen 模式下获取正确的根目录
 if getattr(sys, 'frozen', False):

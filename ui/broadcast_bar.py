@@ -4,6 +4,7 @@
 """
 import pygame
 from typing import List, Optional
+from ui.font_util import get_font
 from game_logic.background_simulator import BroadcastMessage
 
 
@@ -15,18 +16,7 @@ class BroadcastBar:
         self.messages: List[BroadcastMessage] = []
         self._current: Optional[BroadcastMessage] = None
         self._scroll_x = 0.0
-        self._font = None
-        self._glow_font = None
-
-    def _get_font(self, size=22):
-        if self._font is None:
-            self._font = pygame.font.SysFont("microsoftyahei,simhei,arial", size, bold=True)
-        return self._font
-
-    def _get_glow_font(self, size=22):
-        if self._glow_font is None:
-            self._glow_font = pygame.font.SysFont("microsoftyahei,simhei,arial", size, bold=True)
-        return self._glow_font
+        self._text_width = 0
 
     def add(self, msg: BroadcastMessage):
         """添加一条播报消息到队列"""
@@ -35,7 +25,7 @@ class BroadcastBar:
     def add_local(self, text: str, color, rank: int):
         """直接创建并添加一条本地播报（玩家自己的大牌）"""
         msg = BroadcastMessage(text, color, rank)
-        msg.duration = 3.5
+        msg.duration = 999.0  # 不用时间截断，靠滚动位置决定消失
         self.messages.append(msg)
 
     def update(self, dt: float):
@@ -44,22 +34,21 @@ class BroadcastBar:
             if self.messages:
                 self._current = self.messages.pop(0)
                 self._scroll_x = float(self.screen_width)
+                # 预计算文字宽度
+                font = get_font(22, bold=True)
+                surf = font.render(self._current.text, True, self._current.color)
+                self._text_width = surf.get_width()
             else:
                 return
 
         self._current.update(dt)
 
-        # 滚动：从右向左移动
-        font = self._get_font()
-        text_surf = font.render(self._current.text, True, self._current.color)
-        text_width = text_surf.get_width()
-
-        # 滚动距离 = 屏幕宽度 + 文字宽度
-        total_distance = self.screen_width + text_width + 50
-        scroll_speed = total_distance / self._current.duration
+        # 滚动：固定像素速度 60px/s，慢速易读
+        scroll_speed = 60.0
         self._scroll_x -= scroll_speed * dt
 
-        if self._current.done or self._scroll_x < -text_width - 50:
+        # 仅当文字完全滚出屏幕左侧时才消失（不用 duration 截断）
+        if self._scroll_x < -self._text_width - 50:
             self._current = None
 
     def draw(self, screen):
@@ -67,7 +56,7 @@ class BroadcastBar:
         if self._current is None:
             return
 
-        font = self._get_font()
+        font = get_font(22, bold=True)
         text = self._current.text
         color = self._current.color
         rank = self._current.rank
@@ -75,7 +64,7 @@ class BroadcastBar:
         text_surf = font.render(text, True, color)
 
         x = int(self._scroll_x)
-        y = 8  # 顶部偏移
+        y = 42  # 在顶部场所栏下方
 
         # 高级牌型添加光晕效果
         if rank >= 6:  # 同花及以上
