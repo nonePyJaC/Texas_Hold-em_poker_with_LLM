@@ -151,3 +151,6 @@ class GameSetup:
 
         # 启动发牌动画，动画结束后才进入 playing
         app._start_dealing_animation()
+
+        # 启动后台 AI 模拟器
+        app._start_background_simulator()

@@ -1,8 +1,34 @@
 # 更新日志 / Changelog
 
+## V1.5.1 (2026-07-17)
+
+### 新功能
+- **中文 IME 候选框修复**：`main.py` 在 `import pygame` 前设置 `SDL_IME_SHOW_UI=1` 环境变量，并通过 `ctypes` 显式调用 `SDL_SetHint`，启用 Windows 原生 IME 候选窗口显示
+  - `ui/components.py` 的 `TextInput.draw()` 每帧同步 `set_text_input_rect` 到光标位置，确保候选框跟随输入框
+- **场所状态横向展示栏**：`ui/scenes/scene_renderer.py` 的 `_draw_background_info` 改为屏幕最顶部居中横向条，9 格（"我" + 1-8 号桌）一字排开，不再遮挡右侧排行榜
+
+### Bug 修复
+- **播报栏位置重叠**：`ui/broadcast_bar.py` 的 y 坐标从 8 调整到 42，避免与顶部场所栏重叠
+- **离开游戏卡顿**：`game_logic/background_simulator.py` 的 `stop()` 线程 join 超时从 10s 降到 2s；`game_logic/game_flow.py` 的 `leave_game()` 中 `_hand_end_thread` join 超时从 2s 降到 0.5s
+
+### 优化
+- 后台模拟器 8 桌固定场所模型：桌子固定 1-8 号，玩家随机进入，凑够 2-8 人开局
+- 模拟节奏放慢：手间间隔 5-12s，桌间间隔 10-25s，轮间间隔 15-40s
+- 播报栏滚动速度调整为 60px/s
+
+---
+
 ## V1.5 (2026-07-17)
 
 ### 新功能
+- **后台 AI 模拟系统**：`game_logic/background_simulator.py` 后台线程模拟 8 桌场所，AI 随机上桌打牌
+  - 随机牌型（标准/短牌）、盲注、买入金额
+  - 每桌 3-8 手，手间/桌间/轮间有真实节奏间隔
+  - 结算写回角色 bank，统计在线桌数和人数
+- **大牌播报系统**：`ui/broadcast_bar.py` 横向滚动播报栏，展示后台桌同花及以上大牌
+  - 不同牌型不同颜色高亮
+  - 平滑滚动 + 渐入渐出动画
+- **场所状态展示**：游戏界面顶部横向展示当前开桌数、在线人数、今日累计桌数
 - **锦标赛模式**：完整的多人锦标赛系统
   - `tournament/` 模块：`tournament_state.py`（数据模型）、`table_simulator.py`（后台AI桌模拟器）、`tournament_controller.py`（主控制器）、`tournament_flow.py`（流程委托）
   - 三阶段赛制：分组赛 → 决赛 → 终极对决，每阶段自动推进
@@ -16,7 +42,6 @@
   - 角色台词去除暴露性内容，新增 `dialogue_context_builder.py`
 - **AI 补筹码与换人**：AI 筹码归零时，若银行余额 >= 买入金额则自动补筹码，否则替换为新角色
 - **主菜单 AI 借款系统**：返回主菜单时银行不足的 AI 自动向富有角色借款，保持角色池经济活力
-- **中文输入法支持**：支持 IME 候选框（`TEXTEDITING` 事件 + per-frame `set_text_input_rect`）
 - **LLM 配置管理器**：新增 `llm_config_manager.py`，支持游戏内配置 LLM 参数
 - **场景系统重构**：`main.py` 拆分为独立场景模块
   - `ui/scenes/` 下新增 `base_scene.py`、`menu_scene.py`、`setup_scene.py`、`settings_scene.py`、`playing_scene.py`、`dealing_scene.py`、`showdown_scene.py`、`bankruptcy_scene.py`、`replay_scene.py`、`history_scene.py` 等

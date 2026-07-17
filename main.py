@@ -2,7 +2,15 @@
 import sys
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+os.environ['SDL_IME_SHOW_UI'] = '1'
 import pygame
+
+# 显式设置 SDL hint 启用 IME 候选窗口（环境变量方式可能不生效）
+try:
+    import ctypes
+    ctypes.CDLL('SDL2.dll').SDL_SetHint(b'SDL_IME_SHOW_UI', b'1')
+except Exception:
+    pass
 
 # PyInstaller frozen 模式下获取正确的根目录
 if getattr(sys, 'frozen', False):
@@ -47,6 +55,8 @@ from data.game_logger import GameLogger
 from tournament.tournament_controller import TournamentController
 from tournament.tournament_flow import TournamentFlow
 from ai.llm_config_manager import LLMConfigManager
+from game_logic.background_simulator import BackgroundSimulator, BroadcastMessage
+from ui.broadcast_bar import BroadcastBar
 
 
 class GameApp:
@@ -147,6 +157,16 @@ class GameApp:
         self._ui_factory.init_settings()
         self._ui_factory.init_bankruptcy()
         self._ui_factory.init_replay_buttons()
+
+        # 滚动播报栏
+        self.broadcast_bar = BroadcastBar(SCREEN_WIDTH)
+
+        # 后台 AI 模拟器
+        self._bg_simulator = BackgroundSimulator(
+            character_pool=self.character_pool,
+            active_char_ids_provider=self._get_active_char_ids,
+            broadcast_callback=self._on_background_broadcast,
+        )
 
     def _toggle_sound(self):
         self.audio.toggle()
@@ -286,6 +306,7 @@ class GameApp:
             sys.exit()
         # 如果在游戏中，先结算保存
         if self.scene in ("playing", "showdown", "dealing", "bankruptcy"):
+            self._stop_background_simulator()
             if self.human_player:
                 self.save_manager.deposit_to_bank(self.human_player.chips)
             self._settle_ai_banks()
@@ -323,6 +344,25 @@ class GameApp:
     def _settle_ai_banks(self):
         self.game_flow.settle_ai_banks()
 
+    def _get_active_char_ids(self):
+        """返回当前上桌的 AI 角色ID集合"""
+        ids = set()
+        if self.players:
+            for p in self.players:
+                if not p.is_human and hasattr(p, '_char_id'):
+                    ids.add(p._char_id)
+        return ids
+
+    def _on_background_broadcast(self, msg: BroadcastMessage):
+        """后台模拟器播报回调（线程安全：只加入队列，主线程渲染）"""
+        self.broadcast_bar.add(msg)
+
+    def _start_background_simulator(self):
+        self._bg_simulator.start()
+
+    def _stop_background_simulator(self):
+        self._bg_simulator.stop()
+
     def _leave_game(self):
         self.game_flow.leave_game()
 
@@ -342,10 +382,13 @@ class GameApp:
     def update(self, dt):
         """更新当前场景 — 委托给当前场景"""
         self.current_scene.update(dt)
+        self.broadcast_bar.update(dt)
 
     def render(self):
         """渲染当前场景 — 委托给当前场景"""
         self.current_scene.render(self.screen)
+        # 滚动播报栏始终在最顶层
+        self.broadcast_bar.draw(self.screen)
 
     def run(self):
         """主循环"""
