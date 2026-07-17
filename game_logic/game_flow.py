@@ -116,6 +116,7 @@ class GameFlow:
     def leave_game(self):
         """玩家主动离开对局，将剩余筹码存回银行"""
         app = self.app
+        app._stop_background_simulator()
         app.audio.stop_all_sounds()
         if hasattr(app, '_hand_end_thread') and app._hand_end_thread:
             app._hand_end_thread.join(timeout=2.0)
@@ -233,6 +234,7 @@ class GameFlow:
 
         # 3. 检查游戏是否结束
         if app.game.is_game_over():
+            app._stop_background_simulator()
             app.save_manager.deposit_to_bank(app.human_player.chips)
             self.settle_ai_banks()
             self._process_ai_menu_loans()

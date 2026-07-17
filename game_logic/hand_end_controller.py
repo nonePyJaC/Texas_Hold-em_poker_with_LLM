@@ -6,7 +6,8 @@ from ai.memory import (
     REL_EVENT_BEAT_THEM, REL_EVENT_LOST_TO_THEM,
     REL_EVENT_THEY_BLUFFED_ME, REL_EVENT_I_BLUFFED_THEM,
 )
-from engine.hand_evaluator import HandRank
+from engine.hand_evaluator import HandRank, HAND_RANK_NAMES
+from game_logic.background_simulator import RANK_COLORS, BROADCAST_MIN_RANK
 
 
 class HandEndController:
@@ -26,6 +27,10 @@ class HandEndController:
                 ev = evaluations.get(0)
                 if ev and ev.rank >= HandRank.FULL_HOUSE:
                     app.audio.play_cheer()
+
+            # 本桌大牌滚动播报（同花及以上）
+            self._check_local_broadcast(results, evaluations, payouts)
+
         app.showdown_results = results
         app.switch_scene("showdown")
         app.showdown_timer = 0
@@ -43,6 +48,40 @@ class HandEndController:
             self.on_hand_end(results)
         except Exception:
             pass
+
+    def _check_local_broadcast(self, results, evaluations, payouts):
+        """本桌出现同花及以上时，生成滚动播报"""
+        app = self.app
+        if not payouts:
+            return
+
+        # 找最大赢家和对应牌型
+        max_payout = max(payouts.values())
+        if max_payout <= 0:
+            return
+
+        for seat_idx, amount in payouts.items():
+            if amount < max_payout:
+                continue
+            ev = evaluations.get(seat_idx)
+            if not ev or ev.rank < BROADCAST_MIN_RANK:
+                continue
+
+            # 找到玩家对象
+            winner = None
+            for p in app.players:
+                if p.seat_index == seat_idx:
+                    winner = p
+                    break
+            if not winner:
+                continue
+
+            rank_name = HAND_RANK_NAMES.get(ev.rank, "大牌")
+            color = RANK_COLORS.get(ev.rank, (255, 255, 255))
+            is_human = winner.is_human
+            prefix = "你" if is_human else winner.name
+            text = f"[本桌] {prefix} 拿到{rank_name}，赢得 {max_payout} 筹码！"
+            app.broadcast_bar.add_local(text, color, ev.rank)
 
     def on_hand_end(self, results):
         """每手结束后保存统计、情绪、记忆、历史（在后台线程执行）"""

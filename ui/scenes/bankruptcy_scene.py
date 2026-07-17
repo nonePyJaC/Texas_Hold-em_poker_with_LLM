@@ -29,6 +29,7 @@ class BankruptcyScene(BaseScene):
 
     def handle_quit(self):
         app = self.app
+        app._stop_background_simulator()
         # 破产退出时先把剩余筹码存回银行
         if app.human_player:
             app.save_manager.deposit_to_bank(app.human_player.chips)
@@ -70,6 +71,7 @@ class BankruptcyScene(BaseScene):
             return
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            app._stop_background_simulator()
             if app.human_player:
                 app.save_manager.deposit_to_bank(app.human_player.chips)
             app._settle_ai_banks()
