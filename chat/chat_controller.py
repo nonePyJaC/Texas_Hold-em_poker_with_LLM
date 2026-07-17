@@ -69,6 +69,9 @@ class ChatController:
         if event.type == pygame.TEXTINPUT:
             self.input.handle_event(event)
             return True
+        elif event.type == pygame.TEXTEDITING:
+            self.input.handle_event(event)
+            return True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 self.send_message()
@@ -76,8 +79,11 @@ class ChatController:
             elif event.key == pygame.K_ESCAPE:
                 self.input.text = ""
                 self.input.active = False
+                self.input._editing_text = ""
+                self.input._editing_start = 0
                 self.active = False
                 self.target = None
+                pygame.key.stop_text_input()
                 return True
             else:
                 self.input.handle_event(event)
@@ -85,8 +91,11 @@ class ChatController:
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if not self.input.rect.collidepoint(event.pos):
                 self.input.active = False
+                self.input._editing_text = ""
+                self.input._editing_start = 0
                 self.active = False
                 self.target = None
+                pygame.key.stop_text_input()
             else:
                 self.input.handle_event(event)
             return True
@@ -102,6 +111,9 @@ class ChatController:
         self.input.text = f"@{player_name} "
         if hasattr(self.input, 'cursor_pos'):
             self.input.cursor_pos = len(self.input.text)
+        pygame.key.start_text_input()
+        if hasattr(pygame.key, 'set_text_input_rect'):
+            pygame.key.set_text_input_rect(self.input.rect)
 
     def send_message(self):
         """发送人类玩家的聊天消息"""
@@ -113,8 +125,11 @@ class ChatController:
         self.add_message(human_player.name if human_player else "我", msg, "human")
         self.input.text = ""
         self.input.active = False
+        self.input._editing_text = ""
+        self.input._editing_start = 0
         self.active = False
         self.target = None
+        pygame.key.stop_text_input()
         self.trigger_ai_replies(msg, target=target)
 
     def _parse_target(self, msg):
@@ -302,10 +317,11 @@ class ChatController:
         name_x = chat_x + 40
 
         for msg in visible_messages:
-            if msg["source"] == "llm":
+            source = msg.get("source", "")
+            if source == "llm":
                 tag_text = "LLM"
                 tag_color = (100, 200, 255)
-            elif msg["source"] == "template":
+            elif source == "template":
                 tag_text = "本地"
                 tag_color = (180, 180, 140)
             else:

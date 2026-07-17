@@ -27,7 +27,7 @@ class HandEndController:
                 if ev and ev.rank >= HandRank.FULL_HOUSE:
                     app.audio.play_cheer()
         app.showdown_results = results
-        app.scene = "showdown"
+        app.switch_scene("showdown")
         app.showdown_timer = 0
         # 在后台线程执行重逻辑，用户看结算结果时并行处理
         app._pending_hand_end_results = results
@@ -111,6 +111,7 @@ class HandEndController:
                                 "name": "系统",
                                 "text": msg_text,
                                 "color": (100, 255, 150),
+                                "source": "system",
                             })
 
                 # 记录上一局结果，供下次对话使用

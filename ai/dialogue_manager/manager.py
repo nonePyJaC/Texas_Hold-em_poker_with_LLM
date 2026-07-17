@@ -51,7 +51,7 @@ class DialogueManager:
         self.llm_probability = llm_probability
 
         # 异步 LLM 支持
-        self._executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="llm-dialogue")
+        self._executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="llm-dialogue")
         self._pending_llm: Optional[object] = None  # future 对象
         self._llm_result_lock = threading.Lock()
         self._completed_llm: Optional[DialogueResult] = None
@@ -134,9 +134,7 @@ class DialogueManager:
 
     def _submit_llm_task(self, ctx: DialogueContext, emotion_tag: str, intensity: float, duration: float):
         """提交 LLM 异步生成任务"""
-        if self._pending_llm is not None and not self._pending_llm.done():
-            return  # 已有任务在跑，跳过避免堆积
-
+        # 允许排队，不丢弃（线程池会自动管理队列）
         future = self._executor.submit(self._llm_worker, ctx, emotion_tag, intensity, duration)
         self._pending_llm = future
 

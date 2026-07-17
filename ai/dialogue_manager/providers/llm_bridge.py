@@ -59,21 +59,11 @@ class LLMBridge(DialogueProvider):
             return None
         try:
             system, user = self.prompt_builder.build_reply_prompt(ctx, human_message)
-            print(f"[Chat] generate_reply system for {ctx.char_name}:\n{system}")
-            print(f"[Chat] generate_reply user for {ctx.char_name}:\n{user}\n---")
             temp = self._get_dynamic_temperature(ctx)
-            text = self._call_api_with_system(system, user, temperature=temp)
+            # 回复场景用更短超时，避免玩家等太久
+            reply_timeout = min(self.config.timeout, 3.0)
+            text = self._call_api_with_system(system, user, temperature=temp, timeout=reply_timeout)
             print(f"[Chat] generate_reply raw response for {ctx.char_name}: {repr(text)}")
-            if not text:
-                # 重试：更短更直接的 prompt
-                print(f"[Chat] generate_reply 重试更短 prompt for {ctx.char_name}")
-                retry_user = self._build_retry_reply_user(ctx, human_message)
-                text = self._call_api_with_system(
-                    "你正在德州扑克牌桌上，请用一句话中文回应其他玩家。只输出台词，不要解释。",
-                    retry_user,
-                    temperature=temp,
-                )
-                print(f"[Chat] generate_reply retry raw response for {ctx.char_name}: {repr(text)}")
             if text:
                 text = text.strip().strip('"').strip('"').strip('"')
             return text if text else None
@@ -115,7 +105,7 @@ class LLMBridge(DialogueProvider):
                 temp += 0.1
         return max(0.3, min(temp, 1.2))
 
-    def _call_api_with_system(self, system: str, user: str, temperature: Optional[float] = None) -> Optional[str]:
+    def _call_api_with_system(self, system: str, user: str, temperature: Optional[float] = None, timeout: Optional[float] = None) -> Optional[str]:
         """使用 system + user 消息格式调用 LLM"""
         if self._client is None:
             try:
@@ -136,7 +126,7 @@ class LLMBridge(DialogueProvider):
             ],
             temperature=temperature if temperature is not None else self.config.temperature,
             max_tokens=self.config.max_tokens,
-            timeout=self.config.timeout,
+            timeout=timeout if timeout is not None else self.config.timeout,
         )
         # DeepSeek V4 默认启用 thinking，短台词场景需禁用以避免 token 耗尽
         if "deepseek-v4" in self.config.model:

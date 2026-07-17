@@ -333,6 +333,41 @@ class CharacterPool:
             adaptivity=p.adaptivity,  # adaptivity 本身不变
         )
 
+    def process_main_menu_loans(self, threshold: int = 1000) -> list:
+        """主菜单借钱系统：给 bank 不足 threshold 的 AI 尝试向富友借钱
+
+        返回借钱的记录列表，每项为 (borrower_name, lender_name, amount)。
+        """
+        records = []
+        # 从富到穷排序，避免先借钱的人后面又被借走
+        chars_by_bank = sorted(self.characters, key=lambda c: c.bank, reverse=True)
+        for char in chars_by_bank:
+            if char.bank >= threshold:
+                continue
+            need = threshold - char.bank
+            # 尝试从排行榜前列借钱
+            for lender in chars_by_bank:
+                if lender.id == char.id:
+                    continue
+                if lender.bank <= threshold:
+                    continue  # 只向有余力的富友借
+                # 最多借到自己达到 threshold，且不超过债主余额的30%
+                available = lender.bank - threshold
+                if available <= 0:
+                    continue
+                lend_amount = min(need, int(available * 0.3))
+                if lend_amount <= 0:
+                    continue
+                lender.bank -= lend_amount
+                char.bank += lend_amount
+                char.debt += lend_amount
+                char.lender_id = lender.id
+                need -= lend_amount
+                records.append((char.name, lender.name, lend_amount))
+                if char.bank >= threshold:
+                    break
+        return records
+
     def get_top_rich(self, count: int = 10, exclude_id: int = -1) -> List[AICharacter]:
         """获取银行余额最高的 count 个角色，排除指定 ID"""
         # 优先用 SQLite 查询（更快）

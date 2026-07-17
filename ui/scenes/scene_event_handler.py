@@ -77,7 +77,7 @@ class SceneEventHandler:
                 if self.app.scene in ("playing", "setup", "settings", "history", "replay", "tournament_setup", "tournament_waiting", "tournament_result"):
                     self.app.selected_player_index = None
                     self.app.player_popup_close_btn = None
-                    self.app.scene = "menu"
+                    self.app.switch_scene("menu")
                 elif self.app.scene == "menu":
                     self.app._quit()
                 return
@@ -99,7 +99,7 @@ class SceneEventHandler:
             for btn in self.app.menu_buttons.values():
                 btn.handle_event(event)
             if self.app.history_button.handle_event(event):
-                self.app.scene = "history"
+                self.app.switch_scene("history")
 
         elif self.app.scene == "setup":
             for comp in self.app.setup_components.values():
@@ -201,6 +201,9 @@ class SceneEventHandler:
                 and self.app.chat_controller.input and not self.app.renderer.raise_input.active):
             self.app.chat_controller.input.active = True
             self.app.chat_controller.active = True
+            pygame.key.start_text_input()
+            if hasattr(pygame.key, 'set_text_input_rect'):
+                pygame.key.set_text_input_rect(self.app.chat_controller.input.rect)
             return
 
         # 弹窗关闭优先处理
@@ -268,6 +271,9 @@ class SceneEventHandler:
                 and self.app.chat_controller.input and not self.app.renderer.raise_input.active):
             self.app.chat_controller.input.active = True
             self.app.chat_controller.active = True
+            pygame.key.start_text_input()
+            if hasattr(pygame.key, 'set_text_input_rect'):
+                pygame.key.set_text_input_rect(self.app.chat_controller.input.rect)
             return
 
         # 弹窗关闭

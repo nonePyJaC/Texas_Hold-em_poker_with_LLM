@@ -18,49 +18,6 @@ class SceneRenderer:
         self.app = game_app
         self.replay_renderer = HandReplayRenderer(game_app)
 
-    def render(self, scene):
-        """根据场景名分发渲染"""
-        if scene == "menu":
-            self._render_menu()
-        elif scene == "setup":
-            self._render_setup()
-        elif scene == "settings":
-            self._render_settings()
-        elif scene == "bankruptcy":
-            self._render_bankruptcy()
-        elif scene == "history":
-            self._render_history()
-        elif scene == "replay":
-            self.replay_renderer.render()
-        elif scene == "dealing":
-            self._render_playing()
-            self.app.animations.draw(self.app.screen)
-            # 锦标赛发牌时也显示阶段信息条
-            if self.app.tournament_controller and self.app.tournament_controller.state:
-                self._draw_tournament_info_bar()
-        elif scene == "playing":
-            self._render_playing()
-        elif scene == "showdown":
-            self._render_playing()
-            self.app.renderer.draw_showdown_results(
-                self.app.showdown_results,
-                self.app.players,
-                self.app.game.community_cards,
-                hand_number=self.app.game.hand_number,
-                timer=self.app.showdown_timer
-            )
-            # 锦标赛 showdown 时也显示阶段信息条
-            if self.app.tournament_controller and self.app.tournament_controller.state:
-                self._draw_tournament_info_bar()
-        elif scene == "tournament_setup":
-            self._render_tournament_setup()
-        elif scene == "tournament":
-            self._render_tournament()
-        elif scene == "tournament_waiting":
-            self._render_tournament_waiting()
-        elif scene == "tournament_result":
-            self._render_tournament_result()
-
     def _render_menu(self):
         """渲染主菜单"""
         app = self.app
@@ -392,6 +349,27 @@ class SceneRenderer:
         for j, h in enumerate(hints):
             hint = app.renderer.font_small.render(h, True, (120, 120, 120))
             app.screen.blit(hint, (cx - hint.get_width() // 2, SCREEN_HEIGHT - 30 + j * 18))
+
+    def _render_dealing(self):
+        """渲染发牌动画（playing 画面 + 动画层 + 锦标赛信息条）"""
+        self._render_playing()
+        self.app.animations.draw(self.app.screen)
+        if self.app.tournament_controller and self.app.tournament_controller.state:
+            self._draw_tournament_info_bar()
+
+    def _render_showdown(self):
+        """渲染摊牌结果（playing 画面 + 结算 + 锦标赛信息条）"""
+        app = self.app
+        self._render_playing()
+        app.renderer.draw_showdown_results(
+            app.showdown_results,
+            app.players,
+            app.game.community_cards,
+            hand_number=app.game.hand_number,
+            timer=app.showdown_timer
+        )
+        if app.tournament_controller and app.tournament_controller.state:
+            self._draw_tournament_info_bar()
 
     def _render_playing(self):
         """渲染游戏画面"""

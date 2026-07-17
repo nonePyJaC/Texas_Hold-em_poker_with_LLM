@@ -137,11 +137,30 @@ class TextInput:
         self.font = get_font(font_size)
         self.numeric_only = numeric_only
         self.max_length = max_length
+        self._editing_text = ""  # IME 候选框预编辑文本
+        self._editing_start = 0   # 预编辑文本在最终文本中的起始位置
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            was_active = self.active
             self.active = self.rect.collidepoint(event.pos)
+            if self.active and not was_active:
+                pygame.key.start_text_input()
+                # 设置输入法候选框位置到输入框附近
+                if hasattr(pygame.key, 'set_text_input_rect'):
+                    pygame.key.set_text_input_rect(self.rect)
+            elif not self.active and was_active:
+                pygame.key.stop_text_input()
+                self._editing_text = ""
+                self._editing_start = 0
+        elif event.type == pygame.TEXTEDITING and self.active:
+            # IME 输入法候选框预编辑事件
+            self._editing_text = event.text
+            self._editing_start = event.start
         elif event.type == pygame.TEXTINPUT and self.active:
+            # IME 确认输入或直接按键输入
+            self._editing_text = ""  # 清除预编辑状态
+            self._editing_start = 0
             text = event.text
             if self.numeric_only:
                 text = ''.join(c for c in text if c.isdigit())
@@ -154,11 +173,21 @@ class TextInput:
             self.text += text
         elif event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_BACKSPACE:
-                self.text = self.text[:-1]
+                if self._editing_text:
+                    # IME 编辑中，退格取消编辑
+                    self._editing_text = ""
+                else:
+                    self.text = self.text[:-1]
             elif event.key == pygame.K_RETURN:
+                self._editing_text = ""
+                self._editing_start = 0
                 self.active = False
+                pygame.key.stop_text_input()
             elif event.key == pygame.K_ESCAPE:
+                self._editing_text = ""
+                self._editing_start = 0
                 self.active = False
+                pygame.key.stop_text_input()
             elif event.key == pygame.K_v and (event.mod & pygame.KMOD_CTRL):
                 pasted = self._get_clipboard_text()
                 if pasted:
@@ -194,22 +223,58 @@ class TextInput:
         pygame.draw.rect(surface, COLOR_PANEL_BG, self.rect, border_radius=6)
         pygame.draw.rect(surface, color, self.rect, 2, border_radius=6)
 
-        display_text = self.text if self.text else self.placeholder
-        text_color = COLOR_WHITE if self.text else COLOR_TEXT_DIM
-        text_surf = self.font.render(display_text, True, text_color)
-        # Clip text to fit within the input box
-        max_w = self.rect.w - 20
-        if text_surf.get_width() > max_w:
-            # Show rightmost portion
-            text_surf = text_surf.subsurface((text_surf.get_width() - max_w, 0, max_w, text_surf.get_height()))
-        surface.blit(text_surf, (self.rect.x + 10, self.rect.centery - text_surf.get_height() // 2))
+        # 每帧更新 IME 候选框位置（基于光标位置）
+        if self.active and hasattr(pygame.key, 'set_text_input_rect'):
+            cursor_x = self.rect.x + 10
+            if self.text:
+                cursor_x += self.font.size(self.text)[0]
+            if self._editing_text:
+                cursor_x += self.font.size(self._editing_text)[0]
+            ime_rect = pygame.Rect(cursor_x, self.rect.y, 10, self.rect.h)
+            pygame.key.set_text_input_rect(ime_rect)
 
-        # Cursor blink when active
-        if self.active:
+        # 显示文本：已确认文本 + IME 预编辑文本
+        confirmed_text = self.text
+        editing_text = self._editing_text
+
+        if not confirmed_text and not editing_text:
+            # 显示占位符
+            text_surf = self.font.render(self.placeholder, True, COLOR_TEXT_DIM)
+            max_w = self.rect.w - 20
+            if text_surf.get_width() > max_w:
+                text_surf = text_surf.subsurface((text_surf.get_width() - max_w, 0, max_w, text_surf.get_height()))
+            surface.blit(text_surf, (self.rect.x + 10, self.rect.centery - text_surf.get_height() // 2))
+        else:
+            # 渲染已确认文本
+            x_offset = self.rect.x + 10
+            if confirmed_text:
+                conf_surf = self.font.render(confirmed_text, True, COLOR_WHITE)
+                max_w = self.rect.w - 20
+                if conf_surf.get_width() > max_w:
+                    conf_surf = conf_surf.subsurface((conf_surf.get_width() - max_w, 0, max_w, conf_surf.get_height()))
+                surface.blit(conf_surf, (x_offset, self.rect.centery - conf_surf.get_height() // 2))
+                x_offset += conf_surf.get_width()
+            # 渲染 IME 预编辑文本（带下划线）
+            if editing_text:
+                edit_surf = self.font.render(editing_text, True, COLOR_GOLD)
+                surface.blit(edit_surf, (x_offset, self.rect.centery - edit_surf.get_height() // 2))
+                # 下划线表示正在编辑
+                underline_y = self.rect.centery + edit_surf.get_height() // 2 + 1
+                pygame.draw.line(surface, COLOR_GOLD,
+                                 (x_offset, underline_y),
+                                 (x_offset + edit_surf.get_width(), underline_y), 1)
+                x_offset += edit_surf.get_width()
+
+        # Cursor blink when active (仅在没有 IME 编辑时显示)
+        if self.active and not editing_text:
             import pygame as _pg
             blink = (_pg.time.get_ticks() // 500) % 2 == 0
             if blink:
-                cursor_x = self.rect.x + 10 + text_surf.get_width() + 2
+                # 计算光标位置
+                if confirmed_text:
+                    cursor_x = self.rect.x + 10 + self.font.size(confirmed_text)[0] + 2
+                else:
+                    cursor_x = self.rect.x + 10 + 2
                 cursor_y = self.rect.y + 6
                 pygame.draw.line(surface, COLOR_WHITE, (cursor_x, cursor_y), (cursor_x, cursor_y + self.rect.h - 12), 2)
 
