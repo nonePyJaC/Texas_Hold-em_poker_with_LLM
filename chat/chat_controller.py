@@ -5,6 +5,7 @@ import pygame
 
 from config import SCREEN_HEIGHT
 from ui.components import TextInput
+from ui.render_state import RenderLayer
 from ai.dialogue_manager.context import DialogueContext
 from ai.character_descriptions import get_description as get_char_description
 from ai.character_pool import HUMAN_OPPONENT_KEY
@@ -51,6 +52,7 @@ class ChatController:
             if last["name"] == name and last["source"] == "template":
                 last["text"] = text
                 last["source"] = source
+                self.app.render_state.invalidate(RenderLayer.DYNAMIC, reason="chat_message")
                 return
         self.messages.append({
             "name": name,
@@ -60,6 +62,7 @@ class ChatController:
         })
         if len(self.messages) > 50:
             self.messages = self.messages[-50:]
+        self.app.render_state.invalidate(RenderLayer.DYNAMIC, reason="chat_message")
 
     def handle_event(self, event):
         """处理聊天相关事件；返回 True 表示事件已被消费"""
@@ -109,6 +112,7 @@ class ChatController:
             self.init_input()
         self.input.active = True
         self.input.text = f"@{player_name} "
+        self.app.render_state.invalidate(RenderLayer.DYNAMIC, reason="chat_input")
         if hasattr(self.input, 'cursor_pos'):
             self.input.cursor_pos = len(self.input.text)
         pygame.key.start_text_input()
@@ -130,6 +134,7 @@ class ChatController:
         self.active = False
         self.target = None
         pygame.key.stop_text_input()
+        self.app.render_state.invalidate(RenderLayer.DYNAMIC, reason="chat_sent")
         self.trigger_ai_replies(msg, target=target)
 
     def _parse_target(self, msg):
@@ -302,54 +307,23 @@ class ChatController:
         title_surf = renderer.font_tiny.render("牌桌聊天", True, (120, 120, 140))
         screen.blit(title_surf, (chat_x + 8, chat_y + 4))
 
-        # 消息区域
+        # 消息区域 — 缓存渲染结果，仅当消息列表变化时重建
         msg_y = chat_y + 20
         msg_h = chat_h - 25
         msg_area = pygame.Rect(chat_x + 4, msg_y, chat_w - 8, msg_h)
 
-        prev_clip = screen.get_clip()
-        screen.set_clip(msg_area)
-
-        # 最新消息在底部，向上滚动，长消息自动折行
-        visible_messages = list(reversed(self.messages))
-        line_h = 18
-        y = msg_y + msg_h - line_h
-        name_x = chat_x + 40
-
-        for msg in visible_messages:
-            source = msg.get("source", "")
-            if source == "llm":
-                tag_text = "LLM"
-                tag_color = (100, 200, 255)
-            elif source == "template":
-                tag_text = "本地"
-                tag_color = (180, 180, 140)
-            else:
-                tag_text = "我"
-                tag_color = (100, 255, 150)
-
-            name_surf = renderer.font_tiny.render(msg["name"], True, (200, 200, 200))
-            text_x = name_x + name_surf.get_width() + 6
-            avail_w = chat_w - (text_x - chat_x) - 12
-            lines = renderer._wrap_text(msg["text"], renderer.font_tiny, avail_w)
-
-            # 检查是否还有足够空间显示这则消息
-            if y - (len(lines) - 1) * line_h < msg_y:
-                break
-
-            tag_surf = renderer.font_tiny.render(tag_text, True, tag_color)
-
-            # 标签和人名放在消息底行
-            screen.blit(tag_surf, (chat_x + 8, y + 2))
-            screen.blit(name_surf, (name_x, y + 2))
-
-            # 从底行向上逐行绘制文本
-            for line in reversed(lines):
-                text_surf = renderer.font_tiny.render(line, True, (240, 240, 240))
-                screen.blit(text_surf, (text_x, y + 2))
-                y -= line_h
-
-        screen.set_clip(prev_clip)
+        cache_key = (len(self.messages), id(self.messages[-1]) if self.messages else 0)
+        if not hasattr(self, '_msg_cache'):
+            self._msg_cache = None
+            self._msg_cache_key = None
+        if self._msg_cache is not None and self._msg_cache_key == cache_key:
+            screen.blit(self._msg_cache, (msg_area.x, msg_area.y))
+        else:
+            cache_surf = pygame.Surface((msg_area.w, msg_area.h), pygame.SRCALPHA)
+            self._render_messages(cache_surf, renderer, 0, 0, msg_area.w, msg_area.h)
+            self._msg_cache = cache_surf
+            self._msg_cache_key = cache_key
+            screen.blit(cache_surf, (msg_area.x, msg_area.y))
 
         # 输入框位置跟随聊天框上移
         if self.input is None:
@@ -365,3 +339,41 @@ class ChatController:
         elif self.active and self.target:
             hint = renderer.font_tiny.render(f"对 {self.target} 说:", True, (100, 200, 255))
             screen.blit(hint, (self.input.rect.x + 8, self.input.rect.y - 12))
+
+    def _render_messages(self, surface, renderer, ox, oy, w, h):
+        """渲染消息列表到指定 surface（用于缓存）"""
+        line_h = 18
+        name_x = ox + 40
+        y = oy + h - line_h
+
+        visible_messages = list(reversed(self.messages))
+
+        for msg in visible_messages:
+            source = msg.get("source", "")
+            if source == "llm":
+                tag_text = "LLM"
+                tag_color = (100, 200, 255)
+            elif source == "template":
+                tag_text = "本地"
+                tag_color = (180, 180, 140)
+            else:
+                tag_text = "我"
+                tag_color = (100, 255, 150)
+
+            name_surf = renderer.font_tiny.render(msg["name"], True, (200, 200, 200))
+            text_x = name_x + name_surf.get_width() + 6
+            avail_w = w - (text_x - ox) - 12
+            lines = renderer._wrap_text(msg["text"], renderer.font_tiny, avail_w)
+
+            if y - (len(lines) - 1) * line_h < oy:
+                break
+
+            tag_surf = renderer.font_tiny.render(tag_text, True, tag_color)
+
+            surface.blit(tag_surf, (ox + 8, y + 2))
+            surface.blit(name_surf, (name_x, y + 2))
+
+            for line in reversed(lines):
+                text_surf = renderer.font_tiny.render(line, True, (240, 240, 240))
+                surface.blit(text_surf, (text_x, y + 2))
+                y -= line_h

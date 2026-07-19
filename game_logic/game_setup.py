@@ -93,7 +93,8 @@ class GameSetup:
             before = char.bank
             char.bank -= ai_buy_in
             log_transaction("buy_in", f"AI:{char.name}", -ai_buy_in,
-                            before, char.bank, f"上桌买入 {num_players}人局")
+                            before, char.bank, f"上桌买入 {num_players}人局",
+                            entity_id=char.id, source="game_setup")
             p = Player(char.name, ai_buy_in, is_human=False, seat_index=i + 1)
             p.personality = session_personality
             p._archetype = char.archetype

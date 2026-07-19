@@ -269,16 +269,20 @@ class TournamentController:
         if not self.state:
             return
 
-        # 所有未淘汰的决赛圈玩家（包括筹码为0的）
-        all_active = [p for p in self.state.active_players]
-        # 按筹码排序（筹码多的在前）
-        all_active.sort(key=lambda p: p.chips, reverse=True)
+        # 决赛圈所有玩家（包括已淘汰的，如人类提前出局）
+        final_table = self.state.tables[0] if self.state.tables else None
+        if final_table:
+            all_players = list(final_table.players)
+        else:
+            all_players = [p for p in self.state.active_players]
+        # 按筹码排序（筹码多的在前，已淘汰的筹码为0排在后面）
+        all_players.sort(key=lambda p: p.chips, reverse=True)
 
         # 前3名（或更少如果已经不足3人）进入最终局
-        finalists = all_active[:3]
+        finalists = all_players[:3]
 
         # 其他人标记淘汰并发放奖金（按筹码排名 4~8）
-        for i, p in enumerate(all_active[3:]):
+        for i, p in enumerate(all_players[3:]):
             p.eliminated = True
             p.final_rank = 4 + i  # 4th, 5th, 6th...
             self._award_prize(p.char_id, TournamentState.PRIZE_FINAL_ELIMINATED)
@@ -384,7 +388,8 @@ class TournamentController:
             self.app.save_manager.deposit_to_bank(amount)
             after = self.app.save_manager.player_data.bank
             log_transaction("tournament_prize", "玩家", amount,
-                            before, after, f"锦标赛奖金 rank={tp.final_rank if tp else '?'}")
+                            before, after, f"锦标赛奖金 rank={tp.final_rank if tp else '?'}",
+                            entity_id=-1, source="tournament")
         else:
             char = self.app.character_pool.get_by_id(char_id)
             if char:
@@ -393,7 +398,8 @@ class TournamentController:
                 after = char.bank
                 rank = tp.final_rank if tp else "?"
                 log_transaction("tournament_prize", f"AI:{char.name}", amount,
-                                before, after, f"锦标赛奖金 rank={rank}")
+                                before, after, f"锦标赛奖金 rank={rank}",
+                                entity_id=char_id, source="tournament")
 
     # ==================== 存档 ====================
 

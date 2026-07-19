@@ -1,0 +1,6802 @@
+[
+  {
+    "ts": 1784435154.5881064,
+    "time": "2026-07-19 12:25:54",
+    "type": "daily_bonus",
+    "entity": "玩家",
+    "amount": 2000,
+    "before": 16440,
+    "after": 18440,
+    "detail": "每日奖励"
+  },
+  {
+    "ts": 1784435161.1342711,
+    "time": "2026-07-19 12:26:01",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -1000,
+    "before": 18440,
+    "after": 17440,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784435161.1342711,
+    "time": "2026-07-19 12:26:01",
+    "type": "buy_in",
+    "entity": "AI:狐尼克",
+    "amount": -1000,
+    "before": 13924,
+    "after": 12924,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784435161.142333,
+    "time": "2026-07-19 12:26:01",
+    "type": "buy_in",
+    "entity": "AI:韩立",
+    "amount": -1000,
+    "before": 5704,
+    "after": 4704,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784435161.1492362,
+    "time": "2026-07-19 12:26:01",
+    "type": "buy_in",
+    "entity": "AI:谢尔顿",
+    "amount": -1000,
+    "before": 3198,
+    "after": 2198,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784435161.1577191,
+    "time": "2026-07-19 12:26:01",
+    "type": "buy_in",
+    "entity": "AI:徐凤年",
+    "amount": -1000,
+    "before": 30953,
+    "after": 29953,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784435323.6311684,
+    "time": "2026-07-19 12:28:43",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -174,
+    "before": 11579,
+    "after": 11405,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784435323.654625,
+    "time": "2026-07-19 12:28:43",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -861,
+    "before": 6240,
+    "after": 5379,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784435323.6913176,
+    "time": "2026-07-19 12:28:43",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": 4318,
+    "before": 2187,
+    "after": 6505,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784435323.739833,
+    "time": "2026-07-19 12:28:43",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": -898,
+    "before": 52811,
+    "after": 51913,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784435369.092271,
+    "time": "2026-07-19 12:29:29",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 2764,
+    "before": 118045,
+    "after": 120809,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435369.321732,
+    "time": "2026-07-19 12:29:29",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": 1777,
+    "before": 5772,
+    "after": 7549,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435369.5420034,
+    "time": "2026-07-19 12:29:29",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -30,
+    "before": 9829,
+    "after": 9799,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435369.7369776,
+    "time": "2026-07-19 12:29:29",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": -406,
+    "before": 1000,
+    "after": 594,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435369.9288526,
+    "time": "2026-07-19 12:29:29",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -269,
+    "before": 1000,
+    "after": 731,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435370.3128781,
+    "time": "2026-07-19 12:29:30",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": -107,
+    "before": 6063,
+    "after": 5956,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435370.8268204,
+    "time": "2026-07-19 12:29:30",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": 145,
+    "before": 24158,
+    "after": 24303,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435371.316823,
+    "time": "2026-07-19 12:29:31",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": 265,
+    "before": 6905,
+    "after": 7170,
+    "detail": "后台桌3结算 6手"
+  },
+  {
+    "ts": 1784435408.0579495,
+    "time": "2026-07-19 12:30:08",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": 21716,
+    "before": 7549,
+    "after": 29265,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784435408.2348602,
+    "time": "2026-07-19 12:30:08",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -609,
+    "before": 18581,
+    "after": 17972,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784435408.4379296,
+    "time": "2026-07-19 12:30:08",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": -281,
+    "before": 12553,
+    "after": 12272,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784435408.6342237,
+    "time": "2026-07-19 12:30:08",
+    "type": "bg_settle",
+    "entity": "AI:梅长苏",
+    "amount": 725,
+    "before": 8871,
+    "after": 9596,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784435408.8237658,
+    "time": "2026-07-19 12:30:08",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": 2375,
+    "before": 2850,
+    "after": 5225,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784435408.9827511,
+    "time": "2026-07-19 12:30:08",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": -609,
+    "before": 29694,
+    "after": 29085,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784435409.1545887,
+    "time": "2026-07-19 12:30:09",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": -609,
+    "before": 3598,
+    "after": 2989,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784435468.609781,
+    "time": "2026-07-19 12:31:08",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": -1238,
+    "before": 4532,
+    "after": 3294,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435468.8424525,
+    "time": "2026-07-19 12:31:08",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 11061,
+    "before": 9760,
+    "after": 20821,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435468.9915538,
+    "time": "2026-07-19 12:31:08",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 597,
+    "before": 13834,
+    "after": 14431,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435469.0936394,
+    "time": "2026-07-19 12:31:09",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 2044,
+    "before": 11551,
+    "after": 13595,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435469.1811059,
+    "time": "2026-07-19 12:31:09",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": 348,
+    "before": 13648,
+    "after": 13996,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435469.3308053,
+    "time": "2026-07-19 12:31:09",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": -338,
+    "before": 3069,
+    "after": 2731,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435469.388911,
+    "time": "2026-07-19 12:31:09",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 4338,
+    "before": 1000,
+    "after": 5338,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435469.432119,
+    "time": "2026-07-19 12:31:09",
+    "type": "bg_settle",
+    "entity": "AI:士官长",
+    "amount": -802,
+    "before": 1000,
+    "after": 198,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784435490.073812,
+    "time": "2026-07-19 12:31:30",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 480,
+    "before": 11405,
+    "after": 11885,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784435490.113569,
+    "time": "2026-07-19 12:31:30",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -600,
+    "before": 5379,
+    "after": 4779,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784435490.1674387,
+    "time": "2026-07-19 12:31:30",
+    "type": "bg_settle",
+    "entity": "AI:李逍遥",
+    "amount": 9699,
+    "before": 19644,
+    "after": 29343,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784435490.2368245,
+    "time": "2026-07-19 12:31:30",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": -1578,
+    "before": 9933,
+    "after": 8355,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784435509.762367,
+    "time": "2026-07-19 12:31:49",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": -197,
+    "before": 38336,
+    "after": 38139,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784435509.7703843,
+    "time": "2026-07-19 12:31:49",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 157,
+    "before": 4093,
+    "after": 4250,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784435509.8417284,
+    "time": "2026-07-19 12:31:49",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": 113,
+    "before": 6291,
+    "after": 6404,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784435509.9100258,
+    "time": "2026-07-19 12:31:49",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": 2186,
+    "before": 17972,
+    "after": 20158,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784435509.9667456,
+    "time": "2026-07-19 12:31:49",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": 830,
+    "before": 86204,
+    "after": 87034,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784435601.731036,
+    "time": "2026-07-19 12:33:21",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -633,
+    "before": 18209,
+    "after": 17576,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784435602.03528,
+    "time": "2026-07-19 12:33:22",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": -951,
+    "before": 4889,
+    "after": 3938,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784435602.4279678,
+    "time": "2026-07-19 12:33:22",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": 4778,
+    "before": 29265,
+    "after": 34043,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784435622.604575,
+    "time": "2026-07-19 12:33:42",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -121,
+    "before": 5338,
+    "after": 5217,
+    "detail": "后台桌7结算 10手"
+  },
+  {
+    "ts": 1784435622.9386802,
+    "time": "2026-07-19 12:33:42",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 453,
+    "before": 120809,
+    "after": 121262,
+    "detail": "后台桌7结算 10手"
+  },
+  {
+    "ts": 1784435623.1481633,
+    "time": "2026-07-19 12:33:43",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": 2982,
+    "before": 52398,
+    "after": 55380,
+    "detail": "后台桌7结算 10手"
+  },
+  {
+    "ts": 1784435623.5273135,
+    "time": "2026-07-19 12:33:43",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": -1526,
+    "before": 24303,
+    "after": 22777,
+    "detail": "后台桌7结算 10手"
+  },
+  {
+    "ts": 1784435624.2256997,
+    "time": "2026-07-19 12:33:44",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 4529,
+    "before": 4250,
+    "after": 8779,
+    "detail": "后台桌7结算 10手"
+  },
+  {
+    "ts": 1784435625.0483778,
+    "time": "2026-07-19 12:33:45",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": 456,
+    "before": 7170,
+    "after": 7626,
+    "detail": "后台桌7结算 10手"
+  },
+  {
+    "ts": 1784435626.696576,
+    "time": "2026-07-19 12:33:46",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -1000,
+    "before": 5217,
+    "after": 4217,
+    "detail": "后台桌1结算 12手"
+  },
+  {
+    "ts": 1784435627.046218,
+    "time": "2026-07-19 12:33:47",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": -1985,
+    "before": 3938,
+    "after": 1953,
+    "detail": "后台桌1结算 12手"
+  },
+  {
+    "ts": 1784435627.421851,
+    "time": "2026-07-19 12:33:47",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": 11831,
+    "before": 9799,
+    "after": 21630,
+    "detail": "后台桌1结算 12手"
+  },
+  {
+    "ts": 1784435627.7781167,
+    "time": "2026-07-19 12:33:47",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": 8935,
+    "before": 5225,
+    "after": 14160,
+    "detail": "后台桌1结算 12手"
+  },
+  {
+    "ts": 1784435628.4123864,
+    "time": "2026-07-19 12:33:48",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": -1985,
+    "before": 14431,
+    "after": 12446,
+    "detail": "后台桌1结算 12手"
+  },
+  {
+    "ts": 1784435628.7885294,
+    "time": "2026-07-19 12:33:48",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": 4489,
+    "before": 3294,
+    "after": 7783,
+    "detail": "后台桌1结算 12手"
+  },
+  {
+    "ts": 1784435629.0061226,
+    "time": "2026-07-19 12:33:49",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -1617,
+    "before": 6505,
+    "after": 4888,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784435629.2509954,
+    "time": "2026-07-19 12:33:49",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 44551,
+    "before": 29085,
+    "after": 73636,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784435629.6342096,
+    "time": "2026-07-19 12:33:49",
+    "type": "bg_settle",
+    "entity": "AI:李逍遥",
+    "amount": 4591,
+    "before": 29343,
+    "after": 33934,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784435629.8869493,
+    "time": "2026-07-19 12:33:49",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -1617,
+    "before": 4779,
+    "after": 3162,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784435630.041011,
+    "time": "2026-07-19 12:33:50",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": 11481,
+    "before": 5709,
+    "after": 17190,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784435630.2173042,
+    "time": "2026-07-19 12:33:50",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": -1617,
+    "before": 20821,
+    "after": 19204,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784435630.4136014,
+    "time": "2026-07-19 12:33:50",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": -298,
+    "before": 13595,
+    "after": 13297,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784435630.6214533,
+    "time": "2026-07-19 12:33:50",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": -1743,
+    "before": 14637,
+    "after": 12894,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784435630.7952118,
+    "time": "2026-07-19 12:33:50",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -1743,
+    "before": 7626,
+    "after": 5883,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784435630.9211497,
+    "time": "2026-07-19 12:33:50",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 525,
+    "before": 7263,
+    "after": 7788,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784435631.0683105,
+    "time": "2026-07-19 12:33:51",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 9821,
+    "before": 73636,
+    "after": 83457,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784435654.596509,
+    "time": "2026-07-19 12:34:14",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -61,
+    "before": 21630,
+    "after": 21569,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435654.691455,
+    "time": "2026-07-19 12:34:14",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": -655,
+    "before": 19204,
+    "after": 18549,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435654.8291273,
+    "time": "2026-07-19 12:34:14",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -532,
+    "before": 4217,
+    "after": 3685,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435654.942086,
+    "time": "2026-07-19 12:34:14",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": 383,
+    "before": 4888,
+    "after": 5271,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435655.0757554,
+    "time": "2026-07-19 12:34:15",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -173,
+    "before": 5883,
+    "after": 5710,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435655.1822684,
+    "time": "2026-07-19 12:34:15",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": 1885,
+    "before": 2989,
+    "after": 4874,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435655.3684573,
+    "time": "2026-07-19 12:34:15",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": 666,
+    "before": 5956,
+    "after": 6622,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435655.5046144,
+    "time": "2026-07-19 12:34:15",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": -30,
+    "before": 17190,
+    "after": 17160,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784435657.4633234,
+    "time": "2026-07-19 12:34:17",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": -1265,
+    "before": 8355,
+    "after": 7090,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435657.6522748,
+    "time": "2026-07-19 12:34:17",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 4163,
+    "before": 8779,
+    "after": 12942,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435668.1671453,
+    "time": "2026-07-19 12:34:28",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": 7326,
+    "before": 87034,
+    "after": 94360,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784435668.2150922,
+    "time": "2026-07-19 12:34:28",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -604,
+    "before": 20158,
+    "after": 19554,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784435668.271361,
+    "time": "2026-07-19 12:34:28",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 3959,
+    "before": 83457,
+    "after": 87416,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784435668.346069,
+    "time": "2026-07-19 12:34:28",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": -604,
+    "before": 13996,
+    "after": 13392,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784435735.725754,
+    "time": "2026-07-19 12:35:35",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": -295,
+    "before": 20948,
+    "after": 20653,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435735.7601967,
+    "time": "2026-07-19 12:35:35",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": -329,
+    "before": 22558,
+    "after": 22229,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435735.8172748,
+    "time": "2026-07-19 12:35:35",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": 385,
+    "before": 17576,
+    "after": 17961,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435735.899259,
+    "time": "2026-07-19 12:35:35",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -1607,
+    "before": 11885,
+    "after": 10278,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435735.9622586,
+    "time": "2026-07-19 12:35:35",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": 2721,
+    "before": 3304,
+    "after": 6025,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435736.041991,
+    "time": "2026-07-19 12:35:36",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 6912,
+    "before": 13297,
+    "after": 20209,
+    "detail": "后台桌4结算 11手"
+  },
+  {
+    "ts": 1784435753.9382606,
+    "time": "2026-07-19 12:35:53",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": -900,
+    "before": 34043,
+    "after": 33143,
+    "detail": "后台桌3结算 5手"
+  },
+  {
+    "ts": 1784435754.1498332,
+    "time": "2026-07-19 12:35:54",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": 17100,
+    "before": 39016,
+    "after": 56116,
+    "detail": "后台桌3结算 5手"
+  },
+  {
+    "ts": 1784435754.386173,
+    "time": "2026-07-19 12:35:54",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": -900,
+    "before": 8871,
+    "after": 7971,
+    "detail": "后台桌3结算 5手"
+  },
+  {
+    "ts": 1784435759.3663979,
+    "time": "2026-07-19 12:35:59",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": 20,
+    "before": 594,
+    "after": 614,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784435759.412536,
+    "time": "2026-07-19 12:35:59",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 0,
+    "before": 12446,
+    "after": 12446,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784435767.3959062,
+    "time": "2026-07-19 12:36:07",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": -1831,
+    "before": 4990,
+    "after": 3159,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784435767.6938128,
+    "time": "2026-07-19 12:36:07",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": -1975,
+    "before": 7783,
+    "after": 5808,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784435767.9321747,
+    "time": "2026-07-19 12:36:07",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -1975,
+    "before": 10278,
+    "after": 8303,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784435768.2082138,
+    "time": "2026-07-19 12:36:08",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 25084,
+    "before": 12272,
+    "after": 37356,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784435768.4680448,
+    "time": "2026-07-19 12:36:08",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": 3334,
+    "before": 614,
+    "after": 3948,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784435768.8241904,
+    "time": "2026-07-19 12:36:08",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": -1975,
+    "before": 2731,
+    "after": 756,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784435799.4277003,
+    "time": "2026-07-19 12:36:39",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 4275,
+    "before": 18549,
+    "after": 22824,
+    "detail": "后台桌3结算 10手"
+  },
+  {
+    "ts": 1784435799.4931085,
+    "time": "2026-07-19 12:36:39",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": -1732,
+    "before": 14160,
+    "after": 12428,
+    "detail": "后台桌3结算 10手"
+  },
+  {
+    "ts": 1784435799.5778952,
+    "time": "2026-07-19 12:36:39",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 16912,
+    "before": 4686,
+    "after": 21598,
+    "detail": "后台桌3结算 10手"
+  },
+  {
+    "ts": 1784435799.6840029,
+    "time": "2026-07-19 12:36:39",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": -1732,
+    "before": 56116,
+    "after": 54384,
+    "detail": "后台桌3结算 10手"
+  },
+  {
+    "ts": 1784435799.7692974,
+    "time": "2026-07-19 12:36:39",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": -1732,
+    "before": 7090,
+    "after": 5358,
+    "detail": "后台桌3结算 10手"
+  },
+  {
+    "ts": 1784435805.7402034,
+    "time": "2026-07-19 12:36:45",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": -1565,
+    "before": 3948,
+    "after": 2383,
+    "detail": "后台桌4结算 12手"
+  },
+  {
+    "ts": 1784435806.0574124,
+    "time": "2026-07-19 12:36:46",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 4695,
+    "before": 21598,
+    "after": 26293,
+    "detail": "后台桌4结算 12手"
+  },
+  {
+    "ts": 1784435818.9290419,
+    "time": "2026-07-19 12:36:58",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": -1129,
+    "before": 22229,
+    "after": 21100,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784435818.962949,
+    "time": "2026-07-19 12:36:58",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": -1545,
+    "before": 12446,
+    "after": 10901,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784435819.0248897,
+    "time": "2026-07-19 12:36:59",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": 11252,
+    "before": 6025,
+    "after": 17277,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784435828.5390697,
+    "time": "2026-07-19 12:37:08",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": -670,
+    "before": 38139,
+    "after": 37469,
+    "detail": "后台桌6结算 7手"
+  },
+  {
+    "ts": 1784435828.7009459,
+    "time": "2026-07-19 12:37:08",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -1021,
+    "before": 5271,
+    "after": 4250,
+    "detail": "后台桌6结算 7手"
+  },
+  {
+    "ts": 1784435828.8921287,
+    "time": "2026-07-19 12:37:08",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 6296,
+    "before": 12942,
+    "after": 19238,
+    "detail": "后台桌6结算 7手"
+  },
+  {
+    "ts": 1784435829.1831162,
+    "time": "2026-07-19 12:37:09",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": -35,
+    "before": 12428,
+    "after": 12393,
+    "detail": "后台桌6结算 7手"
+  },
+  {
+    "ts": 1784435829.4881272,
+    "time": "2026-07-19 12:37:09",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -60,
+    "before": 17961,
+    "after": 17901,
+    "detail": "后台桌6结算 7手"
+  },
+  {
+    "ts": 1784435829.6777375,
+    "time": "2026-07-19 12:37:09",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": 5159,
+    "before": 3010,
+    "after": 8169,
+    "detail": "后台桌6结算 7手"
+  },
+  {
+    "ts": 1784435829.8179212,
+    "time": "2026-07-19 12:37:09",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": -521,
+    "before": 22824,
+    "after": 22303,
+    "detail": "后台桌6结算 7手"
+  },
+  {
+    "ts": 1784435840.0719793,
+    "time": "2026-07-19 12:37:20",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": 6455,
+    "before": 17901,
+    "after": 24356,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784435840.074971,
+    "time": "2026-07-19 12:37:20",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": -1513,
+    "before": 7971,
+    "after": 6458,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784435840.0849478,
+    "time": "2026-07-19 12:37:20",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": 894,
+    "before": 3162,
+    "after": 4056,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784435840.2411327,
+    "time": "2026-07-19 12:37:20",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -20,
+    "before": 4056,
+    "after": 4036,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784435840.2511046,
+    "time": "2026-07-19 12:37:20",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": 1751,
+    "before": 17277,
+    "after": 19028,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784435840.26446,
+    "time": "2026-07-19 12:37:20",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 1329,
+    "before": 21100,
+    "after": 22429,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784435840.2759671,
+    "time": "2026-07-19 12:37:20",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 1012,
+    "before": 6458,
+    "after": 7470,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784435840.6644597,
+    "time": "2026-07-19 12:37:20",
+    "type": "deposit",
+    "entity": "玩家",
+    "amount": 891,
+    "before": 17440,
+    "after": 18331,
+    "detail": "存入银行"
+  },
+  {
+    "ts": 1784435840.6674104,
+    "time": "2026-07-19 12:37:20",
+    "type": "game_settle",
+    "entity": "AI:徐凤年",
+    "amount": 879,
+    "before": 28953,
+    "after": 29832,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784435840.6808832,
+    "time": "2026-07-19 12:37:20",
+    "type": "game_settle",
+    "entity": "AI:韩立",
+    "amount": 1115,
+    "before": 4704,
+    "after": 5819,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784435840.6948457,
+    "time": "2026-07-19 12:37:20",
+    "type": "game_settle",
+    "entity": "AI:谢尔顿",
+    "amount": 694,
+    "before": 2198,
+    "after": 2892,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784435840.707338,
+    "time": "2026-07-19 12:37:20",
+    "type": "game_settle",
+    "entity": "AI:狐尼克",
+    "amount": 2406,
+    "before": 12924,
+    "after": 15330,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784435840.7213016,
+    "time": "2026-07-19 12:37:20",
+    "type": "ai_loan",
+    "entity": "AI:韦小宝",
+    "amount": 244,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借244"
+  },
+  {
+    "ts": 1784435840.7312748,
+    "time": "2026-07-19 12:37:20",
+    "type": "ai_loan",
+    "entity": "AI:夜神月",
+    "amount": 269,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借269"
+  },
+  {
+    "ts": 1784435840.7422454,
+    "time": "2026-07-19 12:37:20",
+    "type": "ai_loan",
+    "entity": "AI:士官长",
+    "amount": 802,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借802"
+  },
+  {
+    "ts": 1784436799.664751,
+    "time": "2026-07-19 12:53:19",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -1000,
+    "before": 18331,
+    "after": 17331,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784436799.6672902,
+    "time": "2026-07-19 12:53:19",
+    "type": "buy_in",
+    "entity": "AI:坂田银时",
+    "amount": -1000,
+    "before": 49824,
+    "after": 48824,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784436799.677294,
+    "time": "2026-07-19 12:53:19",
+    "type": "buy_in",
+    "entity": "AI:范闲",
+    "amount": -1000,
+    "before": 4250,
+    "after": 3250,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784436799.6864612,
+    "time": "2026-07-19 12:53:19",
+    "type": "buy_in",
+    "entity": "AI:漩涡鸣人",
+    "amount": -1000,
+    "before": 55380,
+    "after": 54380,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784436799.6966124,
+    "time": "2026-07-19 12:53:19",
+    "type": "buy_in",
+    "entity": "AI:魏无羡",
+    "amount": -1000,
+    "before": 3685,
+    "after": 2685,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784436934.0751886,
+    "time": "2026-07-19 12:55:34",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 10179,
+    "before": 15330,
+    "after": 25509,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784436934.1148033,
+    "time": "2026-07-19 12:55:34",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": -1817,
+    "before": 6404,
+    "after": 4587,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784437019.3819687,
+    "time": "2026-07-19 12:56:59",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": -43,
+    "before": 51913,
+    "after": 51870,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784437019.6039054,
+    "time": "2026-07-19 12:56:59",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 11516,
+    "before": 26293,
+    "after": 37809,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784437019.8156273,
+    "time": "2026-07-19 12:56:59",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 2393,
+    "before": 22303,
+    "after": 24696,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784437020.1180468,
+    "time": "2026-07-19 12:57:00",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": -204,
+    "before": 20653,
+    "after": 20449,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784437020.4281914,
+    "time": "2026-07-19 12:57:00",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 933,
+    "before": 7470,
+    "after": 8403,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784437020.7602506,
+    "time": "2026-07-19 12:57:00",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": -620,
+    "before": 1000,
+    "after": 380,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784437021.11622,
+    "time": "2026-07-19 12:57:01",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": -33,
+    "before": 1953,
+    "after": 1920,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784437046.663132,
+    "time": "2026-07-19 12:57:26",
+    "type": "bg_settle",
+    "entity": "AI:梅长苏",
+    "amount": 4208,
+    "before": 9596,
+    "after": 13804,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784437046.8740175,
+    "time": "2026-07-19 12:57:26",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": 796,
+    "before": 19028,
+    "after": 19824,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784437046.9089634,
+    "time": "2026-07-19 12:57:26",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": 4275,
+    "before": 17160,
+    "after": 21435,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784437046.9421651,
+    "time": "2026-07-19 12:57:26",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 1929,
+    "before": 22429,
+    "after": 24358,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784437046.974565,
+    "time": "2026-07-19 12:57:26",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -1473,
+    "before": 19554,
+    "after": 18081,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784437046.9915216,
+    "time": "2026-07-19 12:57:26",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": -1473,
+    "before": 12297,
+    "after": 10824,
+    "detail": "后台桌1结算 9手"
+  },
+  {
+    "ts": 1784437111.5465248,
+    "time": "2026-07-19 12:58:31",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 1429,
+    "before": 8303,
+    "after": 9732,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784437111.7762024,
+    "time": "2026-07-19 12:58:31",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": -721,
+    "before": 4587,
+    "after": 3866,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784437111.9994738,
+    "time": "2026-07-19 12:58:31",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": -721,
+    "before": 19238,
+    "after": 18517,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784437112.3606968,
+    "time": "2026-07-19 12:58:32",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 10342,
+    "before": 24358,
+    "after": 34700,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784437116.6191723,
+    "time": "2026-07-19 12:58:36",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": 35,
+    "before": 3866,
+    "after": 3901,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784437116.997917,
+    "time": "2026-07-19 12:58:36",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 115,
+    "before": 7788,
+    "after": 7903,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784437117.2727509,
+    "time": "2026-07-19 12:58:37",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 1110,
+    "before": 37469,
+    "after": 38579,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784437118.2190423,
+    "time": "2026-07-19 12:58:38",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -48,
+    "before": 5710,
+    "after": 5662,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784437118.3290203,
+    "time": "2026-07-19 12:58:38",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 312,
+    "before": 20209,
+    "after": 20521,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784437144.6918116,
+    "time": "2026-07-19 12:59:04",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": -1534,
+    "before": 18517,
+    "after": 16983,
+    "detail": "后台桌6结算 6手"
+  },
+  {
+    "ts": 1784437145.0284119,
+    "time": "2026-07-19 12:59:05",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": -1755,
+    "before": 37356,
+    "after": 35601,
+    "detail": "后台桌6结算 6手"
+  },
+  {
+    "ts": 1784437145.4149098,
+    "time": "2026-07-19 12:59:05",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": 4047,
+    "before": 29832,
+    "after": 33879,
+    "detail": "后台桌6结算 6手"
+  },
+  {
+    "ts": 1784437145.923795,
+    "time": "2026-07-19 12:59:05",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 19275,
+    "before": 25509,
+    "after": 44784,
+    "detail": "后台桌6结算 6手"
+  },
+  {
+    "ts": 1784437146.2468898,
+    "time": "2026-07-19 12:59:06",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": -1755,
+    "before": 10824,
+    "after": 9069,
+    "detail": "后台桌6结算 6手"
+  },
+  {
+    "ts": 1784437150.7602825,
+    "time": "2026-07-19 12:59:10",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 1585,
+    "before": 1920,
+    "after": 3505,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784437151.0134346,
+    "time": "2026-07-19 12:59:11",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 199,
+    "before": 8403,
+    "after": 8602,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784437151.2340195,
+    "time": "2026-07-19 12:59:11",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": 155,
+    "before": 3159,
+    "after": 3314,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784437151.5509968,
+    "time": "2026-07-19 12:59:11",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": 1030,
+    "before": 94360,
+    "after": 95390,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784437201.2092683,
+    "time": "2026-07-19 13:00:01",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 2340,
+    "before": 44784,
+    "after": 47124,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784437203.4899855,
+    "time": "2026-07-19 13:00:03",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": -780,
+    "before": 8602,
+    "after": 7822,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784437232.25319,
+    "time": "2026-07-19 13:00:32",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 50,
+    "before": 7822,
+    "after": 7872,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784437232.5563607,
+    "time": "2026-07-19 13:00:32",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -1511,
+    "before": 5662,
+    "after": 4151,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784437232.744179,
+    "time": "2026-07-19 13:00:32",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": -10,
+    "before": 95390,
+    "after": 95380,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784437232.980202,
+    "time": "2026-07-19 13:00:32",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -10,
+    "before": 18081,
+    "after": 18071,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784437233.1374419,
+    "time": "2026-07-19 13:00:33",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": 4551,
+    "before": 54384,
+    "after": 58935,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784437233.504281,
+    "time": "2026-07-19 13:00:33",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": 84,
+    "before": 9069,
+    "after": 9153,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784437233.7721364,
+    "time": "2026-07-19 13:00:33",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": 84,
+    "before": 33879,
+    "after": 33963,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784437242.6611912,
+    "time": "2026-07-19 13:00:42",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -15,
+    "before": 21569,
+    "after": 21554,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437242.7322354,
+    "time": "2026-07-19 13:00:42",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": 511,
+    "before": 22777,
+    "after": 23288,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437242.8382933,
+    "time": "2026-07-19 13:00:42",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": 412,
+    "before": 12894,
+    "after": 13306,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437242.932067,
+    "time": "2026-07-19 13:00:42",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": -1179,
+    "before": 58935,
+    "after": 57756,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437243.0192876,
+    "time": "2026-07-19 13:00:43",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": 11965,
+    "before": 5808,
+    "after": 17773,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437243.0578923,
+    "time": "2026-07-19 13:00:43",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 18276,
+    "before": 37809,
+    "after": 56085,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437243.1490686,
+    "time": "2026-07-19 13:00:43",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": -1179,
+    "before": 24696,
+    "after": 23517,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437243.2272425,
+    "time": "2026-07-19 13:00:43",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": 3148,
+    "before": 19824,
+    "after": 22972,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784437267.4025273,
+    "time": "2026-07-19 13:01:07",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": 9489,
+    "before": 13392,
+    "after": 22881,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784437267.4763875,
+    "time": "2026-07-19 13:01:07",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": -30,
+    "before": 23288,
+    "after": 23258,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784437267.559243,
+    "time": "2026-07-19 13:01:07",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -1958,
+    "before": 120077,
+    "after": 118119,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784437267.6545756,
+    "time": "2026-07-19 13:01:07",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": -1310,
+    "before": 51870,
+    "after": 50560,
+    "detail": "后台桌8结算 6手"
+  },
+  {
+    "ts": 1784437268.1531851,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 0,
+    "before": 87416,
+    "after": 87416,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784437268.1561508,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": -68,
+    "before": 6622,
+    "after": 6554,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784437268.167687,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": 340,
+    "before": 2892,
+    "after": 3232,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784437268.1803665,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 0,
+    "before": 7903,
+    "after": 7903,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784437268.1983182,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": 0,
+    "before": 2383,
+    "after": 2383,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784437268.2103121,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": -68,
+    "before": 95380,
+    "after": 95312,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784437268.2210937,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 0,
+    "before": 9732,
+    "after": 9732,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784437268.2330618,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": -377,
+    "before": 7872,
+    "after": 7495,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784437268.2430353,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": 7053,
+    "before": 50560,
+    "after": 57613,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784437268.2540107,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": -40,
+    "before": 33143,
+    "after": 33103,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784437268.2656257,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": 1393,
+    "before": 33963,
+    "after": 35356,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784437268.2766168,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": 3256,
+    "before": 18071,
+    "after": 21327,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784437268.2870255,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": -200,
+    "before": 10901,
+    "after": 10701,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784437268.2980685,
+    "time": "2026-07-19 13:01:08",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": -1541,
+    "before": 56085,
+    "after": 54544,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784437268.7766824,
+    "time": "2026-07-19 13:01:08",
+    "type": "deposit",
+    "entity": "玩家",
+    "amount": 1198,
+    "before": 17331,
+    "after": 18529,
+    "detail": "存入银行"
+  },
+  {
+    "ts": 1784437268.781696,
+    "time": "2026-07-19 13:01:08",
+    "type": "game_settle",
+    "entity": "AI:范闲",
+    "amount": 901,
+    "before": 3250,
+    "after": 4151,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784437268.794172,
+    "time": "2026-07-19 13:01:08",
+    "type": "game_settle",
+    "entity": "AI:坂田银时",
+    "amount": 655,
+    "before": 48824,
+    "after": 49479,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784437268.80912,
+    "time": "2026-07-19 13:01:08",
+    "type": "game_settle",
+    "entity": "AI:魏无羡",
+    "amount": 1231,
+    "before": 2555,
+    "after": 3786,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784437268.8242903,
+    "time": "2026-07-19 13:01:08",
+    "type": "game_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": 1000,
+    "before": 54380,
+    "after": 55380,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784437268.8412447,
+    "time": "2026-07-19 13:01:08",
+    "type": "ai_loan",
+    "entity": "AI:韦小宝",
+    "amount": 620,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借620"
+  },
+  {
+    "ts": 1784439545.755079,
+    "time": "2026-07-19 13:39:05",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -1000,
+    "before": 18529,
+    "after": 17529,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784439545.7609904,
+    "time": "2026-07-19 13:39:05",
+    "type": "buy_in",
+    "entity": "AI:萧炎",
+    "amount": -1000,
+    "before": 4151,
+    "after": 3151,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784439545.7759528,
+    "time": "2026-07-19 13:39:05",
+    "type": "buy_in",
+    "entity": "AI:犬夜叉",
+    "amount": -1000,
+    "before": 54544,
+    "after": 53544,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784439545.789939,
+    "time": "2026-07-19 13:39:05",
+    "type": "buy_in",
+    "entity": "AI:梅长苏",
+    "amount": -1000,
+    "before": 13804,
+    "after": 12804,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784439545.8069115,
+    "time": "2026-07-19 13:39:05",
+    "type": "buy_in",
+    "entity": "AI:令狐冲",
+    "amount": -1000,
+    "before": 4036,
+    "after": 3036,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784439705.9528556,
+    "time": "2026-07-19 13:41:45",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": -40,
+    "before": 13306,
+    "after": 13266,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784439706.104689,
+    "time": "2026-07-19 13:41:46",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 30,
+    "before": 10701,
+    "after": 10731,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784439706.3018858,
+    "time": "2026-07-19 13:41:46",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": 70,
+    "before": 57613,
+    "after": 57683,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784439706.4587436,
+    "time": "2026-07-19 13:41:46",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": -87,
+    "before": 12393,
+    "after": 12306,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784439706.7046332,
+    "time": "2026-07-19 13:41:46",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -20,
+    "before": 21554,
+    "after": 21534,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784439706.9800305,
+    "time": "2026-07-19 13:41:46",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 167,
+    "before": 34700,
+    "after": 34867,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784439786.3567207,
+    "time": "2026-07-19 13:43:06",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 50,
+    "before": 38579,
+    "after": 38629,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784439786.3617084,
+    "time": "2026-07-19 13:43:06",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": -699,
+    "before": 7495,
+    "after": 6796,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784439786.3788104,
+    "time": "2026-07-19 13:43:06",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": 560,
+    "before": 95312,
+    "after": 95872,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784439786.3928003,
+    "time": "2026-07-19 13:43:06",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": 2117,
+    "before": 21435,
+    "after": 23552,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784439853.1196089,
+    "time": "2026-07-19 13:44:13",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 5604,
+    "before": 16983,
+    "after": 22587,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784439853.1265924,
+    "time": "2026-07-19 13:44:13",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": -416,
+    "before": 2383,
+    "after": 1967,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784439853.144431,
+    "time": "2026-07-19 13:44:13",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": 11346,
+    "before": 6554,
+    "after": 17900,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784439853.1608627,
+    "time": "2026-07-19 13:44:13",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": -1726,
+    "before": 55380,
+    "after": 53654,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784439853.180393,
+    "time": "2026-07-19 13:44:13",
+    "type": "bg_settle",
+    "entity": "AI:士官长",
+    "amount": -556,
+    "before": 1000,
+    "after": 444,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784439867.7842503,
+    "time": "2026-07-19 13:44:27",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": 7503,
+    "before": 8169,
+    "after": 15672,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784439868.0033512,
+    "time": "2026-07-19 13:44:28",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": -169,
+    "before": 22972,
+    "after": 22803,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784439868.3232,
+    "time": "2026-07-19 13:44:28",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": 6330,
+    "before": 57756,
+    "after": 64086,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784439906.8151085,
+    "time": "2026-07-19 13:45:06",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": 1391,
+    "before": 4874,
+    "after": 6265,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784439906.819121,
+    "time": "2026-07-19 13:45:06",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": -165,
+    "before": 35356,
+    "after": 35191,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784439906.832085,
+    "time": "2026-07-19 13:45:06",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -263,
+    "before": 3786,
+    "after": 3523,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784439921.2986305,
+    "time": "2026-07-19 13:45:21",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -60,
+    "before": 1000,
+    "after": 940,
+    "detail": "后台桌2结算 12手"
+  },
+  {
+    "ts": 1784439921.3093386,
+    "time": "2026-07-19 13:45:21",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -1819,
+    "before": 21327,
+    "after": 19508,
+    "detail": "后台桌2结算 12手"
+  },
+  {
+    "ts": 1784439921.3262937,
+    "time": "2026-07-19 13:45:21",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 16187,
+    "before": 23517,
+    "after": 39704,
+    "detail": "后台桌2结算 12手"
+  },
+  {
+    "ts": 1784439921.344246,
+    "time": "2026-07-19 13:45:21",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -1819,
+    "before": 24356,
+    "after": 22537,
+    "detail": "后台桌2结算 12手"
+  },
+  {
+    "ts": 1784439921.361695,
+    "time": "2026-07-19 13:45:21",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": -668,
+    "before": 10731,
+    "after": 10063,
+    "detail": "后台桌2结算 12手"
+  },
+  {
+    "ts": 1784439921.3809495,
+    "time": "2026-07-19 13:45:21",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": -40,
+    "before": 87416,
+    "after": 87376,
+    "detail": "后台桌2结算 12手"
+  },
+  {
+    "ts": 1784440004.9488533,
+    "time": "2026-07-19 13:46:44",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": 95,
+    "before": 3314,
+    "after": 3409,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440005.1688066,
+    "time": "2026-07-19 13:46:45",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -746,
+    "before": 4151,
+    "after": 3405,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440005.3992188,
+    "time": "2026-07-19 13:46:45",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": -479,
+    "before": 22881,
+    "after": 22402,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440005.8402705,
+    "time": "2026-07-19 13:46:45",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": 956,
+    "before": 3232,
+    "after": 4188,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440006.2251186,
+    "time": "2026-07-19 13:46:46",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 160,
+    "before": 39704,
+    "after": 39864,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440006.439166,
+    "time": "2026-07-19 13:46:46",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": -382,
+    "before": 35191,
+    "after": 34809,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440006.702849,
+    "time": "2026-07-19 13:46:46",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": 4276,
+    "before": 49479,
+    "after": 53755,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440006.9069228,
+    "time": "2026-07-19 13:46:46",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": -699,
+    "before": 3505,
+    "after": 2806,
+    "detail": "后台桌8结算 11手"
+  },
+  {
+    "ts": 1784440098.957952,
+    "time": "2026-07-19 13:48:18",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -585,
+    "before": 9732,
+    "after": 9147,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784440098.965193,
+    "time": "2026-07-19 13:48:18",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": -585,
+    "before": 13266,
+    "after": 12681,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784440098.979331,
+    "time": "2026-07-19 13:48:18",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 26065,
+    "before": 34867,
+    "after": 60932,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784440126.649299,
+    "time": "2026-07-19 13:48:46",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": -709,
+    "before": 22803,
+    "after": 22094,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784440126.8472843,
+    "time": "2026-07-19 13:48:46",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 244,
+    "before": 7903,
+    "after": 8147,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784440127.0451455,
+    "time": "2026-07-19 13:48:47",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 4333,
+    "before": 38629,
+    "after": 42962,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784440127.1840572,
+    "time": "2026-07-19 13:48:47",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": 3401,
+    "before": 95872,
+    "after": 99273,
+    "detail": "后台桌4结算 7手"
+  },
+  {
+    "ts": 1784440172.006436,
+    "time": "2026-07-19 13:49:32",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 22077,
+    "before": 3523,
+    "after": 25600,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784440172.1561306,
+    "time": "2026-07-19 13:49:32",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": -1202,
+    "before": 17900,
+    "after": 16698,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784440172.2896383,
+    "time": "2026-07-19 13:49:32",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": -1202,
+    "before": 15672,
+    "after": 14470,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784440172.3773317,
+    "time": "2026-07-19 13:49:32",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 4114,
+    "before": 10063,
+    "after": 14177,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784440172.5049381,
+    "time": "2026-07-19 13:49:32",
+    "type": "bg_settle",
+    "entity": "AI:韩立",
+    "amount": -173,
+    "before": 5819,
+    "after": 5646,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784440172.5961168,
+    "time": "2026-07-19 13:49:32",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": -1202,
+    "before": 39864,
+    "after": 38662,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784440178.2495365,
+    "time": "2026-07-19 13:49:38",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 4742,
+    "before": 117499,
+    "after": 122241,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784440178.2545872,
+    "time": "2026-07-19 13:49:38",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 552,
+    "before": 60932,
+    "after": 61484,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784440178.2686188,
+    "time": "2026-07-19 13:49:38",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 293,
+    "before": 87376,
+    "after": 87669,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784440205.9689758,
+    "time": "2026-07-19 13:50:05",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": -856,
+    "before": 34809,
+    "after": 33953,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784440206.1865454,
+    "time": "2026-07-19 13:50:06",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -859,
+    "before": 19508,
+    "after": 18649,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784440206.3822854,
+    "time": "2026-07-19 13:50:06",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": 8,
+    "before": 940,
+    "after": 948,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784440206.6680486,
+    "time": "2026-07-19 13:50:06",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 4610,
+    "before": 2806,
+    "after": 7416,
+    "detail": "后台桌2结算 10手"
+  },
+  {
+    "ts": 1784440275.3553393,
+    "time": "2026-07-19 13:51:15",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 4827,
+    "before": 35601,
+    "after": 40428,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784440275.5794275,
+    "time": "2026-07-19 13:51:15",
+    "type": "bg_settle",
+    "entity": "AI:韩立",
+    "amount": 4502,
+    "before": 5646,
+    "after": 10148,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784440275.7662778,
+    "time": "2026-07-19 13:51:15",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": -1902,
+    "before": 47124,
+    "after": 45222,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784440275.9706252,
+    "time": "2026-07-19 13:51:15",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 547,
+    "before": 22587,
+    "after": 23134,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784440276.1716404,
+    "time": "2026-07-19 13:51:16",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": 5962,
+    "before": 3409,
+    "after": 9371,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784440276.398128,
+    "time": "2026-07-19 13:51:16",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": -73,
+    "before": 22402,
+    "after": 22329,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784440276.5219712,
+    "time": "2026-07-19 13:51:16",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": -1902,
+    "before": 57683,
+    "after": 55781,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784440286.3384285,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 80,
+    "before": 61484,
+    "after": 61564,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440286.3444097,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -93,
+    "before": 122241,
+    "after": 122148,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440286.3621035,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 579,
+    "before": 14177,
+    "after": 14756,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440286.3790588,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:韩立",
+    "amount": -1584,
+    "before": 10148,
+    "after": 8564,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440286.4047856,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": -29,
+    "before": 42962,
+    "after": 42933,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440286.4266589,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": 4794,
+    "before": 1967,
+    "after": 6761,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440286.453593,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": 70,
+    "before": 948,
+    "after": 1018,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440286.4752297,
+    "time": "2026-07-19 13:51:26",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 0,
+    "before": 40428,
+    "after": 40428,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440318.077275,
+    "time": "2026-07-19 13:51:58",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": -964,
+    "before": 55781,
+    "after": 54817,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784440318.2577612,
+    "time": "2026-07-19 13:51:58",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": 65,
+    "before": 4188,
+    "after": 4253,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784440318.3242285,
+    "time": "2026-07-19 13:51:58",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": -1001,
+    "before": 42933,
+    "after": 41932,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784440318.3377147,
+    "time": "2026-07-19 13:51:58",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": 7382,
+    "before": 21534,
+    "after": 28916,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784440337.7540536,
+    "time": "2026-07-19 13:52:17",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 1263,
+    "before": 7416,
+    "after": 8679,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784440337.767872,
+    "time": "2026-07-19 13:52:17",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": -50,
+    "before": 61564,
+    "after": 61514,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784440337.7883313,
+    "time": "2026-07-19 13:52:17",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 695,
+    "before": 6796,
+    "after": 7491,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784440337.8055503,
+    "time": "2026-07-19 13:52:17",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -7,
+    "before": 9147,
+    "after": 9140,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784440337.8200214,
+    "time": "2026-07-19 13:52:17",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": -50,
+    "before": 22094,
+    "after": 22044,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784440337.8389714,
+    "time": "2026-07-19 13:52:17",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": 896,
+    "before": 33103,
+    "after": 33999,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784440337.8554425,
+    "time": "2026-07-19 13:52:17",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": -256,
+    "before": 33953,
+    "after": 33697,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784440377.5382097,
+    "time": "2026-07-19 13:52:57",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": 0,
+    "before": 20449,
+    "after": 20449,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440377.642113,
+    "time": "2026-07-19 13:52:57",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": -20,
+    "before": 17773,
+    "after": 17753,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440377.7581074,
+    "time": "2026-07-19 13:52:57",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": 1527,
+    "before": 3901,
+    "after": 5428,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440377.877395,
+    "time": "2026-07-19 13:52:57",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 546,
+    "before": 14756,
+    "after": 15302,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440378.064318,
+    "time": "2026-07-19 13:52:58",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": -645,
+    "before": 33697,
+    "after": 33052,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440378.207299,
+    "time": "2026-07-19 13:52:58",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": -30,
+    "before": 9153,
+    "after": 9123,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440378.3794606,
+    "time": "2026-07-19 13:52:58",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": 5673,
+    "before": 1018,
+    "after": 6691,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440378.5979989,
+    "time": "2026-07-19 13:52:58",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": -831,
+    "before": 6265,
+    "after": 5434,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784440430.5513275,
+    "time": "2026-07-19 13:53:50",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": 5283,
+    "before": 22537,
+    "after": 27820,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784440430.560743,
+    "time": "2026-07-19 13:53:50",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": -709,
+    "before": 33999,
+    "after": 33290,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784440473.757177,
+    "time": "2026-07-19 13:54:33",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 1608,
+    "before": 9140,
+    "after": 10748,
+    "detail": "后台桌2结算 8手"
+  },
+  {
+    "ts": 1784440473.767151,
+    "time": "2026-07-19 13:54:33",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": -536,
+    "before": 54817,
+    "after": 54281,
+    "detail": "后台桌2结算 8手"
+  },
+  {
+    "ts": 1784440481.604004,
+    "time": "2026-07-19 13:54:41",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 2147,
+    "before": 15302,
+    "after": 17449,
+    "detail": "后台桌7结算 9手"
+  },
+  {
+    "ts": 1784440481.8085945,
+    "time": "2026-07-19 13:54:41",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 277,
+    "before": 20521,
+    "after": 20798,
+    "detail": "后台桌7结算 9手"
+  },
+  {
+    "ts": 1784440580.7916875,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 20,
+    "before": 41932,
+    "after": 41952,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440580.8056753,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": -5,
+    "before": 1000,
+    "after": 995,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440580.821146,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": -541,
+    "before": 4253,
+    "after": 3712,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440580.8386059,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": 106,
+    "before": 12681,
+    "after": 12787,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440580.855084,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": 1593,
+    "before": 5358,
+    "after": 6951,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440580.8720393,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": 1326,
+    "before": 23258,
+    "after": 24584,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440580.8890004,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 3326,
+    "before": 122148,
+    "after": 125474,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440580.9072688,
+    "time": "2026-07-19 13:56:20",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": -813,
+    "before": 16698,
+    "after": 15885,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784440613.6199336,
+    "time": "2026-07-19 13:56:53",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": -1066,
+    "before": 99273,
+    "after": 98207,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440613.631902,
+    "time": "2026-07-19 13:56:53",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -1552,
+    "before": 10748,
+    "after": 9196,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440613.6524036,
+    "time": "2026-07-19 13:56:53",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 7450,
+    "before": 41952,
+    "after": 49402,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440613.6701097,
+    "time": "2026-07-19 13:56:53",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 7924,
+    "before": 125474,
+    "after": 133398,
+    "detail": "后台桌8结算 10手"
+  },
+  {
+    "ts": 1784440624.9391344,
+    "time": "2026-07-19 13:57:04",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": 71,
+    "before": 20449,
+    "after": 20520,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440624.9451182,
+    "time": "2026-07-19 13:57:04",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": 1449,
+    "before": 15885,
+    "after": 17334,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440624.961275,
+    "time": "2026-07-19 13:57:04",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": -55,
+    "before": 53654,
+    "after": 53599,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440624.9772348,
+    "time": "2026-07-19 13:57:04",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 14684,
+    "before": 8679,
+    "after": 23363,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440624.9921954,
+    "time": "2026-07-19 13:57:04",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": -1343,
+    "before": 14470,
+    "after": 13127,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440625.0096571,
+    "time": "2026-07-19 13:57:05",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": -1343,
+    "before": 33290,
+    "after": 31947,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440625.0361063,
+    "time": "2026-07-19 13:57:05",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -10,
+    "before": 28916,
+    "after": 28906,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440625.0550659,
+    "time": "2026-07-19 13:57:05",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 154,
+    "before": 7491,
+    "after": 7645,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440650.9049838,
+    "time": "2026-07-19 13:57:30",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": -1603,
+    "before": 22044,
+    "after": 20441,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784440651.1429713,
+    "time": "2026-07-19 13:57:31",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": 11509,
+    "before": 33052,
+    "after": 44561,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784440651.3720174,
+    "time": "2026-07-19 13:57:31",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -1603,
+    "before": 6691,
+    "after": 5088,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784440659.9270623,
+    "time": "2026-07-19 13:57:39",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": 5808,
+    "before": 3405,
+    "after": 9213,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784440660.0819771,
+    "time": "2026-07-19 13:57:40",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": -1936,
+    "before": 61514,
+    "after": 59578,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784440731.404833,
+    "time": "2026-07-19 13:58:51",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": 455,
+    "before": 98207,
+    "after": 98662,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784440731.475235,
+    "time": "2026-07-19 13:58:51",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": 1339,
+    "before": 3712,
+    "after": 5051,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784440731.6136558,
+    "time": "2026-07-19 13:58:51",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -755,
+    "before": 133398,
+    "after": 132643,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784440731.7236013,
+    "time": "2026-07-19 13:58:51",
+    "type": "bg_settle",
+    "entity": "AI:李逍遥",
+    "amount": 33,
+    "before": 33934,
+    "after": 33967,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784440731.862558,
+    "time": "2026-07-19 13:58:51",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 5236,
+    "before": 87669,
+    "after": 92905,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784440731.926262,
+    "time": "2026-07-19 13:58:51",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": 1742,
+    "before": 28906,
+    "after": 30648,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784440732.065902,
+    "time": "2026-07-19 13:58:52",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": -755,
+    "before": 5434,
+    "after": 4679,
+    "detail": "后台桌5结算 11手"
+  },
+  {
+    "ts": 1784440732.5330107,
+    "time": "2026-07-19 13:58:52",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -312,
+    "before": 30648,
+    "after": 30336,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784440732.553953,
+    "time": "2026-07-19 13:58:52",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": 1718,
+    "before": 12787,
+    "after": 14505,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784440732.5699153,
+    "time": "2026-07-19 13:58:52",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 208,
+    "before": 59578,
+    "after": 59786,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784440833.3986037,
+    "time": "2026-07-19 14:00:33",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -576,
+    "before": 27820,
+    "after": 27244,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784440833.414822,
+    "time": "2026-07-19 14:00:33",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": -20,
+    "before": 9123,
+    "after": 9103,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784440833.4347613,
+    "time": "2026-07-19 14:00:33",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 2667,
+    "before": 132643,
+    "after": 135310,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784440833.4548097,
+    "time": "2026-07-19 14:00:33",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": -155,
+    "before": 17753,
+    "after": 17598,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784440833.47056,
+    "time": "2026-07-19 14:00:33",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": -576,
+    "before": 38662,
+    "after": 38086,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784440833.4866955,
+    "time": "2026-07-19 14:00:33",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 1692,
+    "before": 45222,
+    "after": 46914,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784440889.4634695,
+    "time": "2026-07-19 14:01:29",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 4324,
+    "before": 7645,
+    "after": 11969,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784440889.4746292,
+    "time": "2026-07-19 14:01:29",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": -1535,
+    "before": 20520,
+    "after": 18985,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784440889.4905088,
+    "time": "2026-07-19 14:01:29",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 6553,
+    "before": 49402,
+    "after": 55955,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784440912.0959191,
+    "time": "2026-07-19 14:01:52",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": 3982,
+    "before": 44561,
+    "after": 48543,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440912.3235273,
+    "time": "2026-07-19 14:01:52",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": -870,
+    "before": 5051,
+    "after": 4181,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440912.5234265,
+    "time": "2026-07-19 14:01:52",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 438,
+    "before": 46914,
+    "after": 47352,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784440914.03498,
+    "time": "2026-07-19 14:01:54",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": 13229,
+    "before": 18649,
+    "after": 31878,
+    "detail": "后台桌7结算 9手"
+  },
+  {
+    "ts": 1784440914.0409653,
+    "time": "2026-07-19 14:01:54",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": -1041,
+    "before": 53599,
+    "after": 52558,
+    "detail": "后台桌7结算 9手"
+  },
+  {
+    "ts": 1784440914.0570374,
+    "time": "2026-07-19 14:01:54",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -1041,
+    "before": 27244,
+    "after": 26203,
+    "detail": "后台桌7结算 9手"
+  },
+  {
+    "ts": 1784440946.3092804,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -1294,
+    "before": 5088,
+    "after": 3794,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784440946.5632632,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": -183,
+    "before": 17598,
+    "after": 17415,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784440946.790823,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": -676,
+    "before": 23134,
+    "after": 22458,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784440946.8106039,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 1284,
+    "before": 23363,
+    "after": 24647,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784440946.8273344,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": 3505,
+    "before": 13127,
+    "after": 16632,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784440946.8455508,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": 3998,
+    "before": 53755,
+    "after": 57753,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784440946.8610177,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": -15,
+    "before": 9371,
+    "after": 9356,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784440946.878967,
+    "time": "2026-07-19 14:02:26",
+    "type": "bg_settle",
+    "entity": "AI:韩立",
+    "amount": 50,
+    "before": 8564,
+    "after": 8614,
+    "detail": "后台桌6结算 10手"
+  },
+  {
+    "ts": 1784441025.3219817,
+    "time": "2026-07-19 14:03:45",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 20,
+    "before": 47352,
+    "after": 47372,
+    "detail": "后台桌2结算 7手"
+  },
+  {
+    "ts": 1784441025.549511,
+    "time": "2026-07-19 14:03:45",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": 12,
+    "before": 57753,
+    "after": 57765,
+    "detail": "后台桌2结算 7手"
+  },
+  {
+    "ts": 1784441025.6269972,
+    "time": "2026-07-19 14:03:45",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": -50,
+    "before": 20798,
+    "after": 20748,
+    "detail": "后台桌2结算 7手"
+  },
+  {
+    "ts": 1784441025.7512665,
+    "time": "2026-07-19 14:03:45",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": -1079,
+    "before": 52558,
+    "after": 51479,
+    "detail": "后台桌2结算 7手"
+  },
+  {
+    "ts": 1784441025.8964682,
+    "time": "2026-07-19 14:03:45",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": 3393,
+    "before": 14505,
+    "after": 17898,
+    "detail": "后台桌2结算 7手"
+  },
+  {
+    "ts": 1784441028.1709957,
+    "time": "2026-07-19 14:03:48",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 7112,
+    "before": 92905,
+    "after": 100017,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784441028.182491,
+    "time": "2026-07-19 14:03:48",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 3877,
+    "before": 22458,
+    "after": 26335,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784441028.2004519,
+    "time": "2026-07-19 14:03:48",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": 1314,
+    "before": 17415,
+    "after": 18729,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784441028.218962,
+    "time": "2026-07-19 14:03:48",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -1690,
+    "before": 3794,
+    "after": 2104,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784441028.2369165,
+    "time": "2026-07-19 14:03:48",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -998,
+    "before": 9196,
+    "after": 8198,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784441043.1299562,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 3267,
+    "before": 40428,
+    "after": 43695,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441043.1369107,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 3887,
+    "before": 38086,
+    "after": 41973,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441043.160911,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -1694,
+    "before": 9213,
+    "after": 7519,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441043.1788623,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": 5042,
+    "before": 12306,
+    "after": 17348,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441043.1966896,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -1694,
+    "before": 25600,
+    "after": 23906,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441043.2156754,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": 232,
+    "before": 22329,
+    "after": 22561,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441043.2342174,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 5574,
+    "before": 59786,
+    "after": 65360,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441043.2522058,
+    "time": "2026-07-19 14:04:03",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 794,
+    "before": 24647,
+    "after": 25441,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784441054.4912791,
+    "time": "2026-07-19 14:04:14",
+    "type": "deposit",
+    "entity": "玩家",
+    "amount": 971,
+    "before": 17529,
+    "after": 18500,
+    "detail": "存入银行"
+  },
+  {
+    "ts": 1784441054.5002549,
+    "time": "2026-07-19 14:04:14",
+    "type": "game_settle",
+    "entity": "AI:梅长苏",
+    "amount": 580,
+    "before": 12804,
+    "after": 13384,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784441054.5182195,
+    "time": "2026-07-19 14:04:14",
+    "type": "game_settle",
+    "entity": "AI:萧炎",
+    "amount": 1416,
+    "before": 3151,
+    "after": 4567,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784441054.5361745,
+    "time": "2026-07-19 14:04:14",
+    "type": "game_settle",
+    "entity": "AI:令狐冲",
+    "amount": 985,
+    "before": 3036,
+    "after": 4021,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784441054.5523782,
+    "time": "2026-07-19 14:04:14",
+    "type": "game_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 1033,
+    "before": 53544,
+    "after": 54577,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784441054.5682487,
+    "time": "2026-07-19 14:04:14",
+    "type": "ai_loan",
+    "entity": "AI:韦小宝",
+    "amount": 5,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借5"
+  },
+  {
+    "ts": 1784441054.5901918,
+    "time": "2026-07-19 14:04:14",
+    "type": "ai_loan",
+    "entity": "AI:士官长",
+    "amount": 556,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借556"
+  },
+  {
+    "ts": 1784446835.0309086,
+    "time": "2026-07-19 15:40:35",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -1000,
+    "before": 18500,
+    "after": 17500,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784446835.0408547,
+    "time": "2026-07-19 15:40:35",
+    "type": "buy_in",
+    "entity": "AI:魔丸哪吒",
+    "amount": -1000,
+    "before": 54281,
+    "after": 53281,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784446835.0557249,
+    "time": "2026-07-19 15:40:35",
+    "type": "buy_in",
+    "entity": "AI:漩涡鸣人",
+    "amount": -1000,
+    "before": 51479,
+    "after": 50479,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784446835.0698483,
+    "time": "2026-07-19 15:40:35",
+    "type": "buy_in",
+    "entity": "AI:士官长",
+    "amount": -1000,
+    "before": 1000,
+    "after": 0,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784446835.084399,
+    "time": "2026-07-19 15:40:35",
+    "type": "buy_in",
+    "entity": "AI:小丑",
+    "amount": -1000,
+    "before": 17449,
+    "after": 16449,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784446974.6442864,
+    "time": "2026-07-19 15:42:54",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 232,
+    "before": 25441,
+    "after": 25673,
+    "detail": "后台桌7结算 7手"
+  },
+  {
+    "ts": 1784446974.662216,
+    "time": "2026-07-19 15:42:54",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": 308,
+    "before": 4567,
+    "after": 4875,
+    "detail": "后台桌7结算 7手"
+  },
+  {
+    "ts": 1784446988.1962018,
+    "time": "2026-07-19 15:43:08",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": 1825,
+    "before": 18985,
+    "after": 20810,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784446988.532016,
+    "time": "2026-07-19 15:43:08",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 776,
+    "before": 26335,
+    "after": 27111,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784446989.0999832,
+    "time": "2026-07-19 15:43:09",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 759,
+    "before": 135714,
+    "after": 136473,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784446989.570661,
+    "time": "2026-07-19 15:43:09",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": 2114,
+    "before": 6761,
+    "after": 8875,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784446989.7209172,
+    "time": "2026-07-19 15:43:09",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 182,
+    "before": 47372,
+    "after": 47554,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784446989.8913245,
+    "time": "2026-07-19 15:43:09",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": -509,
+    "before": 17348,
+    "after": 16839,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784446990.1029267,
+    "time": "2026-07-19 15:43:10",
+    "type": "bg_settle",
+    "entity": "AI:韩立",
+    "amount": -30,
+    "before": 8614,
+    "after": 8584,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784446990.2916322,
+    "time": "2026-07-19 15:43:10",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": -814,
+    "before": 20748,
+    "after": 19934,
+    "detail": "后台桌2结算 6手"
+  },
+  {
+    "ts": 1784447013.8203712,
+    "time": "2026-07-19 15:43:33",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 395,
+    "before": 8147,
+    "after": 8542,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784447013.961783,
+    "time": "2026-07-19 15:43:33",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": 4210,
+    "before": 17334,
+    "after": 21544,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784447014.0642786,
+    "time": "2026-07-19 15:43:34",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 130,
+    "before": 11969,
+    "after": 12099,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784447014.1828218,
+    "time": "2026-07-19 15:43:34",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": 10,
+    "before": 98662,
+    "after": 98672,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784447014.3190453,
+    "time": "2026-07-19 15:43:34",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": -1211,
+    "before": 24584,
+    "after": 23373,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784447014.4462767,
+    "time": "2026-07-19 15:43:34",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": -796,
+    "before": 22561,
+    "after": 21765,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784447014.58219,
+    "time": "2026-07-19 15:43:34",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 10,
+    "before": 43695,
+    "after": 43705,
+    "detail": "后台桌4结算 6手"
+  },
+  {
+    "ts": 1784447037.0957358,
+    "time": "2026-07-19 15:43:57",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": 12,
+    "before": 4181,
+    "after": 4193,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447037.1067462,
+    "time": "2026-07-19 15:43:57",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 1273,
+    "before": 23906,
+    "after": 25179,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447037.1284342,
+    "time": "2026-07-19 15:43:57",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": -278,
+    "before": 18729,
+    "after": 18451,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447037.1499891,
+    "time": "2026-07-19 15:43:57",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 1697,
+    "before": 54577,
+    "after": 56274,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447050.4435236,
+    "time": "2026-07-19 15:44:10",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": -1687,
+    "before": 56274,
+    "after": 54587,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784447050.6192482,
+    "time": "2026-07-19 15:44:10",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 7,
+    "before": 25179,
+    "after": 25186,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784447050.730369,
+    "time": "2026-07-19 15:44:10",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -78,
+    "before": 26203,
+    "after": 26125,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784447050.873857,
+    "time": "2026-07-19 15:44:10",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": 3816,
+    "before": 1000,
+    "after": 4816,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784447051.0127275,
+    "time": "2026-07-19 15:44:11",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": 5170,
+    "before": 57765,
+    "after": 62935,
+    "detail": "后台桌6结算 9手"
+  },
+  {
+    "ts": 1784447064.0538085,
+    "time": "2026-07-19 15:44:24",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": -1914,
+    "before": 43705,
+    "after": 41791,
+    "detail": "后台桌2结算 5手"
+  },
+  {
+    "ts": 1784447064.1772282,
+    "time": "2026-07-19 15:44:24",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 7928,
+    "before": 65360,
+    "after": 73288,
+    "detail": "后台桌2结算 5手"
+  },
+  {
+    "ts": 1784447064.4007201,
+    "time": "2026-07-19 15:44:24",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": -1000,
+    "before": 4816,
+    "after": 3816,
+    "detail": "后台桌2结算 5手"
+  },
+  {
+    "ts": 1784447122.4847085,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 3979,
+    "before": 100017,
+    "after": 103996,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447122.4963593,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:李逍遥",
+    "amount": -730,
+    "before": 33967,
+    "after": 33237,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447122.5138667,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -730,
+    "before": 2104,
+    "after": 1374,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447122.529334,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 472,
+    "before": 8198,
+    "after": 8670,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447122.546323,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": -83,
+    "before": 6951,
+    "after": 6868,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447122.5628815,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": -13,
+    "before": 5428,
+    "after": 5415,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447122.5811214,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 683,
+    "before": 55955,
+    "after": 56638,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447122.62926,
+    "time": "2026-07-19 15:45:22",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": -180,
+    "before": 31947,
+    "after": 31767,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784447138.534275,
+    "time": "2026-07-19 15:45:38",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": 10244,
+    "before": 16839,
+    "after": 27083,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784447138.9459767,
+    "time": "2026-07-19 15:45:38",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -20,
+    "before": 1374,
+    "after": 1354,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784447139.4093838,
+    "time": "2026-07-19 15:45:39",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": -30,
+    "before": 9356,
+    "after": 9326,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784447139.6601899,
+    "time": "2026-07-19 15:45:39",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -1838,
+    "before": 7519,
+    "after": 5681,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784447139.8776252,
+    "time": "2026-07-19 15:45:39",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": 4146,
+    "before": 62935,
+    "after": 67081,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784447140.058908,
+    "time": "2026-07-19 15:45:40",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": -1371,
+    "before": 20810,
+    "after": 19439,
+    "detail": "后台桌7结算 5手"
+  },
+  {
+    "ts": 1784447144.8328745,
+    "time": "2026-07-19 15:45:44",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -20,
+    "before": 31878,
+    "after": 31858,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784447144.9906676,
+    "time": "2026-07-19 15:45:44",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": 164,
+    "before": 9326,
+    "after": 9490,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784447145.113958,
+    "time": "2026-07-19 15:45:45",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": -1568,
+    "before": 73288,
+    "after": 71720,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784447145.3327127,
+    "time": "2026-07-19 15:45:45",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": 10750,
+    "before": 12099,
+    "after": 22849,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784447145.6000645,
+    "time": "2026-07-19 15:45:45",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": -132,
+    "before": 103996,
+    "after": 103864,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784447146.024985,
+    "time": "2026-07-19 15:45:46",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": -1568,
+    "before": 5415,
+    "after": 3847,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784447164.6104293,
+    "time": "2026-07-19 15:46:04",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 0,
+    "before": 103864,
+    "after": 103864,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447164.623941,
+    "time": "2026-07-19 15:46:04",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": 110,
+    "before": 27083,
+    "after": 27193,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447164.6474245,
+    "time": "2026-07-19 15:46:04",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": 3984,
+    "before": 3816,
+    "after": 7800,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447164.6629174,
+    "time": "2026-07-19 15:46:04",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": -1178,
+    "before": 19439,
+    "after": 18261,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447164.6809452,
+    "time": "2026-07-19 15:46:04",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": -1383,
+    "before": 17898,
+    "after": 16515,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447164.6969073,
+    "time": "2026-07-19 15:46:04",
+    "type": "bg_settle",
+    "entity": "AI:李逍遥",
+    "amount": 4109,
+    "before": 33237,
+    "after": 37346,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447164.7145212,
+    "time": "2026-07-19 15:46:04",
+    "type": "bg_settle",
+    "entity": "AI:梅长苏",
+    "amount": -70,
+    "before": 13384,
+    "after": 13314,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784447185.7399874,
+    "time": "2026-07-19 15:46:25",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 195,
+    "before": 25186,
+    "after": 25381,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784447185.9376364,
+    "time": "2026-07-19 15:46:25",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": -85,
+    "before": 16632,
+    "after": 16547,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784447186.1709049,
+    "time": "2026-07-19 15:46:26",
+    "type": "bg_settle",
+    "entity": "AI:韩立",
+    "amount": 280,
+    "before": 8584,
+    "after": 8864,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784447186.3663287,
+    "time": "2026-07-19 15:46:26",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": 1313,
+    "before": 4679,
+    "after": 5992,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784447186.603148,
+    "time": "2026-07-19 15:46:26",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 10,
+    "before": 71720,
+    "after": 71730,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784447186.8231277,
+    "time": "2026-07-19 15:46:26",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": 55,
+    "before": 23373,
+    "after": 23428,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784447187.2961752,
+    "time": "2026-07-19 15:46:27",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -486,
+    "before": 31858,
+    "after": 31372,
+    "detail": "后台桌6结算 5手"
+  },
+  {
+    "ts": 1784447203.9635687,
+    "time": "2026-07-19 15:46:43",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": -630,
+    "before": 6868,
+    "after": 6238,
+    "detail": "后台桌4结算 5手"
+  },
+  {
+    "ts": 1784447203.9764857,
+    "time": "2026-07-19 15:46:43",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": 595,
+    "before": 31767,
+    "after": 32362,
+    "detail": "后台桌4结算 5手"
+  },
+  {
+    "ts": 1784447204.0078547,
+    "time": "2026-07-19 15:46:44",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": -10,
+    "before": 41791,
+    "after": 41781,
+    "detail": "后台桌4结算 5手"
+  },
+  {
+    "ts": 1784447204.0303073,
+    "time": "2026-07-19 15:46:44",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 1865,
+    "before": 25381,
+    "after": 27246,
+    "detail": "后台桌4结算 5手"
+  },
+  {
+    "ts": 1784447325.1941044,
+    "time": "2026-07-19 15:48:45",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": 35,
+    "before": 4021,
+    "after": 4056,
+    "detail": "后台桌8结算 12手"
+  },
+  {
+    "ts": 1784447325.5513494,
+    "time": "2026-07-19 15:48:45",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": -1638,
+    "before": 3847,
+    "after": 2209,
+    "detail": "后台桌8结算 12手"
+  },
+  {
+    "ts": 1784447325.938971,
+    "time": "2026-07-19 15:48:45",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 122,
+    "before": 56638,
+    "after": 56760,
+    "detail": "后台桌8结算 12手"
+  },
+  {
+    "ts": 1784447326.3255947,
+    "time": "2026-07-19 15:48:46",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": 4614,
+    "before": 21544,
+    "after": 26158,
+    "detail": "后台桌8结算 12手"
+  },
+  {
+    "ts": 1784447326.704395,
+    "time": "2026-07-19 15:48:46",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 985,
+    "before": 25673,
+    "after": 26658,
+    "detail": "后台桌8结算 12手"
+  },
+  {
+    "ts": 1784447327.0386379,
+    "time": "2026-07-19 15:48:47",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": 561,
+    "before": 16547,
+    "after": 17108,
+    "detail": "后台桌8结算 12手"
+  },
+  {
+    "ts": 1784447327.255598,
+    "time": "2026-07-19 15:48:47",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -230,
+    "before": 26125,
+    "after": 25895,
+    "detail": "后台桌8结算 12手"
+  },
+  {
+    "ts": 1784447352.66293,
+    "time": "2026-07-19 15:49:12",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": -1137,
+    "before": 26658,
+    "after": 25521,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784447352.6706958,
+    "time": "2026-07-19 15:49:12",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": 9026,
+    "before": 17108,
+    "after": 26134,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784447352.6913261,
+    "time": "2026-07-19 15:49:12",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": -1958,
+    "before": 22849,
+    "after": 20891,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784447352.706197,
+    "time": "2026-07-19 15:49:12",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": 6458,
+    "before": 23428,
+    "after": 29886,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784447352.7214344,
+    "time": "2026-07-19 15:49:12",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": 5458,
+    "before": 9103,
+    "after": 14561,
+    "detail": "后台桌2结算 11手"
+  },
+  {
+    "ts": 1784447353.856944,
+    "time": "2026-07-19 15:49:13",
+    "type": "deposit",
+    "entity": "玩家",
+    "amount": 2279,
+    "before": 17500,
+    "after": 19779,
+    "detail": "存入银行"
+  },
+  {
+    "ts": 1784447353.864877,
+    "time": "2026-07-19 15:49:13",
+    "type": "game_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": 888,
+    "before": 49479,
+    "after": 50367,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784447353.8797588,
+    "time": "2026-07-19 15:49:13",
+    "type": "game_settle",
+    "entity": "AI:士官长",
+    "amount": 3681,
+    "before": -1380,
+    "after": 2301,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784447353.8946903,
+    "time": "2026-07-19 15:49:13",
+    "type": "game_settle",
+    "entity": "AI:小丑",
+    "amount": 1022,
+    "before": 15449,
+    "after": 16471,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784447353.9112844,
+    "time": "2026-07-19 15:49:13",
+    "type": "game_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": 100,
+    "before": 52281,
+    "after": 52381,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784447357.016166,
+    "time": "2026-07-19 15:49:17",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 0,
+    "before": 56760,
+    "after": 56760,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784447357.0278656,
+    "time": "2026-07-19 15:49:17",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -1009,
+    "before": 5681,
+    "after": 4672,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784447357.047323,
+    "time": "2026-07-19 15:49:17",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 6577,
+    "before": 47554,
+    "after": 54131,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784447357.0662944,
+    "time": "2026-07-19 15:49:17",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": -15,
+    "before": 8542,
+    "after": 8527,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784447357.0843298,
+    "time": "2026-07-19 15:49:17",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 1585,
+    "before": 41973,
+    "after": 43558,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784447357.1010942,
+    "time": "2026-07-19 15:49:17",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": -1009,
+    "before": 23552,
+    "after": 22543,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784447357.1161144,
+    "time": "2026-07-19 15:49:17",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": -10,
+    "before": 8875,
+    "after": 8865,
+    "detail": "后台桌4结算 10手"
+  },
+  {
+    "ts": 1784447358.9022248,
+    "time": "2026-07-19 15:49:18",
+    "type": "bg_settle",
+    "entity": "AI:韩立",
+    "amount": -10,
+    "before": 8864,
+    "after": 8854,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784447358.9139047,
+    "time": "2026-07-19 15:49:18",
+    "type": "bg_settle",
+    "entity": "AI:灭霸",
+    "amount": -10,
+    "before": 25895,
+    "after": 25885,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784447358.933859,
+    "time": "2026-07-19 15:49:18",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": 80,
+    "before": 5992,
+    "after": 6072,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784447358.9493268,
+    "time": "2026-07-19 15:49:18",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": 2740,
+    "before": 18451,
+    "after": 21191,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784447358.9659855,
+    "time": "2026-07-19 15:49:18",
+    "type": "bg_settle",
+    "entity": "AI:樱木花道",
+    "amount": -812,
+    "before": 98672,
+    "after": 97860,
+    "detail": "后台桌1结算 10手"
+  },
+  {
+    "ts": 1784447362.1876018,
+    "time": "2026-07-19 15:49:22",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": -1383,
+    "before": 54587,
+    "after": 53204,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784447362.205901,
+    "time": "2026-07-19 15:49:22",
+    "type": "bg_settle",
+    "entity": "AI:提利昂",
+    "amount": -10,
+    "before": 18261,
+    "after": 18251,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784447362.2395277,
+    "time": "2026-07-19 15:49:22",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -202,
+    "before": 4056,
+    "after": 3854,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784447362.2655787,
+    "time": "2026-07-19 15:49:22",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": -397,
+    "before": 7800,
+    "after": 7403,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784447362.3062701,
+    "time": "2026-07-19 15:49:22",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 1343,
+    "before": 41781,
+    "after": 43124,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784447362.3272169,
+    "time": "2026-07-19 15:49:22",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": 7589,
+    "before": 27111,
+    "after": 34700,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784447362.3442943,
+    "time": "2026-07-19 15:49:22",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": 1141,
+    "before": 20441,
+    "after": 21582,
+    "detail": "后台桌5结算 8手"
+  },
+  {
+    "ts": 1784447362.6470816,
+    "time": "2026-07-19 15:49:22",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -5000,
+    "before": 19779,
+    "after": 14779,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784447368.0997922,
+    "time": "2026-07-19 15:49:28",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 0,
+    "before": 8670,
+    "after": 8670,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784447368.2990248,
+    "time": "2026-07-19 15:49:28",
+    "type": "bg_settle",
+    "entity": "AI:孙悟空",
+    "amount": -20,
+    "before": 20891,
+    "after": 20871,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784447368.4760523,
+    "time": "2026-07-19 15:49:28",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": -5,
+    "before": 71730,
+    "after": 71725,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784447368.6322608,
+    "time": "2026-07-19 15:49:28",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": 125,
+    "before": 17543,
+    "after": 17668,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784447368.7825272,
+    "time": "2026-07-19 15:49:28",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 0,
+    "before": 20521,
+    "after": 20521,
+    "detail": "后台桌8结算 5手"
+  },
+  {
+    "ts": 1784447372.8592126,
+    "time": "2026-07-19 15:49:32",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": -1302,
+    "before": 9490,
+    "after": 8188,
+    "detail": "后台桌3结算 7手"
+  },
+  {
+    "ts": 1784447373.074902,
+    "time": "2026-07-19 15:49:33",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": -1201,
+    "before": 26158,
+    "after": 24957,
+    "detail": "后台桌3结算 7手"
+  },
+  {
+    "ts": 1784447373.215837,
+    "time": "2026-07-19 15:49:33",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": 10896,
+    "before": 26134,
+    "after": 37030,
+    "detail": "后台桌3结算 7手"
+  },
+  {
+    "ts": 1784447383.8605824,
+    "time": "2026-07-19 15:49:43",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -20,
+    "before": 25336,
+    "after": 25316,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784447383.9899838,
+    "time": "2026-07-19 15:49:43",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": -66,
+    "before": 62081,
+    "after": 62015,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784447384.1662462,
+    "time": "2026-07-19 15:49:44",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 254,
+    "before": 14934,
+    "after": 15188,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784447384.3054433,
+    "time": "2026-07-19 15:49:44",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": -101,
+    "before": 1238,
+    "after": 1137,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784447384.5132468,
+    "time": "2026-07-19 15:49:44",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": 10,
+    "before": 1354,
+    "after": 1364,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784447384.9569883,
+    "time": "2026-07-19 15:49:44",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -101,
+    "before": 22246,
+    "after": 22145,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784447385.3395603,
+    "time": "2026-07-19 15:49:45",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 132,
+    "before": 131888,
+    "after": 132020,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784447385.5909588,
+    "time": "2026-07-19 15:49:45",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": 842,
+    "before": 27193,
+    "after": 28035,
+    "detail": "后台桌7结算 12手"
+  },
+  {
+    "ts": 1784454880.7302604,
+    "time": "2026-07-19 17:54:40",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -1000,
+    "before": 14779,
+    "after": 13779,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784454880.747758,
+    "time": "2026-07-19 17:54:40",
+    "type": "buy_in",
+    "entity": "AI:韩立",
+    "amount": -1000,
+    "before": 3854,
+    "after": 2854,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784454880.7658832,
+    "time": "2026-07-19 17:54:40",
+    "type": "buy_in",
+    "entity": "AI:灭霸",
+    "amount": -1000,
+    "before": 20885,
+    "after": 19885,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784454880.7803512,
+    "time": "2026-07-19 17:54:40",
+    "type": "buy_in",
+    "entity": "AI:提利昂",
+    "amount": -1000,
+    "before": 13251,
+    "after": 12251,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784454880.796323,
+    "time": "2026-07-19 17:54:40",
+    "type": "buy_in",
+    "entity": "AI:孙悟空",
+    "amount": -1000,
+    "before": 20871,
+    "after": 19871,
+    "detail": "上桌买入 5人局"
+  },
+  {
+    "ts": 1784454977.6440468,
+    "time": "2026-07-19 17:56:17",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -1356,
+    "before": 4875,
+    "after": 3519,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784454977.6529725,
+    "time": "2026-07-19 17:56:17",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": 4108,
+    "before": 52381,
+    "after": 56489,
+    "detail": "后台桌6结算 8手"
+  },
+  {
+    "ts": 1784454999.0644362,
+    "time": "2026-07-19 17:56:39",
+    "type": "bg_settle",
+    "entity": "AI:阿甘",
+    "amount": -882,
+    "before": 1072,
+    "after": 190,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784454999.2611663,
+    "time": "2026-07-19 17:56:39",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": -10,
+    "before": 37030,
+    "after": 37020,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784454999.5046372,
+    "time": "2026-07-19 17:56:39",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": 3785,
+    "before": 54131,
+    "after": 57916,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784454999.721307,
+    "time": "2026-07-19 17:56:39",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": -1838,
+    "before": 7403,
+    "after": 5565,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455000.0021539,
+    "time": "2026-07-19 17:56:40",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 4931,
+    "before": 132020,
+    "after": 136951,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455000.103009,
+    "time": "2026-07-19 17:56:40",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 1428,
+    "before": 53204,
+    "after": 54632,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455000.2633047,
+    "time": "2026-07-19 17:56:40",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": 225,
+    "before": 50367,
+    "after": 50592,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455084.1237535,
+    "time": "2026-07-19 17:58:04",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": 28,
+    "before": 1137,
+    "after": 1165,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784455084.1386862,
+    "time": "2026-07-19 17:58:04",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": -115,
+    "before": 17668,
+    "after": 17553,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784455084.160341,
+    "time": "2026-07-19 17:58:04",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": 307,
+    "before": 26372,
+    "after": 26679,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784455084.181881,
+    "time": "2026-07-19 17:58:04",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": 17,
+    "before": 3865,
+    "after": 3882,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784455084.2091804,
+    "time": "2026-07-19 17:58:04",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": 245,
+    "before": 48543,
+    "after": 48788,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784455084.2294405,
+    "time": "2026-07-19 17:58:04",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 173,
+    "before": 136951,
+    "after": 137124,
+    "detail": "后台桌7结算 6手"
+  },
+  {
+    "ts": 1784455159.3921185,
+    "time": "2026-07-19 17:59:19",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": 3367,
+    "before": 32362,
+    "after": 35729,
+    "detail": "后台桌4结算 12手"
+  },
+  {
+    "ts": 1784455159.7615795,
+    "time": "2026-07-19 17:59:19",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": -1841,
+    "before": 15188,
+    "after": 13347,
+    "detail": "后台桌4结算 12手"
+  },
+  {
+    "ts": 1784455181.9129984,
+    "time": "2026-07-19 17:59:41",
+    "type": "bg_settle",
+    "entity": "AI:神奇女侠",
+    "amount": -360,
+    "before": 16191,
+    "after": 15831,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455182.0129652,
+    "time": "2026-07-19 17:59:42",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": 2538,
+    "before": 26679,
+    "after": 29217,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455182.1243062,
+    "time": "2026-07-19 17:59:42",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": 911,
+    "before": 1364,
+    "after": 2275,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455182.3021214,
+    "time": "2026-07-19 17:59:42",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": -15,
+    "before": 56760,
+    "after": 56745,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455182.4179714,
+    "time": "2026-07-19 17:59:42",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": -20,
+    "before": 8670,
+    "after": 8650,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455182.5397742,
+    "time": "2026-07-19 17:59:42",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": -622,
+    "before": 38124,
+    "after": 37502,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455209.578149,
+    "time": "2026-07-19 18:00:09",
+    "type": "bg_settle",
+    "entity": "AI:士官长",
+    "amount": -1380,
+    "before": 2301,
+    "after": 921,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455209.5921385,
+    "time": "2026-07-19 18:00:09",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 6464,
+    "before": 56745,
+    "after": 63209,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455209.6108494,
+    "time": "2026-07-19 18:00:09",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 4436,
+    "before": 98864,
+    "after": 103300,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455227.2071605,
+    "time": "2026-07-19 18:00:27",
+    "type": "bg_settle",
+    "entity": "AI:徐凤年",
+    "amount": -579,
+    "before": 48788,
+    "after": 48209,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784455227.2241042,
+    "time": "2026-07-19 18:00:27",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 1737,
+    "before": 13347,
+    "after": 15084,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784455286.9603188,
+    "time": "2026-07-19 18:01:26",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -115,
+    "before": 3519,
+    "after": 3404,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784455286.9827495,
+    "time": "2026-07-19 18:01:26",
+    "type": "bg_settle",
+    "entity": "AI:李逍遥",
+    "amount": 249,
+    "before": 37346,
+    "after": 37595,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784455287.0168686,
+    "time": "2026-07-19 18:01:27",
+    "type": "bg_settle",
+    "entity": "AI:奎托斯",
+    "amount": -217,
+    "before": 24957,
+    "after": 24740,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784455287.049285,
+    "time": "2026-07-19 18:01:27",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 2801,
+    "before": 22145,
+    "after": 24946,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784455287.0781715,
+    "time": "2026-07-19 18:01:27",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": -523,
+    "before": 11471,
+    "after": 10948,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784455287.1021898,
+    "time": "2026-07-19 18:01:27",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": 181,
+    "before": 35729,
+    "after": 35910,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784455287.1371617,
+    "time": "2026-07-19 18:01:27",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 1569,
+    "before": 8527,
+    "after": 10096,
+    "detail": "后台桌6结算 11手"
+  },
+  {
+    "ts": 1784455292.9210107,
+    "time": "2026-07-19 18:01:32",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": 36,
+    "before": 14561,
+    "after": 14597,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784455293.174735,
+    "time": "2026-07-19 18:01:33",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": -1112,
+    "before": 20521,
+    "after": 19409,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784455293.3684337,
+    "time": "2026-07-19 18:01:33",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": 282,
+    "before": 3854,
+    "after": 4136,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784455293.7452679,
+    "time": "2026-07-19 18:01:33",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 3216,
+    "before": 63209,
+    "after": 66425,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784455294.1489997,
+    "time": "2026-07-19 18:01:34",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": 4203,
+    "before": 54632,
+    "after": 58835,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784455294.749023,
+    "time": "2026-07-19 18:01:34",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": -1415,
+    "before": 59086,
+    "after": 57671,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784455295.0635653,
+    "time": "2026-07-19 18:01:35",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": 132,
+    "before": 25316,
+    "after": 25448,
+    "detail": "后台桌5结算 12手"
+  },
+  {
+    "ts": 1784455326.8701847,
+    "time": "2026-07-19 18:02:06",
+    "type": "bg_settle",
+    "entity": "AI:死侍",
+    "amount": -105,
+    "before": 8188,
+    "after": 8083,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784455326.9565942,
+    "time": "2026-07-19 18:02:06",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 4321,
+    "before": 137124,
+    "after": 141445,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784455327.0570934,
+    "time": "2026-07-19 18:02:07",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": -1153,
+    "before": 57916,
+    "after": 56763,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784455327.1502259,
+    "time": "2026-07-19 18:02:07",
+    "type": "bg_settle",
+    "entity": "AI:士官长",
+    "amount": 1376,
+    "before": 921,
+    "after": 2297,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784455327.2308059,
+    "time": "2026-07-19 18:02:07",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": -671,
+    "before": 15084,
+    "after": 14413,
+    "detail": "后台桌3结算 12手"
+  },
+  {
+    "ts": 1784455419.234952,
+    "time": "2026-07-19 18:03:39",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -542,
+    "before": 4672,
+    "after": 4130,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455419.6988728,
+    "time": "2026-07-19 18:03:39",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": 278,
+    "before": 62015,
+    "after": 62293,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455420.0522938,
+    "time": "2026-07-19 18:03:40",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": -542,
+    "before": 21765,
+    "after": 21223,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455420.532905,
+    "time": "2026-07-19 18:03:40",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": 7337,
+    "before": 57671,
+    "after": 65008,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455422.2696226,
+    "time": "2026-07-19 18:03:42",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 2556,
+    "before": 37502,
+    "after": 40058,
+    "detail": "后台桌1结算 7手"
+  },
+  {
+    "ts": 1784455422.4211497,
+    "time": "2026-07-19 18:03:42",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": 618,
+    "before": 4136,
+    "after": 4754,
+    "detail": "后台桌1结算 7手"
+  },
+  {
+    "ts": 1784455422.5548236,
+    "time": "2026-07-19 18:03:42",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -848,
+    "before": 3404,
+    "after": 2556,
+    "detail": "后台桌1结算 7手"
+  },
+  {
+    "ts": 1784455422.9204621,
+    "time": "2026-07-19 18:03:42",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": 354,
+    "before": 29217,
+    "after": 29571,
+    "detail": "后台桌1结算 7手"
+  },
+  {
+    "ts": 1784455452.5568604,
+    "time": "2026-07-19 18:04:12",
+    "type": "bg_settle",
+    "entity": "AI:尼奥",
+    "amount": 378,
+    "before": 37020,
+    "after": 37398,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784455452.5723274,
+    "time": "2026-07-19 18:04:12",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": 3597,
+    "before": 103300,
+    "after": 106897,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784455452.591822,
+    "time": "2026-07-19 18:04:12",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": -1165,
+    "before": 1165,
+    "after": 0,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784455452.6086679,
+    "time": "2026-07-19 18:04:12",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": -26,
+    "before": 50592,
+    "after": 50566,
+    "detail": "后台桌5结算 5手"
+  },
+  {
+    "ts": 1784455500.0161438,
+    "time": "2026-07-19 18:05:00",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": -1702,
+    "before": 2209,
+    "after": 507,
+    "detail": "后台桌3结算 7手"
+  },
+  {
+    "ts": 1784455500.205013,
+    "time": "2026-07-19 18:05:00",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": -40,
+    "before": 24886,
+    "after": 24846,
+    "detail": "后台桌3结算 7手"
+  },
+  {
+    "ts": 1784455500.3511817,
+    "time": "2026-07-19 18:05:00",
+    "type": "bg_settle",
+    "entity": "AI:钢铁侠",
+    "amount": 5183,
+    "before": 38558,
+    "after": 43741,
+    "detail": "后台桌3结算 7手"
+  },
+  {
+    "ts": 1784455514.2946382,
+    "time": "2026-07-19 18:05:14",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": -958,
+    "before": 58835,
+    "after": 57877,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455514.5920477,
+    "time": "2026-07-19 18:05:14",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -20,
+    "before": 141445,
+    "after": 141425,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455514.92824,
+    "time": "2026-07-19 18:05:14",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": -10,
+    "before": 24846,
+    "after": 24836,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455515.1206958,
+    "time": "2026-07-19 18:05:15",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": 4358,
+    "before": 0,
+    "after": 4358,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455515.2942166,
+    "time": "2026-07-19 18:05:15",
+    "type": "bg_settle",
+    "entity": "AI:杰洛特",
+    "amount": 4620,
+    "before": 17553,
+    "after": 22173,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455515.537236,
+    "time": "2026-07-19 18:05:15",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 656,
+    "before": 10948,
+    "after": 11604,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455515.7361386,
+    "time": "2026-07-19 18:05:15",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": 8010,
+    "before": 50566,
+    "after": 58576,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455515.8868032,
+    "time": "2026-07-19 18:05:15",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": -958,
+    "before": 62293,
+    "after": 61335,
+    "detail": "后台桌4结算 9手"
+  },
+  {
+    "ts": 1784455566.3280811,
+    "time": "2026-07-19 18:06:06",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": -352,
+    "before": 16582,
+    "after": 16230,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784455566.337057,
+    "time": "2026-07-19 18:06:06",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": -72,
+    "before": 2275,
+    "after": 2203,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784455566.3530486,
+    "time": "2026-07-19 18:06:06",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -673,
+    "before": 4754,
+    "after": 4081,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784455566.3709588,
+    "time": "2026-07-19 18:06:06",
+    "type": "bg_settle",
+    "entity": "AI:魔丸哪吒",
+    "amount": 2321,
+    "before": 56489,
+    "after": 58810,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784455566.3888843,
+    "time": "2026-07-19 18:06:06",
+    "type": "bg_settle",
+    "entity": "AI:小丑",
+    "amount": 2100,
+    "before": 11604,
+    "after": 13704,
+    "detail": "后台桌8结算 8手"
+  },
+  {
+    "ts": 1784455609.097355,
+    "time": "2026-07-19 18:06:49",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 1100,
+    "before": 14413,
+    "after": 15513,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784455609.1112018,
+    "time": "2026-07-19 18:06:49",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -405,
+    "before": 141425,
+    "after": 141020,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784455609.1291554,
+    "time": "2026-07-19 18:06:49",
+    "type": "bg_settle",
+    "entity": "AI:叶修",
+    "amount": 243,
+    "before": 14597,
+    "after": 14840,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784455609.1472933,
+    "time": "2026-07-19 18:06:49",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": 1921,
+    "before": 29571,
+    "after": 31492,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784455609.1641502,
+    "time": "2026-07-19 18:06:49",
+    "type": "bg_settle",
+    "entity": "AI:鲁路修",
+    "amount": -691,
+    "before": 65008,
+    "after": 64317,
+    "detail": "后台桌1结算 8手"
+  },
+  {
+    "ts": 1784455646.434607,
+    "time": "2026-07-19 18:07:26",
+    "type": "bg_settle",
+    "entity": "AI:士官长",
+    "amount": 95,
+    "before": 2297,
+    "after": 2392,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784455646.449575,
+    "time": "2026-07-19 18:07:26",
+    "type": "bg_settle",
+    "entity": "AI:漩涡鸣人",
+    "amount": 2496,
+    "before": 58576,
+    "after": 61072,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784455646.4731028,
+    "time": "2026-07-19 18:07:26",
+    "type": "bg_settle",
+    "entity": "AI:李逍遥",
+    "amount": -80,
+    "before": 37595,
+    "after": 37515,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784455646.4963026,
+    "time": "2026-07-19 18:07:26",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": -832,
+    "before": 71725,
+    "after": 70893,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784455646.5182197,
+    "time": "2026-07-19 18:07:26",
+    "type": "bg_settle",
+    "entity": "AI:梅长苏",
+    "amount": 2138,
+    "before": 13314,
+    "after": 15452,
+    "detail": "后台桌7结算 8手"
+  },
+  {
+    "ts": 1784455646.9967525,
+    "time": "2026-07-19 18:07:26",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -526,
+    "before": 141020,
+    "after": 140494,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784455647.0107548,
+    "time": "2026-07-19 18:07:27",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 4575,
+    "before": 70893,
+    "after": 75468,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784455647.030213,
+    "time": "2026-07-19 18:07:27",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -526,
+    "before": 2556,
+    "after": 2030,
+    "detail": "后台桌5结算 9手"
+  },
+  {
+    "ts": 1784455653.7538195,
+    "time": "2026-07-19 18:07:33",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -1515,
+    "before": 24946,
+    "after": 23431,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455653.7692287,
+    "time": "2026-07-19 18:07:33",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": -1247,
+    "before": 66425,
+    "after": 65178,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455653.7906504,
+    "time": "2026-07-19 18:07:33",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": 22003,
+    "before": 21223,
+    "after": 43226,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455653.8101969,
+    "time": "2026-07-19 18:07:33",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 6386,
+    "before": 8650,
+    "after": 15036,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455748.24085,
+    "time": "2026-07-19 18:09:08",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": 898,
+    "before": 5565,
+    "after": 6463,
+    "detail": "后台桌3结算 9手"
+  },
+  {
+    "ts": 1784455748.2572289,
+    "time": "2026-07-19 18:09:08",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -742,
+    "before": 4081,
+    "after": 3339,
+    "detail": "后台桌3结算 9手"
+  },
+  {
+    "ts": 1784455748.278193,
+    "time": "2026-07-19 18:09:08",
+    "type": "bg_settle",
+    "entity": "AI:琦玉",
+    "amount": 1786,
+    "before": 16515,
+    "after": 18301,
+    "detail": "后台桌3结算 9手"
+  },
+  {
+    "ts": 1784455748.3041563,
+    "time": "2026-07-19 18:09:08",
+    "type": "bg_settle",
+    "entity": "AI:祈求者",
+    "amount": 528,
+    "before": 16230,
+    "after": 16758,
+    "detail": "后台桌3结算 9手"
+  },
+  {
+    "ts": 1784455794.305525,
+    "time": "2026-07-19 18:09:54",
+    "type": "bg_settle",
+    "entity": "AI:利威尔",
+    "amount": 6919,
+    "before": 15036,
+    "after": 21955,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784455794.4536784,
+    "time": "2026-07-19 18:09:54",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": -1592,
+    "before": 4193,
+    "after": 2601,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784455794.5952058,
+    "time": "2026-07-19 18:09:54",
+    "type": "bg_settle",
+    "entity": "AI:犬夜叉",
+    "amount": -1592,
+    "before": 57877,
+    "after": 56285,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784455794.8085303,
+    "time": "2026-07-19 18:09:54",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 4823,
+    "before": 10096,
+    "after": 14919,
+    "detail": "后台桌4结算 8手"
+  },
+  {
+    "ts": 1784455794.9786136,
+    "time": "2026-07-19 18:09:54",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": 413,
+    "before": 25448,
+    "after": 25861,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455794.9962037,
+    "time": "2026-07-19 18:09:54",
+    "type": "bg_settle",
+    "entity": "AI:韦小宝",
+    "amount": 2150,
+    "before": 6463,
+    "after": 8613,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455795.0131438,
+    "time": "2026-07-19 18:09:55",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": -353,
+    "before": 43226,
+    "after": 42873,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455795.0352376,
+    "time": "2026-07-19 18:09:55",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -573,
+    "before": 140494,
+    "after": 139921,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455795.0570977,
+    "time": "2026-07-19 18:09:55",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": 1269,
+    "before": 23431,
+    "after": 24700,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455795.0786877,
+    "time": "2026-07-19 18:09:55",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": -710,
+    "before": 24836,
+    "after": 24126,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455795.0961478,
+    "time": "2026-07-19 18:09:55",
+    "type": "bg_settle",
+    "entity": "AI:柯南",
+    "amount": 2488,
+    "before": 75468,
+    "after": 77956,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455795.1142378,
+    "time": "2026-07-19 18:09:55",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": 120,
+    "before": 15513,
+    "after": 15633,
+    "detail": "后台桌8结算 7手"
+  },
+  {
+    "ts": 1784455827.3255124,
+    "time": "2026-07-19 18:10:27",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": 4580,
+    "before": 4358,
+    "after": 8938,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455827.4699025,
+    "time": "2026-07-19 18:10:27",
+    "type": "bg_settle",
+    "entity": "AI:亚索",
+    "amount": 3706,
+    "before": 14919,
+    "after": 18625,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455827.500913,
+    "time": "2026-07-19 18:10:27",
+    "type": "bg_settle",
+    "entity": "AI:邦德",
+    "amount": -52,
+    "before": 24126,
+    "after": 24074,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455827.5341177,
+    "time": "2026-07-19 18:10:27",
+    "type": "bg_settle",
+    "entity": "AI:教父",
+    "amount": -26,
+    "before": 42873,
+    "after": 42847,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455827.5656505,
+    "time": "2026-07-19 18:10:27",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": -1221,
+    "before": 2601,
+    "after": 1380,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455827.601116,
+    "time": "2026-07-19 18:10:27",
+    "type": "bg_settle",
+    "entity": "AI:太一",
+    "amount": -95,
+    "before": 35910,
+    "after": 35815,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455827.6271656,
+    "time": "2026-07-19 18:10:27",
+    "type": "bg_settle",
+    "entity": "AI:蝙蝠侠",
+    "amount": -1282,
+    "before": 15633,
+    "after": 14351,
+    "detail": "后台桌1结算 6手"
+  },
+  {
+    "ts": 1784455830.4406753,
+    "time": "2026-07-19 18:10:30",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -1266,
+    "before": 31492,
+    "after": 30226,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784455830.4765549,
+    "time": "2026-07-19 18:10:30",
+    "type": "bg_settle",
+    "entity": "AI:封不觉",
+    "amount": 1,
+    "before": 3882,
+    "after": 3883,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784455830.5110614,
+    "time": "2026-07-19 18:10:30",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": 4929,
+    "before": 139921,
+    "after": 144850,
+    "detail": "后台桌5结算 7手"
+  },
+  {
+    "ts": 1784455883.5286536,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": -236,
+    "before": 28035,
+    "after": 27799,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455883.6102006,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:魏无羡",
+    "amount": -5,
+    "before": 24700,
+    "after": 24695,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455883.6931438,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:福尔摩斯",
+    "amount": -40,
+    "before": 29700,
+    "after": 29660,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455883.7702837,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": 4580,
+    "before": 2030,
+    "after": 6610,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455883.861482,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:令狐冲",
+    "amount": -1217,
+    "before": 3339,
+    "after": 2122,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455883.8790662,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:奇异博士",
+    "amount": 245,
+    "before": 65178,
+    "after": 65423,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455883.8965693,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:阿尔萨斯",
+    "amount": -30,
+    "before": 507,
+    "after": 477,
+    "detail": "后台桌7结算 11手"
+  },
+  {
+    "ts": 1784455883.914457,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:洛基",
+    "amount": 70,
+    "before": 19409,
+    "after": 19479,
+    "detail": "后台桌5结算 6手"
+  },
+  {
+    "ts": 1784455883.9309075,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:萧炎",
+    "amount": -10,
+    "before": 6610,
+    "after": 6600,
+    "detail": "后台桌5结算 6手"
+  },
+  {
+    "ts": 1784455883.9488978,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": -91,
+    "before": 25861,
+    "after": 25770,
+    "detail": "后台桌5结算 6手"
+  },
+  {
+    "ts": 1784455883.965247,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:坂田银时",
+    "amount": -81,
+    "before": 61335,
+    "after": 61254,
+    "detail": "后台桌5结算 6手"
+  },
+  {
+    "ts": 1784455883.9841197,
+    "time": "2026-07-19 18:11:23",
+    "type": "bg_settle",
+    "entity": "AI:狐尼克",
+    "amount": -10,
+    "before": 56763,
+    "after": 56753,
+    "detail": "后台桌5结算 6手"
+  },
+  {
+    "ts": 1784455884.0013177,
+    "time": "2026-07-19 18:11:24",
+    "type": "bg_settle",
+    "entity": "AI:沃尔特",
+    "amount": 405,
+    "before": 8938,
+    "after": 9343,
+    "detail": "后台桌5结算 6手"
+  },
+  {
+    "ts": 1784455884.37232,
+    "time": "2026-07-19 18:11:24",
+    "type": "deposit",
+    "entity": "玩家",
+    "amount": 1361,
+    "before": 13779,
+    "after": 15140,
+    "detail": "存入银行"
+  },
+  {
+    "ts": 1784455884.3821938,
+    "time": "2026-07-19 18:11:24",
+    "type": "game_settle",
+    "entity": "AI:提利昂",
+    "amount": 113,
+    "before": 12251,
+    "after": 12364,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784455884.4011474,
+    "time": "2026-07-19 18:11:24",
+    "type": "game_settle",
+    "entity": "AI:孙悟空",
+    "amount": 1651,
+    "before": 19871,
+    "after": 21522,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784455884.4241145,
+    "time": "2026-07-19 18:11:24",
+    "type": "game_settle",
+    "entity": "AI:灭霸",
+    "amount": 950,
+    "before": 19885,
+    "after": 20835,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784455884.4460664,
+    "time": "2026-07-19 18:11:24",
+    "type": "game_settle",
+    "entity": "AI:韩立",
+    "amount": 1895,
+    "before": 1854,
+    "after": 3749,
+    "detail": "对局结束筹码存回银行"
+  },
+  {
+    "ts": 1784455884.463591,
+    "time": "2026-07-19 18:11:24",
+    "type": "ai_loan",
+    "entity": "AI:阿尔萨斯",
+    "amount": 523,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借523"
+  },
+  {
+    "ts": 1784455884.4806283,
+    "time": "2026-07-19 18:11:24",
+    "type": "ai_loan",
+    "entity": "AI:阿甘",
+    "amount": 810,
+    "before": -1,
+    "after": -1,
+    "detail": "向张起灵借810"
+  },
+  {
+    "ts": 1784455887.4406118,
+    "time": "2026-07-19 18:11:27",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -5000,
+    "before": 15140,
+    "after": 10140,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784455898.823091,
+    "time": "2026-07-19 18:11:38",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -5000,
+    "before": 10140,
+    "after": 5140,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784455901.6631901,
+    "time": "2026-07-19 18:11:41",
+    "type": "bg_settle",
+    "entity": "AI:谢尔顿",
+    "amount": 90,
+    "before": 1380,
+    "after": 1470,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784455901.894065,
+    "time": "2026-07-19 18:11:41",
+    "type": "bg_settle",
+    "entity": "AI:劳拉",
+    "amount": 3688,
+    "before": 35058,
+    "after": 38746,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784455902.2561939,
+    "time": "2026-07-19 18:11:42",
+    "type": "bg_settle",
+    "entity": "AI:张起灵",
+    "amount": -740,
+    "before": 143517,
+    "after": 142777,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784455902.7341468,
+    "time": "2026-07-19 18:11:42",
+    "type": "bg_settle",
+    "entity": "AI:路飞",
+    "amount": -460,
+    "before": 30226,
+    "after": 29766,
+    "detail": "后台桌3结算 8手"
+  },
+  {
+    "ts": 1784455907.6071575,
+    "time": "2026-07-19 18:11:47",
+    "type": "bg_settle",
+    "entity": "AI:夜神月",
+    "amount": 29,
+    "before": 2203,
+    "after": 2232,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455908.002464,
+    "time": "2026-07-19 18:11:48",
+    "type": "bg_settle",
+    "entity": "AI:范闲",
+    "amount": -1431,
+    "before": 4130,
+    "after": 2699,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455908.2379942,
+    "time": "2026-07-19 18:11:48",
+    "type": "bg_settle",
+    "entity": "AI:艾吉奥",
+    "amount": 5318,
+    "before": 27799,
+    "after": 33117,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455908.7134726,
+    "time": "2026-07-19 18:11:48",
+    "type": "bg_settle",
+    "entity": "AI:五条悟",
+    "amount": -919,
+    "before": 101897,
+    "after": 100978,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784455909.1940806,
+    "time": "2026-07-19 18:11:49",
+    "type": "bg_settle",
+    "entity": "AI:乔峰",
+    "amount": 437,
+    "before": 20770,
+    "after": 21207,
+    "detail": "后台桌6结算 12手"
+  },
+  {
+    "ts": 1784457960.898418,
+    "time": "2026-07-19 18:46:00",
+    "type": "withdraw",
+    "entity": "玩家",
+    "amount": -5000,
+    "before": 25140,
+    "after": 20140,
+    "detail": "取出筹码上桌"
+  },
+  {
+    "ts": 1784459324.853824,
+    "time": "2026-07-19 19:08:44",
+    "type": "tournament_prize",
+    "entity": "AI:乔峰",
+    "amount": 3000,
+    "before": 20770,
+    "after": 23770,
+    "detail": "锦标赛奖金 rank=4"
+  },
+  {
+    "ts": 1784459324.8651252,
+    "time": "2026-07-19 19:08:44",
+    "type": "tournament_prize",
+    "entity": "AI:亚索",
+    "amount": 3000,
+    "before": 13625,
+    "after": 16625,
+    "detail": "锦标赛奖金 rank=5"
+  },
+  {
+    "ts": 1784459324.8880928,
+    "time": "2026-07-19 19:08:44",
+    "type": "tournament_prize",
+    "entity": "AI:柯南",
+    "amount": 3000,
+    "before": 72956,
+    "after": 75956,
+    "detail": "锦标赛奖金 rank=6"
+  },
+  {
+    "ts": 1784459324.9058359,
+    "time": "2026-07-19 19:08:44",
+    "type": "tournament_prize",
+    "entity": "AI:提利昂",
+    "amount": 3000,
+    "before": 7364,
+    "after": 10364,
+    "detail": "锦标赛奖金 rank=7"
+  },
+  {
+    "ts": 1784459331.7531254,
+    "time": "2026-07-19 19:08:51",
+    "type": "tournament_prize",
+    "entity": "AI:利威尔",
+    "amount": 10000,
+    "before": 16955,
+    "after": 26955,
+    "detail": "锦标赛奖金 rank=1"
+  },
+  {
+    "ts": 1784459331.7643356,
+    "time": "2026-07-19 19:08:51",
+    "type": "tournament_prize",
+    "entity": "AI:鲁路修",
+    "amount": 7500,
+    "before": 59317,
+    "after": 66817,
+    "detail": "锦标赛奖金 rank=2"
+  },
+  {
+    "ts": 1784459331.7812896,
+    "time": "2026-07-19 19:08:51",
+    "type": "tournament_prize",
+    "entity": "AI:福尔摩斯",
+    "amount": 7500,
+    "before": 24660,
+    "after": 32160,
+    "detail": "锦标赛奖金 rank=3"
+  }
+]

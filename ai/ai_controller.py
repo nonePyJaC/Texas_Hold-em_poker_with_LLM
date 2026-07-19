@@ -10,6 +10,7 @@ from engine.action import Action, ActionType
 from engine.hand_evaluator import estimate_hand_strength
 from ai.emotion import EVENT_STRONG_HAND
 from ai.character_pool import HUMAN_OPPONENT_KEY
+from ui.render_state import RenderLayer
 
 
 class AIController:
@@ -34,6 +35,7 @@ class AIController:
         if current and not current.is_human and current.can_act():
             self.app.ai_thinking = True
             self.app.ai_think_timer = 0
+            self.app.render_state.invalidate(RenderLayer.DYNAMIC, reason="ai_thinking")
 
             # 估算当前手牌强度
             ev = current.evaluate_hand(self.app.game.community_cards, short_deck=self.app.game.is_short_deck)
@@ -65,6 +67,7 @@ class AIController:
                 self.app.ai_dialogue = None
         else:
             self.app.ai_thinking = False
+            self.app.render_state.invalidate(RenderLayer.DYNAMIC, reason="ai_idle")
 
     def build_strategy_context(self, player):
         """构建 StrategyAdapter 所需的 StrategyContext 快照"""
@@ -140,6 +143,8 @@ class AIController:
         if not player or player.is_human:
             return
         player_index = self.app.game.players.index(player)
+        import time as _t
+        self._decision_start = _t.perf_counter()
         self._pending_future = self._executor.submit(self._decision_worker, player, player_index)
 
     def poll_decision(self):
@@ -151,12 +156,21 @@ class AIController:
             return None
         if not self._pending_future.done():
             return None
+        import time as _t
+        elapsed_ms = (_t.perf_counter() - getattr(self, '_decision_start', _t.perf_counter())) * 1000
+        failed = False
         try:
             action = self._pending_future.result()
         except Exception as e:
             logging.getLogger(__name__).warning(f"AI 决策失败: {e}")
             action = None
+            failed = True
         self._pending_future = None
+        try:
+            from utils.perf_monitor import get_monitor
+            get_monitor().record_task("ai_decision", elapsed_ms, failed=failed)
+        except Exception:
+            pass
         return action
 
     def _decision_worker(self, player, player_index):

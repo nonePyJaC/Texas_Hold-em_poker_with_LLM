@@ -26,7 +26,9 @@ Queues:
 import time
 import os
 import logging
-from collections import deque
+import gc
+import threading
+from collections import deque, defaultdict
 
 try:
     import psutil
@@ -79,6 +81,33 @@ class PerfMonitor:
         self._pid = os.getpid()
         self._process = psutil.Process(self._pid) if _HAS_PSUTIL else None
 
+        # 帧尖峰检测
+        self._spike_thresholds = [
+            (0.500, "CRITICAL"),  # >500ms
+            (0.100, "SEVERE"),    # >100ms
+            (0.033, "WARNING"),   # >33ms
+        ]
+        self._spike_last_log = {}  # threshold -> last log time
+        self._spike_cooldown = 10.0  # 同一档位尖峰日志冷却秒数
+
+        # 上下文追踪
+        self._recent_scene_changes = deque(maxlen=3)  # (timestamp, old_scene, new_scene)
+        self._recent_events = deque(maxlen=3)  # (timestamp, event_desc)
+
+        # 端到端任务耗时统计 (P1-02.3)
+        self._task_stats = defaultdict(lambda: {
+            "count": 0, "total_ms": 0.0, "max_ms": 0.0,
+            "failures": 0,
+        })
+        self._task_thresholds = {
+            "ai_decision": 2000.0,    # ms
+            "llm_request": 5000.0,
+            "table_sim": 3000.0,
+            "tournament_sim": 5000.0,
+            "save": 1000.0,
+            "audit_write": 500.0,
+        }
+
     def set_stats_provider(self, provider):
         """设置外部统计提供者，返回 dict 包含后台模拟/AI/队列等指标"""
         self._stats_provider = provider
@@ -89,9 +118,90 @@ class PerfMonitor:
         self._frame_count += 1
 
         now = time.perf_counter()
+
+        # 帧尖峰检测
+        self._check_spike(total_dt, now)
+
         if now - self._last_log >= self.log_interval:
             self._dump_log()
             self._last_log = now
+
+    def _check_spike(self, total_dt, now):
+        """检测帧尖峰并记录事件日志"""
+        for threshold, level in self._spike_thresholds:
+            if total_dt > threshold:
+                last = self._spike_last_log.get(threshold, 0.0)
+                if now - last < self._spike_cooldown:
+                    return
+                self._spike_last_log[threshold] = now
+                self._log_spike(total_dt, level, now)
+                return
+
+    def _log_spike(self, total_dt, level, now):
+        """输出一条帧尖峰事件日志"""
+        dt_ms = total_dt * 1000
+
+        # 收集上下文
+        thread_count = 0
+        if self._process:
+            try:
+                thread_count = self._process.num_threads()
+            except Exception:
+                pass
+
+        bg_tables = 0
+        bg_players = 0
+        active_ai = 0
+        dialogue_queue = 0
+        chat_messages = 0
+        if self._stats_provider:
+            try:
+                stats = self._stats_provider()
+                bg_tables = stats.get("bg_tables", 0)
+                bg_players = stats.get("bg_players", 0)
+                active_ai = stats.get("active_ai", 0)
+                dialogue_queue = stats.get("dialogue_queue", 0)
+                chat_messages = stats.get("chat_messages", 0)
+            except Exception:
+                pass
+
+        lines = []
+        lines.append(f"[SPIKE] {level} 帧尖峰 {dt_ms:.0f}ms (scene={self._scene})")
+        lines.append(f"  Threads              {thread_count}")
+        lines.append(f"  BG Tables            {bg_tables}")
+        lines.append(f"  BG Players           {bg_players}")
+        lines.append(f"  Active AI Total      {active_ai}")
+        lines.append(f"  Dialogue Queue       {dialogue_queue}")
+        lines.append(f"  Chat Messages        {chat_messages}")
+
+        # 近期场景切换
+        if self._recent_scene_changes:
+            recent = []
+            for ts, old_s, new_s in self._recent_scene_changes:
+                ago = now - ts
+                if ago < 30.0:
+                    recent.append(f"{old_s}->{new_s}({ago:.1f}s ago)")
+            if recent:
+                lines.append(f"  Recent Scenes        {'; '.join(recent)}")
+
+        # 近期事件
+        if self._recent_events:
+            recent_ev = []
+            for ts, desc in self._recent_events:
+                ago = now - ts
+                if ago < 30.0:
+                    recent_ev.append(f"{desc}({ago:.1f}s ago)")
+            if recent_ev:
+                lines.append(f"  Recent Events        {'; '.join(recent_ev)}")
+
+        logger.info("\n".join(lines))
+
+        # 清理过期上下文
+        cutoff = now - 30.0
+        while self._recent_scene_changes and self._recent_scene_changes[0][0] < cutoff:
+            self._recent_scene_changes.popleft()
+        while self._recent_events and self._recent_events[0][0] < cutoff:
+            self._recent_events.popleft()
 
     def record_phase(self, phase, elapsed):
         if phase in self._phase_totals:
@@ -100,8 +210,38 @@ class PerfMonitor:
 
     def set_scene(self, scene_name):
         if scene_name != self._scene:
+            old = self._scene
             self._scene = scene_name
+            self._recent_scene_changes.append((time.perf_counter(), old, scene_name))
             logger.info(f"[PERF] 场景切换 -> {scene_name}")
+
+    def record_event(self, desc):
+        """记录近期事件（存档、结算等）用于尖峰日志上下文"""
+        self._recent_events.append((time.perf_counter(), desc))
+
+    def record_task(self, task_type, elapsed_ms, failed=False):
+        """记录端到端任务耗时（P1-02.3）
+
+        Args:
+            task_type: "ai_decision"/"llm_request"/"table_sim"/"tournament_sim"/"save"/"audit_write"
+            elapsed_ms: 耗时（毫秒）
+            failed: 是否失败
+        """
+        s = self._task_stats[task_type]
+        s["count"] += 1
+        s["total_ms"] += elapsed_ms
+        if elapsed_ms > s["max_ms"]:
+            s["max_ms"] = elapsed_ms
+        if failed:
+            s["failures"] += 1
+
+        # 阈值告警
+        threshold = self._task_thresholds.get(task_type, 0)
+        if threshold > 0 and elapsed_ms > threshold:
+            logger.warning(
+                f"[TASK-SLOW] {task_type} 耗时 {elapsed_ms:.0f}ms "
+                f"(阈值 {threshold:.0f}ms, scene={self._scene})"
+            )
 
     def _avg_phase(self, phase):
         n = max(self._phase_counts.get(phase, 1), 1)
@@ -159,6 +299,14 @@ class PerfMonitor:
         game_blind = "0"
         is_tournament = False
         table_name = ""
+        # 资源快照 (P1-02.2)
+        animations_count = 0
+        broadcast_count = 0
+        card_cache_size = 0
+        avatar_cache_size = 0
+        text_cache_size = 0
+        hand_history_count = 0
+        llm_pending = 0
 
         if self._stats_provider:
             try:
@@ -176,8 +324,15 @@ class PerfMonitor:
                 game_blind = stats.get("game_blind", "0")
                 is_tournament = stats.get("is_tournament", False)
                 table_name = stats.get("table_name", "")
-            except Exception:
-                pass
+                animations_count = stats.get("animations", 0)
+                broadcast_count = stats.get("broadcast_msgs", 0)
+                card_cache_size = stats.get("card_cache", 0)
+                avatar_cache_size = stats.get("avatar_cache", 0)
+                text_cache_size = stats.get("text_cache", 0)
+                hand_history_count = stats.get("hand_history", 0)
+                llm_pending = stats.get("llm_pending", 0)
+            except Exception as e:
+                logger.warning(f"[PERF] 统计采样异常: {e}")
 
         # 计算 hands/sec
         hands_delta = bg_hands_total - self._prev_hands_played
@@ -216,9 +371,34 @@ class PerfMonitor:
         lines.append("Memory:")
         lines.append(f"  RSS                  {mem_mb:.0f}MB")
         lines.append(f"  Threads              {thread_count}")
+        # GC 计数
+        gc_counts = gc.get_count()
+        lines.append(f"  GC gen0/1/2          {gc_counts[0]}/{gc_counts[1]}/{gc_counts[2]}")
         lines.append("Queues:")
         lines.append(f"  Dialogue             {dialogue_queue}")
         lines.append(f"  Chat Messages        {chat_messages}")
+        lines.append(f"  LLM Pending          {llm_pending}")
+        lines.append("Caches:")
+        lines.append(f"  Card Cache           {card_cache_size}")
+        lines.append(f"  Avatar Cache         {avatar_cache_size}")
+        lines.append(f"  Text Cache           {text_cache_size}")
+        lines.append(f"  Animations           {animations_count}")
+        lines.append(f"  Broadcast Msgs       {broadcast_count}")
+        lines.append(f"  Hand History         {hand_history_count}")
+
+        # 端到端任务耗时 (P1-02.3)
+        task_lines = []
+        for task_type in ["ai_decision", "llm_request", "table_sim", "tournament_sim", "save", "audit_write"]:
+            s = self._task_stats.get(task_type)
+            if s and s["count"] > 0:
+                avg_ms = s["total_ms"] / s["count"]
+                task_lines.append(
+                    f"  {task_type:<20} n={s['count']} avg={avg_ms:.0f}ms "
+                    f"max={s['max_ms']:.0f}ms fail={s['failures']}"
+                )
+        if task_lines:
+            lines.append("Tasks:")
+            lines.extend(task_lines)
 
         logger.info("\n".join(lines))
 
@@ -227,6 +407,11 @@ class PerfMonitor:
             self._phase_totals[k] = 0.0
             self._phase_counts[k] = 0
         self._frame_count = 0
+        for s in self._task_stats.values():
+            s["count"] = 0
+            s["total_ms"] = 0.0
+            s["max_ms"] = 0.0
+            s["failures"] = 0
 
 
 def get_monitor():

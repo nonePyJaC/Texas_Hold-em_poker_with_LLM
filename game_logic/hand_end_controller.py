@@ -19,6 +19,8 @@ class HandEndController:
     def on_showdown(self, results):
         """摊牌时切换场景并在后台线程执行重逻辑"""
         app = self.app
+        from utils.perf_monitor import get_monitor
+        get_monitor().record_event("showdown")
         app.audio.play("win")
         if results and not results.get('fold_win'):
             evaluations = results.get('evaluations', {})
@@ -296,4 +298,10 @@ class HandEndController:
             )
 
         # 保存（非强制，受 HANDS_BETWEEN_SAVES 控制）
+        import time as _t
+        _save_t0 = _t.perf_counter()
         app.save_manager.save()
+        _save_t1 = _t.perf_counter()
+        from utils.perf_monitor import get_monitor
+        get_monitor().record_task("save", (_save_t1 - _save_t0) * 1000)
+        get_monitor().record_event("hand_end_save")

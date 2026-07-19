@@ -41,7 +41,14 @@ class Button:
         pygame.draw.rect(surface, color, self.rect, border_radius=8)
         pygame.draw.rect(surface, COLOR_PANEL_BORDER, self.rect, 2, border_radius=8)
 
-        text_surf = self.font.render(self.text, True, self.text_color if self.enabled else COLOR_TEXT_DIM)
+        text_color = self.text_color if self.enabled else COLOR_TEXT_DIM
+        cache_key = (self.text, text_color)
+        if not hasattr(self, '_text_cache'):
+            self._text_cache = {}
+        text_surf = self._text_cache.get(cache_key)
+        if text_surf is None:
+            text_surf = self.font.render(self.text, True, text_color)
+            self._text_cache[cache_key] = text_surf
         text_rect = text_surf.get_rect(center=self.rect.center)
         surface.blit(text_surf, text_rect)
 

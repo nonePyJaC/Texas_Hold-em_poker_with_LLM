@@ -150,6 +150,8 @@ class TableSimulator:
 
     def run(self):
         """运行整桌直到决出胜者或达到最大局数"""
+        import time as _t
+        _t0 = _t.perf_counter()
         self._create_players()
 
         while self.table_info.hand_count < self.max_hands:
@@ -187,3 +189,10 @@ class TableSimulator:
 
         logger.info(f"桌 {self.table_info.table_id} 完成，{self.table_info.hand_count} 局，"
                      f"胜者: {winner.name if active else 'N/A'}")
+
+        _elapsed_ms = (_t.perf_counter() - _t0) * 1000
+        try:
+            from utils.perf_monitor import get_monitor
+            get_monitor().record_task("tournament_sim", _elapsed_ms)
+        except Exception:
+            pass

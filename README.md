@@ -1,4 +1,4 @@
-# 德州扑克 - Texas Hold'em with LLM (V1.5.1)
+# 德州扑克 - Texas Hold'em with LLM (V1.6)
 
 一个基于 Python + Pygame 开发的德州扑克游戏，集成 LLM（大语言模型）驱动的 AI 对手对话系统。
 
@@ -20,6 +20,9 @@
 - **聊天系统**：可在游戏中与 AI 角色实时聊天，支持 @艾特
 - **发牌动画**：卡牌从牌堆飞向玩家的动画效果
 - **筹码可视化**：按面值分摞展示底池筹码
+- **性能监控**：帧尖峰检测、内存/缓存/线程快照、端到端任务耗时统计，日志输出到 `perf.log`
+- **审计日志**：JSONL 追加式账本，支持按实体 ID 恢复查询资金变化
+- **有界后台模拟**：ThreadPoolExecutor 限制并发量，分段睡眠支持快速取消
 - **存档系统**：自动保存进度，支持银行系统管理筹码
 - **对局日志**：详细记录每手牌的过程和结果
 - **场景架构**：模块化场景渲染和事件处理系统
@@ -147,6 +150,9 @@ python -m PyInstaller dezhou.spec --noconfirm
 │   ├── game_logger.py      # 对局日志
 │   ├── characters.json     # 角色数据
 │   └── memory/             # AI 记忆数据库（运行时生成）
+├── utils/                 # 工具
+│   ├── perf_monitor.py    # 性能监控（帧尖峰、资源快照、任务耗时）
+│   └── audit_log.py       # JSONL 追加式审计账本
 ├── sounds/                 # 音效文件
 ├── kenney_boardgame-pack/  # 卡牌图片素材
 ├── config/                 # 配置

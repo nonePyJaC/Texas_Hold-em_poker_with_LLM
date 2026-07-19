@@ -27,6 +27,7 @@ from config import (
     DIFFICULTY_NORMAL,
 )
 from ui.renderer import Renderer
+from ui.render_state import RenderState
 from ui.scenes import SceneRenderer, SceneEventHandler
 from ui.ui_factory import UIFactory
 from ui.scenes.base_scene import BaseScene
@@ -59,11 +60,13 @@ from game_logic.background_simulator import BackgroundSimulator, BroadcastMessag
 from game_logic.table_manager import TableManager
 from ui.broadcast_bar import BroadcastBar
 from utils.perf_monitor import get_monitor, init_logging
+from utils.audit_log import cleanup as audit_cleanup
 
 
 class GameApp:
     def __init__(self):
         pygame.init()
+        audit_cleanup()  # P1-04.1: 启动时清理过期审计日志
         self._fullscreen = False
         self._window_flags = pygame.RESIZABLE
         self._window_size = (SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -73,6 +76,7 @@ class GameApp:
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
         self.renderer = Renderer(self.screen)
+        self.render_state = RenderState()
         self.audio = AudioEngine()
         self.audio.init()
         self.animations = AnimationManager()
@@ -264,6 +268,7 @@ class GameApp:
             name: 场景名称字符串（如 "menu", "playing", "tournament" 等）
         """
         self.scene = name  # 向后兼容：update() 内部仍用 self.scene 分支
+        self.render_state.invalidate_all(reason="scene_switch")
         if name in self._scene_map:
             self.current_scene.on_exit()
             self.current_scene = self._scene_map[name]
@@ -279,11 +284,15 @@ class GameApp:
         """切换全屏/窗口模式 — 全屏切换显示器分辨率到 1280x720，零缩放"""
         self._fullscreen = not self._fullscreen
         if self._fullscreen:
+            self._window_flags = pygame.FULLSCREEN
             self.display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
         else:
+            self._window_flags = pygame.RESIZABLE
             self.display = pygame.display.set_mode(self._window_size, pygame.RESIZABLE)
         self.screen = self.display
         self.renderer.screen = self.display
+        self.renderer.invalidate_layer_caches()
+        self.render_state.invalidate_all(reason="display_mode_change")
 
     def _toggle_fullscreen_from_settings(self):
         """从设置界面切换全屏，并更新按钮文字"""
@@ -319,7 +328,11 @@ class GameApp:
                 self.save_manager.deposit_to_bank(self.human_player.chips)
             self._settle_ai_banks()
             self.game_flow._process_ai_menu_loans()
+            import time as _t
+            _quit_save_t0 = _t.perf_counter()
             self.save_manager.save(force=True)
+            get_monitor().record_task("save", (_t.perf_counter() - _quit_save_t0) * 1000)
+            get_monitor().record_event("save_on_quit")
             if self.chat_controller.input:
                 self.chat_controller.input.text = ""
                 self.chat_controller.input.active = False
@@ -388,6 +401,17 @@ class GameApp:
 
     def handle_event(self, event):
         """处理事件 — 委托给当前场景"""
+        if event.type == pygame.VIDEORESIZE:
+            if self._fullscreen:
+                return
+            new_size = (max(event.w, SCREEN_WIDTH), max(event.h, SCREEN_HEIGHT))
+            self._window_size = new_size
+            self.display = pygame.display.set_mode(new_size, self._window_flags)
+            self.screen = self.display
+            self.renderer.screen = self.display
+            self.renderer.invalidate_layer_caches()
+            self.render_state.invalidate_all(reason="window_resize")
+            return
         self.current_scene.handle_event(event)
 
     def update(self, dt):
@@ -444,6 +468,37 @@ class GameApp:
                 self.tournament_controller.state and
                 self.tournament_controller.state.phase.value != "idle"
             )
+            # 资源快照 (P1-02.2)
+            try:
+                stats["animations"] = len(self.animations.animations)
+            except Exception:
+                pass
+            try:
+                stats["broadcast_msgs"] = len(self.broadcast_bar.messages) + (1 if self.broadcast_bar._current else 0)
+            except Exception:
+                pass
+            try:
+                from ui.assets import _card_cache
+                stats["card_cache"] = len(_card_cache)
+            except Exception:
+                pass
+            try:
+                stats["avatar_cache"] = len(self.renderer._avatar_cache)
+            except Exception:
+                pass
+            try:
+                stats["text_cache"] = len(self.renderer._text_cache)
+            except Exception:
+                pass
+            try:
+                stats["hand_history"] = len(self.session_hand_history)
+            except Exception:
+                pass
+            try:
+                dm = self.chat_controller.dialogue_manager
+                stats["llm_pending"] = 1 if (dm and dm._pending_llm and not dm._pending_llm.done()) else 0
+            except Exception:
+                pass
             return stats
 
         perf.set_stats_provider(_collect_stats)

@@ -45,14 +45,17 @@ class SceneEventHandler:
             self.app._quit()
 
         if event.type == pygame.VIDEORESIZE:
-            new_w = max(event.w, SCREEN_WIDTH)
-            new_h = max(event.h, SCREEN_HEIGHT)
-            if new_w != event.w or new_h != event.h:
-                pygame.display.set_mode((new_w, new_h), pygame.RESIZABLE)
-            self.app._window_size = (new_w, new_h)
-            self.app.display = pygame.display.get_surface()
-            self.app.screen = self.app.display
-            self.app.renderer.screen = self.app.display
+            if self.app._fullscreen:
+                pass
+            else:
+                new_w = max(event.w, SCREEN_WIDTH)
+                new_h = max(event.h, SCREEN_HEIGHT)
+                if new_w != event.w or new_h != event.h:
+                    pygame.display.set_mode((new_w, new_h), self.app._window_flags)
+                self.app._window_size = (new_w, new_h)
+                self.app.display = pygame.display.get_surface()
+                self.app.screen = self.app.display
+                self.app.renderer.screen = self.app.display
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F11:

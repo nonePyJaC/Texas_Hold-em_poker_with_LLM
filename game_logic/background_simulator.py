@@ -16,6 +16,7 @@ import random
 import threading
 import time
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from typing import Optional, List, Dict, Tuple
 
 from utils.audit_log import log_transaction
@@ -74,6 +75,9 @@ TABLE_INTERVAL_MAX = 50.0
 ROUND_INTERVAL_MIN = 30.0   # 轮间休息
 ROUND_INTERVAL_MAX = 80.0
 
+# 有界线程池：限制后台模拟并发量
+BG_SIM_MAX_WORKERS = 3
+
 
 class BroadcastMessage:
     """一条滚动播报消息"""
@@ -109,6 +113,8 @@ class BackgroundSimulator:
         self._lock = threading.Lock()
         self._running = False
         self._thread: Optional[threading.Thread] = None
+        # 有界线程池（P1-03.1）
+        self._executor: Optional[ThreadPoolExecutor] = None
         # 实时统计（供 UI 展示）
         self._stats_lock = threading.Lock()
         self._active_tables = 0
@@ -122,9 +128,13 @@ class BackgroundSimulator:
         if self._running:
             return
         self._running = True
+        self._executor = ThreadPoolExecutor(
+            max_workers=BG_SIM_MAX_WORKERS,
+            thread_name_prefix="bg-sim",
+        )
         self._thread = threading.Thread(target=self._run_loop, daemon=True)
         self._thread.start()
-        logger.info("后台AI模拟器已启动")
+        logger.info(f"后台AI模拟器已启动 (max_workers={BG_SIM_MAX_WORKERS})")
 
     def stop(self):
         """停止模拟器，等待线程结束后返回（确保筹码写入完成）"""
@@ -132,6 +142,10 @@ class BackgroundSimulator:
         if self._thread:
             self._thread.join(timeout=2.0)
             self._thread = None
+        # 关闭线程池：取消未开始任务，等待已运行任务完成
+        if self._executor:
+            self._executor.shutdown(wait=True, cancel_futures=True)
+            self._executor = None
         with self._stats_lock:
             self._active_tables = 0
             self._active_players = 0
@@ -160,6 +174,14 @@ class BackgroundSimulator:
                 'num_tables': NUM_TABLES,
             }
 
+    def _interruptible_sleep(self, total_seconds: float, check_interval: float = 1.0):
+        """分段睡眠，支持快速取消（P1-03.2）"""
+        elapsed = 0.0
+        while elapsed < total_seconds and self._running:
+            chunk = min(check_interval, total_seconds - elapsed)
+            time.sleep(chunk)
+            elapsed += chunk
+
     def _run_loop(self):
         """主循环：模拟 8 桌场所，每轮随机分配 AI 到空桌"""
         rng = random.Random()
@@ -178,7 +200,7 @@ class BackgroundSimulator:
                     ]
 
                 if len(available) < MIN_PLAYERS:
-                    time.sleep(5.0)
+                    self._interruptible_sleep(5.0)
                     continue
 
                 # 找出当前可用的桌子（排除玩家桌）
@@ -190,7 +212,7 @@ class BackgroundSimulator:
                                        if not self._table_occupied[tid]]
 
                 if not free_tables:
-                    time.sleep(rng.uniform(5.0, 10.0))
+                    self._interruptible_sleep(rng.uniform(5.0, 10.0))
                     continue
 
                 # 随机选 1-5 张空闲桌子开局
@@ -212,8 +234,8 @@ class BackgroundSimulator:
                     if len(table_chars) >= MIN_PLAYERS:
                         table_assignments.append((table_id, table_chars))
 
-                # 并行模拟多桌（每桌一个线程，真实同时活动）
-                threads = []
+                # 提交到有界线程池（P1-03.1）
+                futures = []
                 for table_id, table_chars in table_assignments:
                     if not self._running:
                         break
@@ -236,43 +258,53 @@ class BackgroundSimulator:
                         self._active_players += len(table_chars)
                         self._total_tables_today += 1
 
-                    t = threading.Thread(
-                        target=self._run_table_and_release,
-                        args=(table_id, table_chars, small_blind, big_blind,
-                              deck_type, buy_in, num_hands, random.Random(), betting_mode),
-                        daemon=True,
+                    future = self._executor.submit(
+                        self._run_table_and_release,
+                        table_id, table_chars, small_blind, big_blind,
+                        deck_type, buy_in, num_hands, random.Random(), betting_mode,
                     )
-                    t.start()
-                    threads.append(t)
+                    futures.append(future)
 
                     # 桌间开局间隔（错开开局时间，更真实）
                     if self._running:
-                        time.sleep(rng.uniform(3.0, 8.0))
+                        self._interruptible_sleep(rng.uniform(3.0, 8.0))
 
-                # 等待所有桌结束（不阻塞主循环太久）
-                for t in threads:
+                # 等待已提交任务完成（不阻塞主循环太久）
+                for f in futures:
                     if not self._running:
                         break
-                    t.join(timeout=0.1)
+                    try:
+                        f.result(timeout=0.1)
+                    except Exception:
+                        pass
 
                 # 本轮结束，休息后再开下一轮
                 if self._running:
                     sleep_time = rng.uniform(ROUND_INTERVAL_MIN, ROUND_INTERVAL_MAX)
-                    time.sleep(sleep_time)
+                    # 分段睡眠以支持快速取消（P1-03.2）
+                    self._interruptible_sleep(sleep_time)
 
             except Exception as e:
                 logger.error(f"后台模拟异常: {e}")
-                time.sleep(5.0)
+                self._interruptible_sleep(5.0)
 
     def _run_table_and_release(self, table_id, chars, small_blind, big_blind,
                                 deck_type, buy_in, num_hands, rng, betting_mode):
         """运行一桌模拟并在结束后释放桌子占用"""
+        import time as _t
+        _sim_t0 = _t.perf_counter()
         try:
             self._simulate_table_session(table_id, chars, small_blind, big_blind,
                                           deck_type, buy_in, num_hands, rng, betting_mode)
         except Exception as e:
             logger.error(f"桌{table_id}模拟异常: {e}")
         finally:
+            _elapsed_ms = (_t.perf_counter() - _sim_t0) * 1000
+            try:
+                from utils.perf_monitor import get_monitor
+                get_monitor().record_task("table_sim", _elapsed_ms)
+            except Exception:
+                pass
             if self._table_manager:
                 self._table_manager.unmark_background(table_id)
             else:
@@ -338,9 +370,9 @@ class BackgroundSimulator:
                 if broadcast:
                     self._broadcast_callback(broadcast)
 
-            # 手间间隔 — 接近真实牌室节奏
+            # 手间间隔 — 接近真实牌室节奏（P1-03.2: 可取消）
             if self._running and hand_num < num_hands - 1:
-                time.sleep(rng.uniform(HAND_INTERVAL_MIN, HAND_INTERVAL_MAX))
+                self._interruptible_sleep(rng.uniform(HAND_INTERVAL_MIN, HAND_INTERVAL_MAX))
 
         # 整局结束：结算写回角色 bank
         with self._lock:
@@ -351,7 +383,9 @@ class BackgroundSimulator:
                 if char.bank < 0:
                     char.bank = 0
                 log_transaction("bg_settle", f"AI:{char.name}", net,
-                                before, char.bank, f"后台桌{table_id}结算 {num_hands}手")
+                                before, char.bank, f"后台桌{table_id}结算 {num_hands}手",
+                                entity_id=char.id, source="background_sim",
+                                correlation_id=str(table_id))
 
         logger.debug(f"桌{table_id} 完成 {num_hands} 手，{len(players)} 人")
 

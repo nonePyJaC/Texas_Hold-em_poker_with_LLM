@@ -140,6 +140,9 @@ class DialogueManager:
 
     def _llm_worker(self, ctx: DialogueContext, emotion_tag: str, intensity: float, duration: float):
         """LLM 后台工作线程"""
+        import time as _t
+        _t0 = _t.perf_counter()
+        failed = False
         try:
             text = self.llm_bridge.generate(ctx, emotion_tag, intensity)
             if text:
@@ -161,6 +164,13 @@ class DialogueManager:
         except Exception as e:
             import logging
             logging.getLogger(__name__).warning(f"LLM 异步生成失败: {e}")
+            failed = True
+        _elapsed_ms = (_t.perf_counter() - _t0) * 1000
+        try:
+            from utils.perf_monitor import get_monitor
+            get_monitor().record_task("llm_request", _elapsed_ms, failed=failed)
+        except Exception:
+            pass
 
     def poll_llm_result(self) -> Optional[DialogueResult]:
         """轮询 LLM 异步结果 (每帧调用)
@@ -185,6 +195,9 @@ class DialogueManager:
 
     def _reply_worker(self, ctx: DialogueContext, human_message: str):
         """AI 回复后台工作线程"""
+        import time as _t
+        _t0 = _t.perf_counter()
+        failed = False
         try:
             text = self.llm_bridge.generate_reply(ctx, human_message)
             source = "llm"
@@ -215,6 +228,13 @@ class DialogueManager:
             import logging
             logging.getLogger(__name__).warning(f"LLM 回复生成失败: {e}")
             print(f"[Chat] LLM 回复异常: {ctx.char_name} - {e}")
+            failed = True
+        _elapsed_ms = (_t.perf_counter() - _t0) * 1000
+        try:
+            from utils.perf_monitor import get_monitor
+            get_monitor().record_task("llm_request", _elapsed_ms, failed=failed)
+        except Exception:
+            pass
 
     def poll_replies(self) -> list:
         """轮询已完成的 AI 回复列表 (每帧调用)

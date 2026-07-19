@@ -74,11 +74,11 @@ class TableManager:
             ]
 
     def get_background_table_ids(self) -> list[int]:
-        """返回当前可用于后台模拟的桌号（排除玩家桌）"""
+        """返回当前可用于后台模拟的桌号（仅空闲桌，排除玩家桌和已在模拟中的桌）"""
         with self._lock:
             return [
                 tid for tid, t in self._tables.items()
-                if t.state != TableState.PLAYER_ACTIVE
+                if t.state == TableState.IDLE
             ]
 
     def assign_to_player(self, table_id: Optional[int] = None) -> Optional[int]:

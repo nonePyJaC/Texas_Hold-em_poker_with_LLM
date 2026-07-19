@@ -61,6 +61,13 @@ class Renderer:
         self._overlay = pygame.Surface((self.w, self.h), pygame.SRCALPHA)
         self._avatar_cache = {}  # (name, size) -> surface
 
+        # 分层缓存 Surface（STATIC 与 STATE）
+        self._static_surface = None
+        self._state_surface = None
+
+        # 文本 Surface 缓存：(font_obj_id, text, color) -> Surface
+        self._text_cache = {}
+
     def _init_action_panel(self):
         """初始化操作面板按钮"""
         panel_y = SCREEN_HEIGHT - 90
@@ -93,6 +100,35 @@ class Renderer:
             slider_x + 190, panel_y + 5, 90, 30,
             "金额", font_size=18, numeric_only=True, max_length=8
         )
+
+    def _get_static_surface(self):
+        """获取 STATIC 层缓存 Surface（不透明，按需创建）"""
+        if self._static_surface is None:
+            w, h = self.screen.get_size()
+            self._static_surface = pygame.Surface((w, h))
+        return self._static_surface
+
+    def _get_state_surface(self):
+        """获取 STATE 层缓存 Surface（透明，按需创建）"""
+        if self._state_surface is None:
+            w, h = self.screen.get_size()
+            self._state_surface = pygame.Surface((w, h), pygame.SRCALPHA)
+        return self._state_surface
+
+    def invalidate_layer_caches(self):
+        """释放分层缓存 Surface，在窗口尺寸/主题/字体变化后调用"""
+        self._static_surface = None
+        self._state_surface = None
+        self._text_cache.clear()
+
+    def _render_text(self, font, text, color):
+        """缓存的文本渲染：相同 (font, text, color) 只渲染一次"""
+        key = (id(font), text, color)
+        surf = self._text_cache.get(key)
+        if surf is None:
+            surf = font.render(text, True, color)
+            self._text_cache[key] = surf
+        return surf
 
     def draw_background(self):
         self.screen.fill(COLOR_BG)
@@ -200,7 +236,7 @@ class Renderer:
             self.screen.blit(avatar, (panel_x + 14, panel_y + 5))
 
         # 名字
-        name_surf = self.font_title.render(player.name, True, COLOR_GOLD)
+        name_surf = self._render_text(self.font_title, player.name, COLOR_GOLD)
         self.screen.blit(name_surf, (panel_x + 64, panel_y + 12))
 
         # 关闭按钮：右上角 X
@@ -225,8 +261,8 @@ class Renderer:
         value_color = COLOR_WHITE
         line_y = panel_y + title_h + 18
         for label, value in lines:
-            label_surf = self.font_small.render(label, True, label_color)
-            value_surf = self.font_small.render(value, True, value_color)
+            label_surf = self._render_text(self.font_small, label, label_color)
+            value_surf = self._render_text(self.font_small, value, value_color)
             self.screen.blit(label_surf, (panel_x + 30, line_y))
             self.screen.blit(value_surf, (panel_x + 130, line_y))
             line_y += 22
@@ -242,7 +278,18 @@ class Renderer:
 
     def draw_player(self, player, pos, is_current, is_dealer, is_small_blind, is_big_blind,
                     show_cards=False, is_human=False, hovered=False, hide_hole_cards=False):
-        """绘制玩家信息卡"""
+        """绘制玩家信息卡（兼容接口：同时绘制状态层与动态覆盖层）"""
+        self.draw_player_state(
+            player, pos, is_dealer, is_small_blind, is_big_blind,
+            show_cards=show_cards, is_human=is_human, hide_hole_cards=hide_hole_cards
+        )
+        self.draw_player_overlay(
+            player, pos, is_current=is_current, hovered=hovered, is_human=is_human
+        )
+
+    def draw_player_state(self, player, pos, is_dealer, is_small_blind, is_big_blind,
+                          show_cards=False, is_human=False, hide_hole_cards=False):
+        """绘制玩家信息卡状态层（可被缓存）"""
         x, y = pos
         card_w = 160
         card_h = 70
@@ -251,21 +298,15 @@ class Renderer:
         rect_x = x - card_w // 2
         rect_y = y - card_h // 2
 
-        # 背景面板
+        # 背景面板（无当前玩家呼吸动画，由动态层叠加）
         bg_color = COLOR_PANEL_BG
         border_color = COLOR_PANEL_BORDER
-        border_width = 2
-
-        if is_current:
-            # 采用显眼的霓虹绿，搭配呼吸动态边框线宽
-            border_color = (50, 255, 100)
-            border_width = 3 + int(1.5 * math.sin(pygame.time.get_ticks() / 120))
-        elif player.folded:
+        if player.folded:
             bg_color = (20, 20, 20)
             border_color = (40, 40, 40)
 
         pygame.draw.rect(self.screen, bg_color, (rect_x, rect_y, card_w, card_h), border_radius=8)
-        pygame.draw.rect(self.screen, border_color, (rect_x, rect_y, card_w, card_h), border_width, border_radius=8)
+        pygame.draw.rect(self.screen, border_color, (rect_x, rect_y, card_w, card_h), 2, border_radius=8)
 
         # 头像：左侧圆形，40x40
         avatar_size = 40
@@ -273,30 +314,12 @@ class Renderer:
         if avatar:
             self.screen.blit(avatar, (rect_x + 6, rect_y + (card_h - avatar_size) // 2))
 
-        # 悬停时给 AI 玩家卡片加高亮边框，提示可点击查看详情
-        if hovered and not is_human and hasattr(player, '_char_stats'):
-            pygame.draw.rect(self.screen, COLOR_GOLD, (rect_x, rect_y, card_w, card_h), 2, border_radius=8)
-            hint = self.font_tiny.render("点击查看详情", True, COLOR_GOLD)
-            self.screen.blit(hint, (rect_x + (card_w - hint.get_width()) // 2, rect_y - 14))
-
-        # 绘制“思考中...”或“到你了”悬浮呼吸胶囊标签
-        if is_current and not player.folded:
-            badge_w, badge_h = 74, 20
-            badge_x = rect_x + (card_w - badge_w) // 2
-            badge_y = rect_y - 12
-            pygame.draw.rect(self.screen, (0, 140, 50), (badge_x, badge_y, badge_w, badge_h), border_radius=6)
-            pygame.draw.rect(self.screen, (100, 255, 150), (badge_x, badge_y, badge_w, badge_h), 1, border_radius=6)
-            
-            badge_text = "到你了" if is_human else "思考中"
-            badge_surf = self.font_tiny.render(badge_text, True, COLOR_WHITE)
-            self.screen.blit(badge_surf, (badge_x + (badge_w - badge_surf.get_width()) // 2, badge_y + (badge_h - badge_surf.get_height()) // 2))
-
         # 文本区偏移：给头像留出 50 像素
         text_x = rect_x + 50
 
         # 玩家名
         name_color = COLOR_TEXT_DIM if player.folded else COLOR_WHITE
-        name_surf = self.font_normal.render(player.name, True, name_color)
+        name_surf = self._render_text(self.font_normal, player.name, name_color)
         self.screen.blit(name_surf, (text_x, rect_y + 4))
 
         # 筹码
@@ -305,7 +328,7 @@ class Renderer:
         player_chip_icon = get_chip_surface(player.chips, 7)
         self.screen.blit(player_chip_icon, (text_x, rect_y + 28))
 
-        chip_surf = self.font_small.render(f"筹码: {player.chips}", True, chip_color)
+        chip_surf = self._render_text(self.font_small, f"筹码: {player.chips}", chip_color)
         self.screen.blit(chip_surf, (text_x + 18, rect_y + 26))
 
         # 状态标记
@@ -315,7 +338,8 @@ class Renderer:
         elif player.all_in:
             status_text = "全押"
         if status_text:
-            st_surf = self.font_small.render(status_text, True, COLOR_RED if player.folded else COLOR_GOLD)
+            st_color = COLOR_RED if player.folded else COLOR_GOLD
+            st_surf = self._render_text(self.font_small, status_text, st_color)
             self.screen.blit(st_surf, (rect_x + card_w - st_surf.get_width() - 8, rect_y + 4))
 
         # 最近动作
@@ -327,7 +351,7 @@ class Renderer:
                 action_text = f"{action_name} {amount}"
             else:
                 action_text = action_name
-            act_surf = self.font_tiny.render(action_text, True, COLOR_GREEN)
+            act_surf = self._render_text(self.font_tiny, action_text, COLOR_GREEN)
             self.screen.blit(act_surf, (rect_x + card_w - act_surf.get_width() - 8, rect_y + 26))
 
         # 庄家/盲注按钮
@@ -335,10 +359,10 @@ class Renderer:
             btn = get_dealer_button(14)
             self.screen.blit(btn, (rect_x + card_w - 20, rect_y + card_h - 20))
         if is_small_blind:
-            sb_surf = self.font_tiny.render("小盲", True, COLOR_WHITE)
+            sb_surf = self._render_text(self.font_tiny, "小盲", COLOR_WHITE)
             self.screen.blit(sb_surf, (text_x, rect_y + card_h - 18))
         if is_big_blind:
-            bb_surf = self.font_tiny.render("大盲", True, COLOR_WHITE)
+            bb_surf = self._render_text(self.font_tiny, "大盲", COLOR_WHITE)
             self.screen.blit(bb_surf, (text_x, rect_y + card_h - 18))
 
         # 手牌
@@ -361,6 +385,37 @@ class Renderer:
         # 当前下注：把筹码堆放在玩家与桌面中央之间，避免信息卡拥挤
         if not player.folded and player.current_bet > 0:
             self._draw_player_bet_stack(player, x, y, is_human)
+
+    def draw_player_overlay(self, player, pos, is_current=False, hovered=False, is_human=False):
+        """绘制玩家信息卡动态覆盖层（呼吸边框、悬浮高亮、思考标签）"""
+        x, y = pos
+        card_w = 160
+        card_h = 70
+        rect_x = x - card_w // 2
+        rect_y = y - card_h // 2
+
+        # 当前玩家呼吸动态边框
+        if is_current and not player.folded:
+            border_width = 3 + int(1.5 * math.sin(pygame.time.get_ticks() / 120))
+            pygame.draw.rect(self.screen, (50, 255, 100), (rect_x, rect_y, card_w, card_h), border_width, border_radius=8)
+
+        # 悬停时给 AI 玩家卡片加高亮边框
+        if hovered and not is_human and hasattr(player, '_char_stats'):
+            pygame.draw.rect(self.screen, COLOR_GOLD, (rect_x, rect_y, card_w, card_h), 2, border_radius=8)
+            hint = self._render_text(self.font_tiny, "点击查看详情", COLOR_GOLD)
+            self.screen.blit(hint, (rect_x + (card_w - hint.get_width()) // 2, rect_y - 14))
+
+        # “思考中...”或“到你了”悬浮呼吸胶囊标签
+        if is_current and not player.folded:
+            badge_w, badge_h = 74, 20
+            badge_x = rect_x + (card_w - badge_w) // 2
+            badge_y = rect_y - 12
+            pygame.draw.rect(self.screen, (0, 140, 50), (badge_x, badge_y, badge_w, badge_h), border_radius=6)
+            pygame.draw.rect(self.screen, (100, 255, 150), (badge_x, badge_y, badge_w, badge_h), 1, border_radius=6)
+
+            badge_text = "到你了" if is_human else "思考中"
+            badge_surf = self._render_text(self.font_tiny, badge_text, COLOR_WHITE)
+            self.screen.blit(badge_surf, (badge_x + (badge_w - badge_surf.get_width()) // 2, badge_y + (badge_h - badge_surf.get_height()) // 2))
 
     def _draw_player_bet_stack(self, player, player_x, player_y, is_human=False):
         """把下注筹码放在玩家信息卡外缘；人类玩家放在底牌左侧"""
@@ -399,7 +454,7 @@ class Renderer:
         self.screen.blit(chip, (bet_x - chip_w // 2, bet_y - chip_h // 2))
 
         # 金额标签
-        bet_surf = self.font_small.render(str(player.current_bet), True, COLOR_GOLD)
+        bet_surf = self._render_text(self.font_small, str(player.current_bet), COLOR_GOLD)
         if is_human:
             text_x = bet_x - bet_surf.get_width() // 2
             text_y = bet_y - chip_h // 2 - bet_surf.get_height() - 2
@@ -440,7 +495,7 @@ class Renderer:
 
         # 底池金额
         pot_text = f"底池 {pot_amount:,}"
-        pot_surf = self.font_large.render(pot_text, True, COLOR_GOLD)
+        pot_surf = self._render_text(self.font_large, pot_text, COLOR_GOLD)
 
         # 总宽度
         total_w = chip.get_width() + 10 + pot_surf.get_width()
@@ -463,7 +518,7 @@ class Renderer:
         }
         color = phase_colors.get(phase, (120, 120, 140))
         text = f"#{hand_number}  {PHASE_NAMES.get(phase, phase)}"
-        surf = self.font_normal.render(text, True, COLOR_WHITE)
+        surf = self._render_text(self.font_normal, text, COLOR_WHITE)
 
         # 胶囊背景
         pad_x, pad_y = 14, 6
@@ -479,7 +534,7 @@ class Renderer:
         """绘制下注信息 — 带背景条，醒目显示"""
         if current_bet > 0:
             text = f"当前下注 {current_bet:,}  ·  最小加注 {min_raise:,}"
-            surf = self.font_small.render(text, True, (255, 220, 100))
+            surf = self._render_text(self.font_small, text, (255, 220, 100))
             bg_w = surf.get_width() + 20
             bg_h = surf.get_height() + 8
             bg = pygame.Surface((bg_w, bg_h), pygame.SRCALPHA)
@@ -498,7 +553,7 @@ class Renderer:
         self.leave_button.draw(self.screen)
 
         if not human_player or human_player.folded or human_player.all_in:
-            label = self.font_normal.render("等待中...", True, COLOR_TEXT_DIM)
+            label = self._render_text(self.font_normal, "等待中...", COLOR_TEXT_DIM)
             self.screen.blit(label, (110, SCREEN_HEIGHT - 75))
             return
 
@@ -587,7 +642,7 @@ class Renderer:
             self.raise_input.draw(self.screen)
 
             label_text = "下注到:" if is_bet else "加注到:"
-            label = self.font_small.render(label_text, True, COLOR_WHITE)
+            label = self._render_text(self.font_small, label_text, COLOR_WHITE)
             self.screen.blit(label, (self.raise_slider.rect.x - 55, self.raise_slider.rect.centery - 8))
 
     def draw_showdown_results(self, results, players, community_cards=None, hand_number=None, timer=0.0):
@@ -613,7 +668,7 @@ class Renderer:
             self.screen.blit(self._overlay, (0, 0))
             pulse = 0.5 + 0.5 * math.sin(timer * 8)
             text_color = (int(255 * pulse), int(215 * pulse), 0)
-            text = self.font_title.render("摊牌中...", True, text_color)
+            text = self._render_text(self.font_title, "摊牌中...", text_color)
             self.screen.blit(text, (cx - text.get_width() // 2, cy - text.get_height() // 2))
             return
 
@@ -645,11 +700,11 @@ class Renderer:
 
         # 左上角对局编号
         if hand_number is not None:
-            hand_label = self.font_small.render(f"#{hand_number}", True, (180, 180, 180))
+            hand_label = self._render_text(self.font_small, f"#{hand_number}", (180, 180, 180))
             self.screen.blit(hand_label, (panel_x + 12, panel_y + 10))
 
         # 标题
-        title = self.font_title.render("摊牌结果", True, COLOR_GOLD)
+        title = self._render_text(self.font_title, "摊牌结果", COLOR_GOLD)
         self.screen.blit(title, (cx - title.get_width() // 2, panel_y + 10))
 
         card_w, card_h = 44, 62
@@ -657,11 +712,11 @@ class Renderer:
         if results.get('fold_win'):
             winner = results['winners'][0]
             text = f"{winner.name} 获胜（其他玩家弃牌）"
-            surf = self.font_large.render(text, True, COLOR_GOLD)
+            surf = self._render_text(self.font_large, text, COLOR_GOLD)
             self.screen.blit(surf, (cx - surf.get_width() // 2, panel_y + 55))
             net = results.get('pot_won', 0) - winner.total_bet
             pot_text = f"净赢 +{net:,} 筹码"
-            pot_surf = self.font_normal.render(pot_text, True, COLOR_GOLD)
+            pot_surf = self._render_text(self.font_normal, pot_text, COLOR_GOLD)
             self.screen.blit(pot_surf, (cx - pot_surf.get_width() // 2, panel_y + 90))
         else:
             payouts = results.get('payouts', {})
@@ -669,7 +724,7 @@ class Renderer:
             max_payout = max(payouts.values()) if payouts else 0
 
             # 公共牌区域（顶部）
-            comm_label = self.font_small.render("公共牌", True, COLOR_TEXT_DIM)
+            comm_label = self._render_text(self.font_small, "公共牌", COLOR_TEXT_DIM)
             self.screen.blit(comm_label, (cx - comm_label.get_width() // 2, panel_y + 48))
 
             if community_cards:
@@ -720,7 +775,7 @@ class Renderer:
                     pygame.draw.rect(self.screen, (255, 165, 0), (row_x, y, row_w, row_h), 1, border_radius=6)
 
                 # 底牌（左侧）
-                hole_label = self.font_tiny.render("底牌", True, COLOR_TEXT_DIM)
+                hole_label = self._render_text(self.font_tiny, "底牌", COLOR_TEXT_DIM)
                 self.screen.blit(hole_label, (row_x + 8, y + 4))
 
                 hole_x = row_x + 8
@@ -751,10 +806,10 @@ class Renderer:
                     name_color = COLOR_TEXT_DIM
                     name_font = self.font_normal
 
-                name_surf = name_font.render(name_text, True, name_color)
+                name_surf = self._render_text(name_font, name_text, name_color)
                 self.screen.blit(name_surf, (info_x, y + 8))
 
-                hand_surf = self.font_normal.render(f"牌型: {ev_name}", True, COLOR_WHITE if won > 0 else COLOR_TEXT_DIM)
+                hand_surf = self._render_text(self.font_normal, f"牌型: {ev_name}", COLOR_WHITE if won > 0 else COLOR_TEXT_DIM)
                 self.screen.blit(hand_surf, (info_x, y + 32))
 
                 # 净利润 = 派彩 - 自己的总下注
@@ -765,7 +820,7 @@ class Renderer:
                 else:
                     win_text = f"净输 -{abs(net):,} 筹码" if player.total_bet > 0 else "未下注"
                     win_color = COLOR_TEXT_DIM
-                win_surf = self.font_normal.render(win_text, True, win_color)
+                win_surf = self._render_text(self.font_normal, win_text, win_color)
                 self.screen.blit(win_surf, (info_x, y + 54))
 
                 y += row_h + 6
@@ -773,25 +828,25 @@ class Renderer:
             # 平分底池说明
             if len(payouts) > 1:
                 split_text = "平分底池：多名玩家手牌相同，底池均分"
-                split_surf = self.font_small.render(split_text, True, (200, 200, 200))
+                split_surf = self._render_text(self.font_small, split_text, (200, 200, 200))
                 self.screen.blit(split_surf, (cx - split_surf.get_width() // 2, y + 2))
 
         # 提示
-        hint = self.font_normal.render("按 空格键 或 点击 继续下一手", True, COLOR_TEXT_DIM)
+        hint = self._render_text(self.font_normal, "按 空格键 或 点击 继续下一手", COLOR_TEXT_DIM)
         self.screen.blit(hint, (cx - hint.get_width() // 2, panel_y + panel_h - 35))
 
     def draw_waiting_screen(self, message=""):
         """绘制等待画面"""
         self.screen.fill(COLOR_BG)
         if message:
-            surf = self.font_title.render(message, True, COLOR_WHITE)
+            surf = self._render_text(self.font_title, message, COLOR_WHITE)
             self.screen.blit(surf, (self.w // 2 - surf.get_width() // 2, self.h // 2))
 
     def draw_menu(self, menu_items, title="德州扑克"):
         """绘制菜单"""
         self.screen.fill(COLOR_BG)
 
-        title_surf = self.font_title.render(title, True, COLOR_GOLD)
+        title_surf = self._render_text(self.font_title, title, COLOR_GOLD)
         self.screen.blit(title_surf, (self.w // 2 - title_surf.get_width() // 2, 80))
 
         for item in menu_items:
@@ -840,7 +895,7 @@ class Renderer:
         pygame.draw.rect(self.screen, COLOR_PANEL_BORDER, (panel_x, panel_y, panel_w, panel_h), 1, border_radius=8)
 
         # 标题
-        title_surf = self.font_small.render("银行存款排行", True, COLOR_GOLD)
+        title_surf = self._render_text(self.font_small, "银行存款排行", COLOR_GOLD)
         self.screen.blit(title_surf, (panel_x + (panel_w - title_surf.get_width()) // 2, panel_y + 8))
 
         # 滚动条
@@ -877,7 +932,7 @@ class Renderer:
 
             # 排名
             rank_color = COLOR_GOLD if i == 0 else (COLOR_TEXT_DIM if i >= 3 else COLOR_WHITE)
-            rank_surf = self.font_tiny.render(medals[i] if i < 3 else str(i + 1), True, rank_color)
+            rank_surf = self._render_text(self.font_tiny, medals[i] if i < 3 else str(i + 1), rank_color)
             self.screen.blit(rank_surf, (panel_x + 10, y + 5))
 
             # 名字（截断过长名字）+ 🏆标记
@@ -891,13 +946,13 @@ class Renderer:
             name_color = (100, 255, 150) if is_human else COLOR_WHITE
             if bank <= 0:
                 name_color = COLOR_TEXT_DIM
-            name_surf = self.font_tiny.render(display_name, True, name_color)
+            name_surf = self._render_text(self.font_tiny, display_name, name_color)
             self.screen.blit(name_surf, (panel_x + 28, y + 5))
 
             # 银行余额（右对齐）
             bank_text = f"{bank:,}"
             bank_color = COLOR_GOLD if bank > 0 else COLOR_TEXT_DIM
-            bank_surf = self.font_tiny.render(bank_text, True, bank_color)
+            bank_surf = self._render_text(self.font_tiny, bank_text, bank_color)
             self.screen.blit(bank_surf, (panel_x + panel_w - bank_surf.get_width() - 14, y + 5))
 
         self.screen.set_clip(old_clip)
@@ -956,22 +1011,22 @@ class Renderer:
         pygame.draw.rect(self.screen, COLOR_GOLD, (x, y, panel_w, panel_h), 1, border_radius=8)
 
         # 标题
-        title_surf = self.font_small.render(name, True, COLOR_GOLD)
+        title_surf = self._render_text(self.font_small, name, COLOR_GOLD)
         self.screen.blit(title_surf, (x + (panel_w - title_surf.get_width()) // 2, y + 8))
 
         # 数据行
         for i, (label, value) in enumerate(lines):
             ly = y + 36 + i * line_h
-            label_surf = self.font_tiny.render(label, True, COLOR_TEXT_DIM)
+            label_surf = self._render_text(self.font_tiny, label, COLOR_TEXT_DIM)
             self.screen.blit(label_surf, (x + 12, ly))
             val_color = COLOR_GOLD if "盈亏" in label or "余额" in label else COLOR_WHITE
-            val_surf = self.font_tiny.render(value, True, val_color)
+            val_surf = self._render_text(self.font_tiny, value, val_color)
             self.screen.blit(val_surf, (x + panel_w - val_surf.get_width() - 12, ly))
 
     def draw_ai_thinking(self, player_name, dialogue=None):
         """绘制AI思考提示，可附带对话气泡"""
         text = f"{player_name} 正在思考..."
-        surf = self.font_normal.render(text, True, COLOR_TEXT_DIM)
+        surf = self._render_text(self.font_normal, text, COLOR_TEXT_DIM)
         self.screen.blit(surf, (self.w // 2 - surf.get_width() // 2, SCREEN_HEIGHT - 120))
 
         # 绘制对话气泡
@@ -984,7 +1039,7 @@ class Renderer:
         current_line = ""
         for char in text:
             test_line = current_line + char
-            if font.render(test_line, True, (0, 0, 0)).get_width() <= max_width:
+            if self._render_text(font, test_line, (0, 0, 0)).get_width() <= max_width:
                 current_line = test_line
             else:
                 if current_line:
@@ -1016,7 +1071,7 @@ class Renderer:
         lines = self._wrap_text(text, self.font_small, max_text_w)
 
         # 计算实际气泡尺寸
-        text_w = max(self.font_small.render(line, True, (40, 40, 40)).get_width() for line in lines)
+        text_w = max(self._render_text(self.font_small, line, (40, 40, 40)).get_width() for line in lines)
         text_h = len(lines) * line_h
         bubble_w = text_w + padding * 2
         bubble_h = text_h + padding * 2
@@ -1071,7 +1126,7 @@ class Renderer:
         # 绘制多行文本
         y = by + padding
         for line in lines:
-            line_surf = self.font_small.render(line, True, (40, 40, 40))
+            line_surf = self._render_text(self.font_small, line, (40, 40, 40))
             self.screen.blit(line_surf, (bx + padding, y))
             y += line_h
 
@@ -1095,7 +1150,7 @@ class Renderer:
         pygame.draw.rect(self.screen, COLOR_PANEL_BORDER, (panel_x, panel_y, panel_w, panel_h), 1, border_radius=8)
 
         # 标题
-        title_surf = self.font_small.render("筹码排行", True, COLOR_GOLD)
+        title_surf = self._render_text(self.font_small, "筹码排行", COLOR_GOLD)
         self.screen.blit(title_surf, (panel_x + (panel_w - title_surf.get_width()) // 2, panel_y + 6))
 
         # 排名列表
@@ -1105,7 +1160,7 @@ class Renderer:
 
             # 排名
             rank_color = COLOR_GOLD if i == 0 else (COLOR_TEXT_DIM if i >= 3 else COLOR_WHITE)
-            rank_surf = self.font_tiny.render(medals[i] if i < 3 else str(i + 1), True, rank_color)
+            rank_surf = self._render_text(self.font_tiny, medals[i] if i < 3 else str(i + 1), rank_color)
             self.screen.blit(rank_surf, (panel_x + 8, y + 4))
 
             # 名字（截断过长名字）
@@ -1115,12 +1170,12 @@ class Renderer:
             name_color = (100, 255, 150) if p.is_human else COLOR_WHITE
             if p.folded or p.chips == 0:
                 name_color = COLOR_TEXT_DIM
-            name_surf = self.font_tiny.render(name, True, name_color)
+            name_surf = self._render_text(self.font_tiny, name, name_color)
             self.screen.blit(name_surf, (panel_x + 24, y + 4))
 
             # 筹码金额（右对齐）
             chip_text = f"{p.chips:,}"
-            chip_surf = self.font_tiny.render(chip_text, True, COLOR_GOLD if p.chips > 0 else COLOR_TEXT_DIM)
+            chip_surf = self._render_text(self.font_tiny, chip_text, COLOR_GOLD if p.chips > 0 else COLOR_TEXT_DIM)
             self.screen.blit(chip_surf, (panel_x + panel_w - chip_surf.get_width() - 8, y + 4))
 
     def draw_history_panel(self, hand_history, lb_panel_x=SCREEN_WIDTH - 190, lb_panel_y=60, lb_panel_h=0):
@@ -1163,7 +1218,7 @@ class Renderer:
         pygame.draw.rect(self.screen, COLOR_PANEL_BORDER, (panel_x, panel_y, panel_w, panel_h), 1, border_radius=8)
 
         # 标题
-        title_surf = self.font_small.render("近期赢牌", True, COLOR_GOLD)
+        title_surf = self._render_text(self.font_small, "近期赢牌", COLOR_GOLD)
         self.screen.blit(title_surf, (panel_x + (panel_w - title_surf.get_width()) // 2, panel_y + 6))
 
         for i, entry in enumerate(display):
@@ -1180,7 +1235,7 @@ class Renderer:
             # 时间 + 手数
             time_str = entry.get("time", "")
             hand_str = f"#{entry.get('hand_num', '')}"
-            time_surf = self.font_tiny.render(f"{time_str} {hand_str}", True, (120, 120, 120))
+            time_surf = self._render_text(self.font_tiny, f"{time_str} {hand_str}", (120, 120, 120))
             self.screen.blit(time_surf, (panel_x + 6, y + 2))
 
             # 获胜者名字
@@ -1189,14 +1244,14 @@ class Renderer:
             if len(name) > 6:
                 name = name[:5] + ".."
             name_color = (100, 255, 150) if w.get("is_human") else COLOR_WHITE
-            name_surf = self.font_tiny.render(name, True, name_color)
+            name_surf = self._render_text(self.font_tiny, name, name_color)
             self.screen.blit(name_surf, (panel_x + 6, y + 14))
 
             # 牌型
             hand_type = w.get("hand_type", "")
             if len(hand_type) > 6:
                 hand_type = hand_type[:5] + ".."
-            type_surf = self.font_tiny.render(hand_type, True, (200, 200, 200))
+            type_surf = self._render_text(self.font_tiny, hand_type, (200, 200, 200))
             self.screen.blit(type_surf, (panel_x + 70, y + 14))
 
             # 净赢金额
@@ -1207,5 +1262,5 @@ class Renderer:
             else:
                 amt_text = f"{amount:,}"
                 amt_color = (255, 80, 80)
-            amt_surf = self.font_tiny.render(amt_text, True, amt_color)
+            amt_surf = self._render_text(self.font_tiny, amt_text, amt_color)
             self.screen.blit(amt_surf, (panel_x + panel_w - amt_surf.get_width() - 6, y + 14))

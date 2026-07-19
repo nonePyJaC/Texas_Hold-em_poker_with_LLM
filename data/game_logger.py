@@ -160,7 +160,14 @@ class GameLogger:
         }
 
         # 写入 SQLite
+        import time as _t
+        _db_t0 = _t.perf_counter()
         self.db.add_hand(hand_number, entry)
+        try:
+            from utils.perf_monitor import get_monitor
+            get_monitor().record_task("audit_write", (_t.perf_counter() - _db_t0) * 1000)
+        except Exception:
+            pass
 
         # 每 10 手清理一次旧记录
         if hand_number % 10 == 0:

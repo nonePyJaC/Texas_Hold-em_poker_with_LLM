@@ -9,6 +9,7 @@ import pygame
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, SHOWDOWN, DEFAULT_STARTING_CHIPS
 from engine.action import Action, ActionType
 from utils.audit_log import log_transaction
+from ui.render_state import RenderLayer
 
 
 class GameFlow:
@@ -27,18 +28,21 @@ class GameFlow:
 
         if app.game.is_betting_round_complete():
             app.game.end_betting_round()
+            app.render_state.invalidate(RenderLayer.STATE, RenderLayer.DYNAMIC, reason="betting_round_complete")
             app.ai_controller.check_turn()
             return
 
         current = app.game.get_current_player()
         if not current or not current.can_act():
             app.game.advance_to_next_player()
+            app.render_state.invalidate(RenderLayer.STATE, RenderLayer.DYNAMIC, reason="turn_advanced")
 
     def advance_after_action(self):
         """玩家行动后推进游戏"""
         app = self.app
         if app.game.get_active_player_count() <= 1:
             app.game.go_to_showdown()
+            app.render_state.invalidate(RenderLayer.STATE, RenderLayer.DYNAMIC, reason="showdown")
             return
 
         if app.game.is_betting_round_complete():
@@ -46,6 +50,7 @@ class GameFlow:
         else:
             app.game.advance_to_next_player()
 
+        app.render_state.invalidate(RenderLayer.STATE, RenderLayer.DYNAMIC, reason="action_advanced")
         app.ai_controller.check_turn()
 
     # ==================== 人类玩家动作 ====================
@@ -81,6 +86,7 @@ class GameFlow:
             return
 
         app.renderer.raise_input.active = False
+        app.render_state.invalidate(RenderLayer.STATE, RenderLayer.DYNAMIC, reason="human_action")
         self.advance_after_action()
 
     # ==================== AI 银行结算 ====================
@@ -97,7 +103,8 @@ class GameFlow:
                     if hasattr(player, '_char_stats'):
                         player._char_stats["bank"] = char.bank
                     log_transaction("game_settle", f"AI:{char.name}", player.chips,
-                                    before, char.bank, "对局结束筹码存回银行")
+                                    before, char.bank, "对局结束筹码存回银行",
+                                    entity_id=char.id, source="game_flow")
                     player.chips = 0
 
     # ==================== 离开对局 ====================
@@ -115,7 +122,8 @@ class GameFlow:
                     source="system",
                 )
                 log_transaction("ai_loan", f"AI:{borrower_name}", amount,
-                                -1, -1, f"向{lender_name}借{amount}")
+                                -1, -1, f"向{lender_name}借{amount}",
+                                source="game_flow")
             app.character_pool.save()
             app.save_manager.mark_dirty()
 
@@ -258,6 +266,7 @@ class GameFlow:
         # 开始下一手
         app.audio.play("shuffle")
         app.game.start_new_hand()
+        app.render_state.invalidate(RenderLayer.STATE, RenderLayer.DYNAMIC, reason="new_hand")
         app.showdown_results = None
         app.ai_thinking = False
         app.ai_speaking = False
@@ -287,6 +296,7 @@ class GameFlow:
         deal_order = active_indices[sb_pos:] + active_indices[:sb_pos]
 
         app.animations.clear()
+        app.render_state.invalidate(RenderLayer.STATE, RenderLayer.DYNAMIC, reason="dealing_started")
         card_delay = 0.12
         card_duration = 0.25
 

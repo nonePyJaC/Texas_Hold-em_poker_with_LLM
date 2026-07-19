@@ -6,6 +6,7 @@ from config import (
     PREFLOP, SHOWDOWN,
 )
 from ui.font_util import get_font
+from ui.render_state import RenderLayer
 from ui.scenes.replay_renderer import HandReplayRenderer
 
 
@@ -393,39 +394,53 @@ class SceneRenderer:
             self._draw_tournament_info_bar()
 
     def _render_playing(self):
-        """渲染游戏画面"""
+        """渲染游戏画面（分层缓存：STATIC / STATE / DYNAMIC）"""
         app = self.app
-        app.renderer.draw_background()
-        app.renderer.draw_table()
+        rs = app.render_state
+
+        # === STATIC LAYER ===
+        if rs.is_dirty(RenderLayer.STATIC) or app.renderer._static_surface is None:
+            static_surf = app.renderer._get_static_surface()
+            orig = app.renderer.screen
+            app.renderer.screen = static_surf
+            app.renderer.draw_background()
+            app.renderer.draw_table()
+            app.renderer.screen = orig
+            rs.mark_clean(RenderLayer.STATIC)
+        app.screen.blit(app.renderer._static_surface, (0, 0))
 
         if not app.game:
             return
 
+        # === STATE LAYER ===
+        if rs.is_dirty(RenderLayer.STATE) or app.renderer._state_surface is None:
+            state_surf = app.renderer._get_state_surface()
+            state_surf.fill((0, 0, 0, 0))
+            orig = app.renderer.screen
+            app.renderer.screen = state_surf
+            self._draw_state_layer()
+            app.renderer.screen = orig
+            rs.mark_clean(RenderLayer.STATE)
+        app.screen.blit(app.renderer._state_surface, (0, 0))
+
+        # === DYNAMIC LAYER ===
+        self._draw_dynamic_layer()
+
+    def _draw_state_layer(self):
+        """绘制 STATE 层内容到当前渲染目标（通常为 state 缓存）"""
+        app = self.app
         positions = app.renderer.get_seat_positions(app.players)
         app.renderer._last_players = app.players
 
-        mouse_pos = pygame.mouse.get_pos()
-        hovered_index = None
-        for i, pos in enumerate(positions):
-            card_w, card_h = 160, 70
-            rect_x = pos[0] - card_w // 2
-            rect_y = pos[1] - card_h // 2
-            if rect_x <= mouse_pos[0] <= rect_x + card_w and rect_y <= mouse_pos[1] <= rect_y + card_h:
-                hovered_index = i
-                break
-
         for i, player in enumerate(app.players):
             pos = positions[i]
-            is_current = (i == app.game.current_player_index and player.can_act()
-                         and app.scene in ("playing", "tournament"))
             is_dealer = (i == app.game.dealer_index)
             is_sb = (i == app.game.small_blind_index)
             is_bb = (i == app.game.big_blind_index)
             show_cards = (app.scene == "showdown" and not player.folded)
-            hovered = (i == hovered_index)
-            app.renderer.draw_player(
-                player, pos, is_current, is_dealer, is_sb, is_bb,
-                show_cards=show_cards, is_human=player.is_human, hovered=hovered,
+            app.renderer.draw_player_state(
+                player, pos, is_dealer, is_sb, is_bb,
+                show_cards=show_cards, is_human=player.is_human,
                 hide_hole_cards=(app.scene == "dealing")
             )
 
@@ -445,6 +460,33 @@ class SceneRenderer:
         app.renderer.draw_phase_info(app.game.phase, app.game.hand_number)
         app.renderer.draw_betting_info(app.game.current_bet, app.game.min_raise)
 
+    def _draw_dynamic_layer(self):
+        """绘制 DYNAMIC 层内容到屏幕（每帧刷新）"""
+        app = self.app
+        positions = app.renderer.get_seat_positions(app.players)
+
+        # 鼠标悬浮检测
+        mouse_pos = pygame.mouse.get_pos()
+        hovered_index = None
+        for i, pos in enumerate(positions):
+            card_w, card_h = 160, 70
+            rect_x = pos[0] - card_w // 2
+            rect_y = pos[1] - card_h // 2
+            if rect_x <= mouse_pos[0] <= rect_x + card_w and rect_y <= mouse_pos[1] <= rect_y + card_h:
+                hovered_index = i
+                break
+
+        # 玩家卡动态覆盖层
+        for i, player in enumerate(app.players):
+            pos = positions[i]
+            is_current = (i == app.game.current_player_index and player.can_act()
+                         and app.scene in ("playing", "tournament"))
+            hovered = (i == hovered_index)
+            app.renderer.draw_player_overlay(
+                player, pos, is_current=is_current, hovered=hovered, is_human=player.is_human
+            )
+
+        # 操作面板
         if app.scene in ("playing", "tournament"):
             app.renderer.draw_action_panel(app.game, app.human_player)
 
@@ -454,12 +496,14 @@ class SceneRenderer:
                     think_text = app.ai_dialogue.text if app.ai_dialogue and hasattr(app.ai_dialogue, 'text') else None
                     app.renderer.draw_ai_thinking(current.name, think_text)
 
+        # AI 对话气泡
         if app.ai_action_dialogue and app.ai_action_dialogue_timer > 0:
             app.renderer.draw_speech_bubble(
                 app.ai_action_dialogue_revealed or app.ai_action_dialogue.text,
                 app.ai_action_dialogue_name
             )
 
+        # 角色详情弹窗
         if app.selected_player_index is not None and app.selected_player_index < len(app.players):
             selected_player = app.players[app.selected_player_index]
             app.player_popup_close_btn = app.renderer.draw_player_popup(
@@ -467,6 +511,7 @@ class SceneRenderer:
                 close_callback=lambda: (setattr(app, 'selected_player_index', None), setattr(app, 'player_popup_close_btn', None))
             )
 
+        # 动画
         app.animations.draw(app.screen)
 
         # 后台桌信息（右上角）
@@ -487,7 +532,6 @@ class SceneRenderer:
         total_tables = stats['total_tables']
         table_occupied = stats.get('table_occupied', {})
         num_tables = stats.get('num_tables', 8)
-        table_names = stats.get('table_names', {})
 
         # 玩家桌ID
         player_table_id = getattr(app, '_player_table_id', None)
@@ -495,6 +539,16 @@ class SceneRenderer:
         # 总活跃桌数 = 后台活跃 + 玩家桌（如果存在）
         total_active = active_tables + (1 if player_table_id else 0)
         total_online = active_players + len(app.players) if app.players else active_players
+
+        # 缓存键：仅当关键数据变化时才重建
+        cache_key = (total_active, total_online, total_tables,
+                     tuple(sorted(table_occupied.items())), player_table_id, num_tables)
+        if not hasattr(self, '_bg_info_cache'):
+            self._bg_info_cache = None
+            self._bg_info_cache_key = None
+        if self._bg_info_cache is not None and self._bg_info_cache_key == cache_key:
+            app.screen.blit(self._bg_info_cache, self._bg_info_cache_pos)
+            return
 
         font = get_font(13, bold=False)
         font_bold = get_font(13, bold=True)
@@ -518,16 +572,15 @@ class SceneRenderer:
         bar_x = (SCREEN_WIDTH - bar_w) // 2  # 居中
         bar_y = 4  # 最顶部
 
-        # 半透明背景
-        bg = pygame.Surface((bar_w, bar_h), pygame.SRCALPHA)
-        bg.fill((20, 25, 30, 180))
-        pygame.draw.rect(bg, (60, 80, 100), bg.get_rect(), 1, border_radius=6)
-        app.screen.blit(bg, (bar_x, bar_y))
+        # 渲染到缓存 Surface
+        cache_surf = pygame.Surface((bar_w, bar_h), pygame.SRCALPHA)
+        cache_surf.fill((20, 25, 30, 180))
+        pygame.draw.rect(cache_surf, (60, 80, 100), cache_surf.get_rect(), 1, border_radius=6)
 
         # 标题
-        tx = bar_x + 8
-        ty = bar_y + (bar_h - title_surf.get_height()) // 2
-        app.screen.blit(title_surf, (tx, ty))
+        tx = 8
+        ty = (bar_h - title_surf.get_height()) // 2
+        cache_surf.blit(title_surf, (tx, ty))
         tx += title_surf.get_width() + 12
 
         # 桌子格子：8张桌子，玩家桌显示"我"
@@ -538,30 +591,35 @@ class SceneRenderer:
             label = "我" if is_player_table else str(tid)
 
             cx = tx + idx * (cell_w + cell_gap)
-            cy = bar_y + (bar_h - cell_h) // 2
+            cy = (bar_h - cell_h) // 2
             rect = pygame.Rect(cx, cy, cell_w, cell_h)
 
             if is_player_table:
-                pygame.draw.rect(app.screen, (60, 50, 10), rect, border_radius=4)
-                pygame.draw.rect(app.screen, (255, 215, 0), rect, 2, border_radius=4)
+                pygame.draw.rect(cache_surf, (60, 50, 10), rect, border_radius=4)
+                pygame.draw.rect(cache_surf, (255, 215, 0), rect, 2, border_radius=4)
                 lbl_color = (255, 215, 0)
             elif occupied:
-                pygame.draw.rect(app.screen, (20, 50, 30), rect, border_radius=4)
-                pygame.draw.rect(app.screen, (50, 200, 80), rect, 1, border_radius=4)
+                pygame.draw.rect(cache_surf, (20, 50, 30), rect, border_radius=4)
+                pygame.draw.rect(cache_surf, (50, 200, 80), rect, 1, border_radius=4)
                 lbl_color = (50, 200, 80)
             else:
-                pygame.draw.rect(app.screen, (35, 35, 35), rect, border_radius=4)
-                pygame.draw.rect(app.screen, (70, 70, 70), rect, 1, border_radius=4)
+                pygame.draw.rect(cache_surf, (35, 35, 35), rect, border_radius=4)
+                pygame.draw.rect(cache_surf, (70, 70, 70), rect, 1, border_radius=4)
                 lbl_color = (90, 90, 90)
 
             lbl_surf = font.render(label, True, lbl_color)
-            app.screen.blit(lbl_surf, (cx + (cell_w - lbl_surf.get_width()) // 2,
+            cache_surf.blit(lbl_surf, (cx + (cell_w - lbl_surf.get_width()) // 2,
                                         cy + (cell_h - lbl_surf.get_height()) // 2))
 
         # 统计
         sx = tx + grid_w + 12
-        sy = bar_y + (bar_h - stats_surf.get_height()) // 2
-        app.screen.blit(stats_surf, (sx, sy))
+        sy = (bar_h - stats_surf.get_height()) // 2
+        cache_surf.blit(stats_surf, (sx, sy))
+
+        self._bg_info_cache = cache_surf
+        self._bg_info_cache_key = cache_key
+        self._bg_info_cache_pos = (bar_x, bar_y)
+        app.screen.blit(cache_surf, (bar_x, bar_y))
 
     # ==================== 锦标赛渲染 ====================
 
@@ -617,8 +675,10 @@ class SceneRenderer:
         has_save = tc.has_saved_tournament()
         if has_save:
             app.tournament_buttons["continue"].visible = True
+            app.tournament_buttons["start"].visible = False
         else:
             app.tournament_buttons["continue"].visible = False
+            app.tournament_buttons["start"].visible = True
 
         # 绘制按钮
         mouse_pos = pygame.mouse.get_pos()

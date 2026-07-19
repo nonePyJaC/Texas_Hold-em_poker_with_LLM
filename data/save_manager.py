@@ -100,12 +100,14 @@ class SaveManager:
             amount -= repay
             if repay > 0:
                 log_transaction("loan_repay", "玩家", repay,
-                                before_loan, self.player_data.loan, "存入时自动还贷")
+                                before_loan, self.player_data.loan, "存入时自动还贷",
+                                entity_id=-1, source="save_manager")
         self.player_data.bank += amount
         self.mark_dirty()
         if amount > 0:
             log_transaction("deposit", "玩家", amount,
-                            before, self.player_data.bank, "存入银行")
+                            before, self.player_data.bank, "存入银行",
+                            entity_id=-1, source="save_manager")
 
     def withdraw_from_bank(self, amount: int) -> int:
         """从银行取出筹码，返回实际取出金额"""
@@ -115,7 +117,8 @@ class SaveManager:
         self.mark_dirty()
         if actual > 0:
             log_transaction("withdraw", "玩家", -actual,
-                            before, self.player_data.bank, "取出筹码上桌")
+                            before, self.player_data.bank, "取出筹码上桌",
+                            entity_id=-1, source="save_manager")
         return actual
 
     def take_loan(self, amount: int):
@@ -126,7 +129,8 @@ class SaveManager:
         self.player_data.loan += amount
         self.mark_dirty()
         log_transaction("loan_take", "玩家", amount,
-                        before, self.player_data.bank, f"贷款 总欠款={self.player_data.loan}")
+                        before, self.player_data.bank, f"贷款 总欠款={self.player_data.loan}",
+                        entity_id=-1, source="save_manager")
 
     def can_take_loan(self) -> bool:
         """是否可以贷款（欠款不超过上限）"""
@@ -143,7 +147,8 @@ class SaveManager:
         self.player_data.bank += 2000
         self.mark_dirty()
         log_transaction("daily_bonus", "玩家", 2000,
-                        before, self.player_data.bank, "每日奖励")
+                        before, self.player_data.bank, "每日奖励",
+                        entity_id=-1, source="save_manager")
         return True
 
     def can_get_daily_bonus(self) -> bool:

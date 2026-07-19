@@ -1,5 +1,31 @@
 # 更新日志 / Changelog
 
+## V1.6 (2026-07-19)
+
+### 新功能
+- **性能监控系统**（P1-02）：`utils/perf_monitor.py` 全面的性能监控体系
+  - P1-02.1 帧尖峰事件日志：检测超阈值帧并记录上下文（场景、线程数、近期事件）
+  - P1-02.2 内存/缓存/线程快照：定期记录 RSS、GC 计数、卡牌缓存、头像缓存、文本缓存、动画队列、播报消息、LLM 队列、手牌历史等资源状态
+  - P1-02.3 端到端任务耗时：AI 决策、LLM 请求、单桌模拟、锦标赛模拟、存档、审计写入的聚合统计与阈值告警
+- **审计日志 JSONL 追加式账本**（P1-04.1）：`utils/audit_log.py` 从全量 JSON 重写为 JSONL 追加格式
+  - 每条事件含 event_id、session_id、entity_id、source、correlation_id 等字段
+  - 旧 `audit_log.json` 自动迁移为 `.jsonl` 并备份
+  - 7 天留存清理改为启动时执行，不再每笔交易扫描全量文件
+- **资金恢复查询接口**（P1-04.2）：`utils/audit_log.py` 新增 `get_log_by_entity_id()` 和 `get_balance_summary()` 按实体 ID 统计资金变化
+  - 所有 `log_transaction` 调用方补充 `entity_id` 和 `source` 参数
+
+### Bug 修复
+- **锦标赛决赛圈奖金遗漏**：`tournament/tournament_controller.py` 的 `advance_to_ultimate_stage()` 使用 `active_players`（仅未淘汰玩家）排名 4-8 名发奖金，已淘汰的人类被跳过。改为从决赛桌 `final_table.players` 获取全部玩家
+- **锦标赛开始/继续按钮重叠**：`ui/scenes/scene_renderer.py` 两个按钮在同一位置同时可见可点击，导致重复扣买入。改为根据存档状态互斥显示
+- **全屏切换失效**：`main.py` 和 `ui/scenes/scene_event_handler.py` 的 VIDEORESIZE 事件在全屏时重置显示模式，导致全屏退回窗口。增加全屏守卫并统一使用 `_window_flags`
+
+### 优化
+- **有界模拟任务池**（P1-03.1）：`game_logic/background_simulator.py` 用 `ThreadPoolExecutor(max_workers=3)` 替换每桌创建线程，`stop()` 时取消未开始任务并等待已运行任务完成
+- **模拟节流与取消检查点**（P1-03.2）：新增 `_interruptible_sleep()` 分段睡眠方法（1 秒检查一次 `_running`），所有 `time.sleep()` 替换为可取消版本，停止模拟器后不再产生新结算或广播
+- **文本渲染缓存**（P1-01.3）：`ui/renderer.py` 通用文本 Surface 缓存 `_render_text`，应用于所有 `font.render` 调用
+
+---
+
 ## V1.5.1 (2026-07-17)
 
 ### 新功能
