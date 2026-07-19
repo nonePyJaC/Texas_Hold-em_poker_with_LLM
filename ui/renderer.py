@@ -797,33 +797,41 @@ class Renderer:
         for item in menu_items:
             item.draw(self.screen)
 
-    def draw_bank_leaderboard(self, human_name, human_bank, ai_characters, max_entries=10,
-                              champion_name="", human_tournament_wins=0):
-        """绘制银行存款排行榜（主菜单用）
+    # 排行榜面板布局常量
+    LB_PANEL_X = 20
+    LB_PANEL_Y = 130
+    LB_PANEL_W = 240
+    LB_LINE_H = 24
+    LB_HEADER_H = 32
+    LB_VIEWPORT_H = 400  # 固定可视高度
+    LB_DETAIL_W = 260
+
+    def draw_bank_leaderboard(self, human_name, human_bank, ai_characters,
+                              champion_name="", human_tournament_wins=0,
+                              scroll_offset=0, selected_idx=None):
+        """绘制银行存款排行榜（主菜单用，支持滚动+点击选中）
 
         Args:
-            human_name: 人类玩家名
-            human_bank: 人类玩家银行余额
-            ai_characters: AI角色列表 (AICharacter)
-            max_entries: 最多显示条目数
-            champion_name: 当前锦标赛冠军名字（显示🏆）
-            human_tournament_wins: 人类玩家锦标赛冠军次数
+            scroll_offset: 滚动偏移（像素）
+            selected_idx: 当前选中条目索引（None=未选中）
+        Returns:
+            (entries, entry_rects, panel_rect, max_scroll)
         """
         # 合并人类和AI玩家，按银行余额排序
-        entries = [("你", human_bank, True, human_tournament_wins)]
+        all_entries = [("你", human_bank, True, human_tournament_wins, None)]
         for c in ai_characters:
             tw = getattr(c, 'tournament_wins', 0)
-            entries.append((c.name, c.bank, False, tw))
-        entries.sort(key=lambda x: x[1], reverse=True)
-        entries = entries[:max_entries]
+            all_entries.append((c.name, c.bank, False, tw, c))
+        all_entries.sort(key=lambda x: x[1], reverse=True)
 
-        panel_w = 240
-        line_h = 24
-        header_h = 32
-        panel_h = header_h + len(entries) * line_h + 12
+        panel_w = self.LB_PANEL_W
+        line_h = self.LB_LINE_H
+        header_h = self.LB_HEADER_H
+        viewport_h = self.LB_VIEWPORT_H
+        panel_h = header_h + viewport_h + 8
 
-        panel_x = 20
-        panel_y = 130
+        panel_x = self.LB_PANEL_X
+        panel_y = self.LB_PANEL_Y
 
         # 半透明背景
         bg = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
@@ -835,10 +843,37 @@ class Renderer:
         title_surf = self.font_small.render("银行存款排行", True, COLOR_GOLD)
         self.screen.blit(title_surf, (panel_x + (panel_w - title_surf.get_width()) // 2, panel_y + 8))
 
+        # 滚动条
+        total_content_h = len(all_entries) * line_h
+        max_scroll = max(0, total_content_h - viewport_h)
+        if max_scroll > 0:
+            scrollbar_h = max(20, int(viewport_h * viewport_h / total_content_h))
+            scrollbar_y = panel_y + header_h + int((viewport_h - scrollbar_h) * scroll_offset / max_scroll)
+            pygame.draw.rect(self.screen, (60, 65, 70), (panel_x + panel_w - 6, panel_y + header_h, 4, viewport_h), border_radius=2)
+            pygame.draw.rect(self.screen, (120, 125, 130), (panel_x + panel_w - 6, scrollbar_y, 4, scrollbar_h), border_radius=2)
+
+        # 裁剪区域
+        clip_rect = pygame.Rect(panel_x + 2, panel_y + header_h, panel_w - 10, viewport_h)
+        old_clip = self.screen.get_clip()
+        self.screen.set_clip(clip_rect)
+
         # 排名列表
         medals = ["1", "2", "3"]
-        for i, (name, bank, is_human, tw) in enumerate(entries):
-            y = panel_y + header_h + i * line_h
+        entry_rects = []
+        for i, (name, bank, is_human, tw, char_obj) in enumerate(all_entries):
+            y = panel_y + header_h + i * line_h - scroll_offset
+            if y + line_h < panel_y + header_h or y > panel_y + header_h + viewport_h:
+                entry_rects.append(None)
+                continue
+
+            rect = pygame.Rect(panel_x + 2, y, panel_w - 10, line_h)
+            entry_rects.append(rect)
+
+            # 选中高亮
+            if selected_idx == i:
+                highlight = pygame.Surface((panel_w - 10, line_h), pygame.SRCALPHA)
+                highlight.fill((60, 80, 100, 120))
+                self.screen.blit(highlight, (panel_x + 2, y))
 
             # 排名
             rank_color = COLOR_GOLD if i == 0 else (COLOR_TEXT_DIM if i >= 3 else COLOR_WHITE)
@@ -849,7 +884,6 @@ class Renderer:
             display_name = name
             if len(display_name) > 7:
                 display_name = display_name[:6] + ".."
-            # 锦标赛冠军标记
             if tw > 0 and name == champion_name:
                 display_name = "🏆" + display_name
             elif tw > 0:
@@ -864,7 +898,75 @@ class Renderer:
             bank_text = f"{bank:,}"
             bank_color = COLOR_GOLD if bank > 0 else COLOR_TEXT_DIM
             bank_surf = self.font_tiny.render(bank_text, True, bank_color)
-            self.screen.blit(bank_surf, (panel_x + panel_w - bank_surf.get_width() - 10, y + 5))
+            self.screen.blit(bank_surf, (panel_x + panel_w - bank_surf.get_width() - 14, y + 5))
+
+        self.screen.set_clip(old_clip)
+
+        panel_rect = pygame.Rect(panel_x, panel_y, panel_w, panel_h)
+        return all_entries, entry_rects, panel_rect, max_scroll
+
+    def draw_character_detail_panel(self, entry, x, y, character_pool=None):
+        """绘制角色详情面板
+
+        Args:
+            entry: (name, bank, is_human, tw, char_obj) 元组
+            x, y: 面板左上角坐标
+            character_pool: CharacterPool 实例（用于查找债主名字）
+        """
+        name, bank, is_human, tw, char_obj = entry
+        panel_w = self.LB_DETAIL_W
+        line_h = 22
+        lines = []
+
+        if is_human:
+            lines.append(("银行余额", f"{bank:,}"))
+            lines.append(("锦标赛冠军", f"{tw} 次"))
+        else:
+            hands_played = getattr(char_obj, 'hands_played', 0)
+            hands_won = getattr(char_obj, 'hands_won', 0)
+            total_profit = getattr(char_obj, 'total_profit', 0)
+            debt = getattr(char_obj, 'debt', 0)
+            lender_id = getattr(char_obj, 'lender_id', -1)
+            archetype = getattr(char_obj, 'archetype', 'random')
+            wr = (hands_won / hands_played * 100) if hands_played > 0 else 0.0
+
+            lines.append(("银行余额", f"{bank:,}"))
+            lines.append(("总手数", f"{hands_played}"))
+            lines.append(("胜利手数", f"{hands_won}"))
+            lines.append(("胜率", f"{wr:.1f}%"))
+            lines.append(("总盈亏", f"{total_profit:+,}"))
+            lines.append(("性格原型", archetype))
+            if debt > 0:
+                lines.append(("欠债", f"{debt:,}"))
+                if lender_id >= 0 and character_pool:
+                    lender = character_pool.get_by_id(lender_id)
+                    lender_name = lender.name if lender else f"#{lender_id}"
+                else:
+                    lender_name = f"#{lender_id}" if lender_id >= 0 else "未知"
+                lines.append(("债主", lender_name))
+            if tw > 0:
+                lines.append(("锦标赛冠军", f"{tw} 次"))
+
+        panel_h = 40 + len(lines) * line_h + 12
+
+        # 半透明背景
+        bg = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
+        bg.fill((25, 30, 35, 230))
+        self.screen.blit(bg, (x, y))
+        pygame.draw.rect(self.screen, COLOR_GOLD, (x, y, panel_w, panel_h), 1, border_radius=8)
+
+        # 标题
+        title_surf = self.font_small.render(name, True, COLOR_GOLD)
+        self.screen.blit(title_surf, (x + (panel_w - title_surf.get_width()) // 2, y + 8))
+
+        # 数据行
+        for i, (label, value) in enumerate(lines):
+            ly = y + 36 + i * line_h
+            label_surf = self.font_tiny.render(label, True, COLOR_TEXT_DIM)
+            self.screen.blit(label_surf, (x + 12, ly))
+            val_color = COLOR_GOLD if "盈亏" in label or "余额" in label else COLOR_WHITE
+            val_surf = self.font_tiny.render(value, True, val_color)
+            self.screen.blit(val_surf, (x + panel_w - val_surf.get_width() - 12, ly))
 
     def draw_ai_thinking(self, player_name, dialogue=None):
         """绘制AI思考提示，可附带对话气泡"""

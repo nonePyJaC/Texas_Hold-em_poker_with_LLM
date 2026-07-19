@@ -18,6 +18,7 @@ import time
 import logging
 from typing import Optional, List, Dict, Tuple
 
+from utils.audit_log import log_transaction
 from engine.game import PokerGame
 from engine.player import Player
 from engine.action import Action, ActionType
@@ -27,8 +28,8 @@ from ai.personality import Personality
 from ai.emotion import EmotionEngine
 from config import (
     DECK_SHORT, DECK_STANDARD,
-    BETTING_NO_LIMIT,
-    DIFFICULTY_FAST,
+    BETTING_NO_LIMIT, BETTING_POT_LIMIT,
+    DIFFICULTY_EASY,
     MCTS_FAST_TIME_LIMIT,
     PREFLOP, SHOWDOWN,
     MIN_PLAYERS, MAX_PLAYERS,
@@ -48,32 +49,30 @@ RANK_COLORS = {
     HandRank.ROYAL_FLUSH: (255, 215, 0),       # 金色
 }
 
-# 盲注选项
+# 盲注选项（后台模拟只用低盲注，避免短筹码 all-in 泛滥）
 BLIND_OPTIONS = [
     (5, 10),
     (10, 20),
-    (25, 50),
-    (50, 100),
 ]
 
-# 入场筹码范围
-BUY_IN_MIN = 1000
-BUY_IN_MAX = 5000
+# 入场筹码范围（降低上限，控制单桌总筹码量）
+BUY_IN_MIN = 500
+BUY_IN_MAX = 2000
 
 # 场所固定桌数
 NUM_TABLES = 8
 
 # 每桌最少/最多手牌数
-HANDS_PER_TABLE_MIN = 3
-HANDS_PER_TABLE_MAX = 8
+HANDS_PER_TABLE_MIN = 5
+HANDS_PER_TABLE_MAX = 12
 
 # 节奏控制（秒）— 接近真实牌室
-HAND_INTERVAL_MIN = 5.0    # 手间间隔
-HAND_INTERVAL_MAX = 12.0
-TABLE_INTERVAL_MIN = 10.0   # 桌间间隔
-TABLE_INTERVAL_MAX = 25.0
-ROUND_INTERVAL_MIN = 15.0   # 轮间休息
-ROUND_INTERVAL_MAX = 40.0
+HAND_INTERVAL_MIN = 15.0   # 手间间隔
+HAND_INTERVAL_MAX = 35.0
+TABLE_INTERVAL_MIN = 20.0   # 桌间间隔
+TABLE_INTERVAL_MAX = 50.0
+ROUND_INTERVAL_MIN = 30.0   # 轮间休息
+ROUND_INTERVAL_MAX = 80.0
 
 
 class BroadcastMessage:
@@ -95,16 +94,18 @@ class BroadcastMessage:
 class BackgroundSimulator:
     """后台 AI 对局模拟器 — 线程安全"""
 
-    def __init__(self, character_pool, active_char_ids_provider, broadcast_callback):
+    def __init__(self, character_pool, active_char_ids_provider, broadcast_callback, table_manager=None):
         """
         Args:
             character_pool: CharacterPool 实例
             active_char_ids_provider: 返回当前上桌 AI 角色ID集合的 callable
             broadcast_callback: 接收 BroadcastMessage 的回调
+            table_manager: TableManager 实例（统一管理桌子）
         """
         self.character_pool = character_pool
         self._active_char_ids_provider = active_char_ids_provider
         self._broadcast_callback = broadcast_callback
+        self._table_manager = table_manager
         self._lock = threading.Lock()
         self._running = False
         self._thread: Optional[threading.Thread] = None
@@ -113,8 +114,9 @@ class BackgroundSimulator:
         self._active_tables = 0
         self._active_players = 0
         self._total_tables_today = 0
-        # 8 张桌子的占用状态: {table_id: occupied_bool}
-        self._table_occupied = {i: False for i in range(1, NUM_TABLES + 1)}
+        # 兼容：无 TableManager 时用内部 table_occupied
+        if table_manager is None:
+            self._table_occupied = {i: False for i in range(1, NUM_TABLES + 1)}
 
     def start(self):
         if self._running:
@@ -133,12 +135,23 @@ class BackgroundSimulator:
         with self._stats_lock:
             self._active_tables = 0
             self._active_players = 0
-            self._table_occupied = {i: False for i in range(1, NUM_TABLES + 1)}
+            if self._table_manager is None:
+                self._table_occupied = {i: False for i in range(1, NUM_TABLES + 1)}
         logger.info("后台AI模拟器已停止")
 
     def get_stats(self):
         """返回当前后台统计信息（线程安全）"""
         with self._stats_lock:
+            if self._table_manager:
+                tm_stats = self._table_manager.get_stats()
+                return {
+                    'active_tables': self._active_tables,
+                    'active_players': self._active_players,
+                    'total_tables': self._total_tables_today,
+                    'table_occupied': {t['id']: t['state'] != 'idle' for t in tm_stats['tables']},
+                    'num_tables': tm_stats['total_tables'],
+                    'table_names': {t['id']: t['name'] for t in tm_stats['tables']},
+                }
             return {
                 'active_tables': self._active_tables,
                 'active_players': self._active_players,
@@ -168,17 +181,20 @@ class BackgroundSimulator:
                     time.sleep(5.0)
                     continue
 
-                # 找出当前空闲的桌子
-                with self._stats_lock:
-                    free_tables = [tid for tid in range(1, NUM_TABLES + 1)
-                                   if not self._table_occupied[tid]]
+                # 找出当前可用的桌子（排除玩家桌）
+                if self._table_manager:
+                    free_tables = self._table_manager.get_background_table_ids()
+                else:
+                    with self._stats_lock:
+                        free_tables = [tid for tid in range(1, NUM_TABLES + 1)
+                                       if not self._table_occupied[tid]]
 
                 if not free_tables:
                     time.sleep(rng.uniform(5.0, 10.0))
                     continue
 
-                # 随机选 1-3 张空闲桌子开局
-                num_to_open = rng.randint(1, min(len(free_tables), 3, len(available) // MIN_PLAYERS))
+                # 随机选 1-5 张空闲桌子开局
+                num_to_open = rng.randint(1, min(len(free_tables), 5, len(available) // MIN_PLAYERS))
                 rng.shuffle(free_tables)
                 tables_to_run = free_tables[:num_to_open]
 
@@ -196,7 +212,8 @@ class BackgroundSimulator:
                     if len(table_chars) >= MIN_PLAYERS:
                         table_assignments.append((table_id, table_chars))
 
-                # 依次模拟每桌（单线程顺序执行，避免 CPU 过载）
+                # 并行模拟多桌（每桌一个线程，真实同时活动）
+                threads = []
                 for table_id, table_chars in table_assignments:
                     if not self._running:
                         break
@@ -205,26 +222,38 @@ class BackgroundSimulator:
                     deck_type = rng.choice([DECK_STANDARD, DECK_SHORT])
                     small_blind, big_blind = rng.choice(BLIND_OPTIONS)
                     buy_in = rng.randint(BUY_IN_MIN, BUY_IN_MAX)
+                    betting_mode = rng.choice([BETTING_NO_LIMIT, BETTING_POT_LIMIT])
                     num_hands = rng.randint(HANDS_PER_TABLE_MIN, HANDS_PER_TABLE_MAX)
 
                     # 占用桌子 + 更新统计
+                    if self._table_manager:
+                        self._table_manager.mark_background(table_id, len(table_chars))
+                    else:
+                        with self._stats_lock:
+                            self._table_occupied[table_id] = True
                     with self._stats_lock:
-                        self._table_occupied[table_id] = True
                         self._active_tables += 1
                         self._active_players += len(table_chars)
                         self._total_tables_today += 1
 
-                    self._simulate_table_session(table_id, table_chars, small_blind, big_blind, deck_type, buy_in, num_hands, rng)
+                    t = threading.Thread(
+                        target=self._run_table_and_release,
+                        args=(table_id, table_chars, small_blind, big_blind,
+                              deck_type, buy_in, num_hands, random.Random(), betting_mode),
+                        daemon=True,
+                    )
+                    t.start()
+                    threads.append(t)
 
-                    # 释放桌子 + 更新统计
-                    with self._stats_lock:
-                        self._table_occupied[table_id] = False
-                        self._active_tables = max(0, self._active_tables - 1)
-                        self._active_players = max(0, self._active_players - len(table_chars))
-
-                    # 桌间间隔
+                    # 桌间开局间隔（错开开局时间，更真实）
                     if self._running:
-                        time.sleep(rng.uniform(TABLE_INTERVAL_MIN, TABLE_INTERVAL_MAX))
+                        time.sleep(rng.uniform(3.0, 8.0))
+
+                # 等待所有桌结束（不阻塞主循环太久）
+                for t in threads:
+                    if not self._running:
+                        break
+                    t.join(timeout=0.1)
 
                 # 本轮结束，休息后再开下一轮
                 if self._running:
@@ -235,7 +264,25 @@ class BackgroundSimulator:
                 logger.error(f"后台模拟异常: {e}")
                 time.sleep(5.0)
 
-    def _simulate_table_session(self, table_id, chars, small_blind, big_blind, deck_type, buy_in, num_hands, rng):
+    def _run_table_and_release(self, table_id, chars, small_blind, big_blind,
+                                deck_type, buy_in, num_hands, rng, betting_mode):
+        """运行一桌模拟并在结束后释放桌子占用"""
+        try:
+            self._simulate_table_session(table_id, chars, small_blind, big_blind,
+                                          deck_type, buy_in, num_hands, rng, betting_mode)
+        except Exception as e:
+            logger.error(f"桌{table_id}模拟异常: {e}")
+        finally:
+            if self._table_manager:
+                self._table_manager.unmark_background(table_id)
+            else:
+                with self._stats_lock:
+                    self._table_occupied[table_id] = False
+            with self._stats_lock:
+                self._active_tables = max(0, self._active_tables - 1)
+                self._active_players = max(0, self._active_players - len(chars))
+
+    def _simulate_table_session(self, table_id, chars, small_blind, big_blind, deck_type, buy_in, num_hands, rng, betting_mode):
         """模拟一桌完整对局（多手牌），每手结算写回 bank"""
         # 创建 Player 对象（整局复用）
         players = []
@@ -248,7 +295,7 @@ class BackgroundSimulator:
 
             personality = Personality.randomized_from_archetype(char.archetype)
             p.personality = personality
-            p.ai_brain = MCTSAI(personality, difficulty=DIFFICULTY_FAST,
+            p.ai_brain = MCTSAI(personality, difficulty=DIFFICULTY_EASY,
                                 time_limit=MCTS_FAST_TIME_LIMIT)
             p.emotion_engine = EmotionEngine(personality)
             players.append(p)
@@ -258,7 +305,7 @@ class BackgroundSimulator:
             players,
             small_blind=small_blind,
             big_blind=big_blind,
-            betting_mode=BETTING_NO_LIMIT,
+            betting_mode=betting_mode,
             deck_type=deck_type,
         )
 
@@ -271,9 +318,22 @@ class BackgroundSimulator:
             if len(active) < MIN_PLAYERS:
                 break
 
+            # 记录每手前各玩家筹码，用于计算单手盈亏
+            chips_before = {p.seat_index: p.chips for p in players}
+
             result = self._play_one_hand(game, deck_type)
 
+            # 每手更新角色统计
             if result:
+                winner_name, rank, pot, fold_win = result
+                with self._lock:
+                    for p, char in zip(players, chars):
+                        hand_profit = p.chips - chips_before.get(p.seat_index, p.chips)
+                        char.hands_played += 1
+                        char.total_profit += hand_profit
+                        if p.name == winner_name:
+                            char.hands_won += 1
+
                 broadcast = self._check_broadcast(table_id, result)
                 if broadcast:
                     self._broadcast_callback(broadcast)
@@ -286,10 +346,12 @@ class BackgroundSimulator:
         with self._lock:
             for p, char in zip(players, chars):
                 net = p.chips - p._buy_in
+                before = char.bank
                 char.bank += net
                 if char.bank < 0:
                     char.bank = 0
-                char.hands_played += 1
+                log_transaction("bg_settle", f"AI:{char.name}", net,
+                                before, char.bank, f"后台桌{table_id}结算 {num_hands}手")
 
         logger.debug(f"桌{table_id} 完成 {num_hands} 手，{len(players)} 人")
 

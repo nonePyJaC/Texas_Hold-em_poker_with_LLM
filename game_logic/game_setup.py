@@ -1,5 +1,6 @@
 """GameSetup：负责从设置界面创建并初始化一局游戏"""
 import random
+from utils.audit_log import log_transaction
 from config import (
     DEFAULT_STARTING_CHIPS,
     MIN_PLAYERS,
@@ -89,7 +90,10 @@ class GameSetup:
         for i, char in enumerate(ai_chars):
             session_personality = Personality.randomized_from_archetype(char.archetype)
             ai_buy_in = min(buy_in, char.bank)
+            before = char.bank
             char.bank -= ai_buy_in
+            log_transaction("buy_in", f"AI:{char.name}", -ai_buy_in,
+                            before, char.bank, f"上桌买入 {num_players}人局")
             p = Player(char.name, ai_buy_in, is_human=False, seat_index=i + 1)
             p.personality = session_personality
             p._archetype = char.archetype
@@ -154,3 +158,12 @@ class GameSetup:
 
         # 启动后台 AI 模拟器
         app._start_background_simulator()
+
+        # 玩家从 TableManager 选桌入座
+        if hasattr(app, 'table_manager') and app.table_manager:
+            app._player_table_id = app.table_manager.assign_to_player()
+            table = app.table_manager.get_table(app._player_table_id) if app._player_table_id else None
+            app._player_table_name = table.name if table else "未知牌桌"
+        else:
+            app._player_table_id = None
+            app._player_table_name = "德州扑克"

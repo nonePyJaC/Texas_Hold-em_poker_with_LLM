@@ -65,15 +65,35 @@ class SceneRenderer:
         human_tw = getattr(app.save_manager.player_data, 'tournament_wins', 0)
         if hasattr(app, 'tournament_controller') and app.tournament_controller:
             champion_name = app.tournament_controller.get_current_champion_name()
-        app.renderer.draw_bank_leaderboard(
+
+        # 滚动状态
+        scroll_offset = getattr(app, '_lb_scroll', 0)
+        selected_idx = getattr(app, '_lb_selected', None)
+
+        all_entries, entry_rects, panel_rect, max_scroll = app.renderer.draw_bank_leaderboard(
             "你", stats['bank'], app.save_manager.character_pool.characters,
             champion_name=champion_name, human_tournament_wins=human_tw,
+            scroll_offset=scroll_offset, selected_idx=selected_idx,
         )
+
+        # 存储供 menu_scene 事件处理使用
+        app._lb_entries = all_entries
+        app._lb_entry_rects = entry_rects
+        app._lb_panel_rect = panel_rect
+        app._lb_max_scroll = max_scroll
+
+        # 选中条目时绘制详情面板（在排行榜右侧）
+        if selected_idx is not None and selected_idx < len(all_entries):
+            entry = all_entries[selected_idx]
+            detail_x = panel_rect.right + 8
+            detail_y = panel_rect.y
+            app.renderer.draw_character_detail_panel(entry, detail_x, detail_y,
+                                                       character_pool=app.save_manager.character_pool)
 
         history_count = len(app.save_manager.player_data.hand_history)
         app.history_button.text = f"对战记录 ({history_count})"
-        lb_h = 32 + min(10, 1 + len(app.save_manager.character_pool.characters)) * 24 + 12
-        app.history_button.rect.y = 130 + lb_h + 8
+        lb_h = panel_rect.height
+        app.history_button.rect.y = panel_rect.bottom + 8
         mouse_pos = pygame.mouse.get_pos()
         app.history_button.update(mouse_pos)
         app.history_button.draw(app.screen)
@@ -456,7 +476,7 @@ class SceneRenderer:
         app.chat_controller.render(app.screen, app.renderer)
 
     def _draw_background_info(self):
-        """游戏最上方横向展示 8 桌场所状态"""
+        """游戏最上方横向展示 8 桌场所状态（玩家桌是其中一张）"""
         app = self.app
         if not hasattr(app, '_bg_simulator') or not app._bg_simulator._running:
             return
@@ -467,24 +487,27 @@ class SceneRenderer:
         total_tables = stats['total_tables']
         table_occupied = stats.get('table_occupied', {})
         num_tables = stats.get('num_tables', 8)
+        table_names = stats.get('table_names', {})
 
-        # 含玩家自己这桌
-        total_active = active_tables + 1
-        total_online = active_players + len(app.players)
+        # 玩家桌ID
+        player_table_id = getattr(app, '_player_table_id', None)
+
+        # 总活跃桌数 = 后台活跃 + 玩家桌（如果存在）
+        total_active = active_tables + (1 if player_table_id else 0)
+        total_online = active_players + len(app.players) if app.players else active_players
 
         font = get_font(13, bold=False)
         font_bold = get_font(13, bold=True)
 
-        # 横向排列：标题 + 9个桌子格子 + 统计
+        # 横向排列：标题 + 8个桌子格子 + 统计
         cell_w = 38
         cell_h = 22
         cell_gap = 4
-        # 玩家桌"我" + 8后台桌 = 9格
-        total_cells = num_tables + 1
+        total_cells = num_tables  # 总共8格，玩家桌是其中一格
         grid_w = total_cells * cell_w + (total_cells - 1) * cell_gap
 
         # 标题文字
-        title_text = f"扑克场所 {total_active}/{num_tables+1}桌"
+        title_text = f"扑克场所 {total_active}/{num_tables}桌"
         title_surf = font_bold.render(title_text, True, (100, 200, 255))
         stats_text = f"{total_online}人在线 今日{total_tables}桌"
         stats_surf = font.render(stats_text, True, (180, 180, 180))
@@ -507,17 +530,18 @@ class SceneRenderer:
         app.screen.blit(title_surf, (tx, ty))
         tx += title_surf.get_width() + 12
 
-        # 桌子格子
-        all_tables = [(0, True, "我")]
-        for tid in range(1, num_tables + 1):
-            all_tables.append((tid, table_occupied.get(tid, False), str(tid)))
+        # 桌子格子：8张桌子，玩家桌显示"我"
+        for idx in range(num_tables):
+            tid = idx + 1
+            is_player_table = (tid == player_table_id)
+            occupied = table_occupied.get(tid, False)
+            label = "我" if is_player_table else str(tid)
 
-        for idx, (tid, occupied, label) in enumerate(all_tables):
             cx = tx + idx * (cell_w + cell_gap)
             cy = bar_y + (bar_h - cell_h) // 2
             rect = pygame.Rect(cx, cy, cell_w, cell_h)
 
-            if tid == 0:
+            if is_player_table:
                 pygame.draw.rect(app.screen, (60, 50, 10), rect, border_radius=4)
                 pygame.draw.rect(app.screen, (255, 215, 0), rect, 2, border_radius=4)
                 lbl_color = (255, 215, 0)
@@ -786,10 +810,16 @@ class SceneRenderer:
             app.tournament_result_buttons = {
                 "back": Button(cx - 100, SCREEN_HEIGHT - 80, 200, 50, "返回菜单", color=(80, 80, 80)),
             }
-            app.tournament_result_buttons["back"].on_click = lambda: (
-                app.tournament_controller.clear_save(),
-                setattr(app, 'scene', 'menu'),
-            )
+
+            def _on_tournament_back():
+                app.tournament_controller.clear_save()
+                app.save_manager.save(force=True)
+                app.character_pool.save()
+                if hasattr(app, 'tournament_result_buttons'):
+                    del app.tournament_result_buttons
+                app.switch_scene("menu")
+
+            app.tournament_result_buttons["back"].on_click = _on_tournament_back
 
         mouse_pos = pygame.mouse.get_pos()
         for btn in app.tournament_result_buttons.values():

@@ -56,7 +56,9 @@ from tournament.tournament_controller import TournamentController
 from tournament.tournament_flow import TournamentFlow
 from ai.llm_config_manager import LLMConfigManager
 from game_logic.background_simulator import BackgroundSimulator, BroadcastMessage
+from game_logic.table_manager import TableManager
 from ui.broadcast_bar import BroadcastBar
+from utils.perf_monitor import get_monitor, init_logging
 
 
 class GameApp:
@@ -82,10 +84,15 @@ class GameApp:
         self.tournament_flow = TournamentFlow(self)
         self.llm_config_manager = LLMConfigManager(self)
 
+        # 牌桌管理器（统一管理8张桌子）
+        self.table_manager = TableManager(num_tables=8)
+
         # 游戏状态
         self.game = None
         self.players = []
         self.human_player = None
+        self._player_table_id = None
+        self._player_table_name = ""
 
         # UI 状态
         self.scene = "menu"  # 保留字符串用于向后兼容（update 内部分支）
@@ -166,6 +173,7 @@ class GameApp:
             character_pool=self.character_pool,
             active_char_ids_provider=self._get_active_char_ids,
             broadcast_callback=self._on_background_broadcast,
+            table_manager=self.table_manager,
         )
 
     def _toggle_sound(self):
@@ -361,6 +369,9 @@ class GameApp:
         self._bg_simulator.start()
 
     def _stop_background_simulator(self):
+        if self._player_table_id is not None:
+            self.table_manager.release_from_player(self._player_table_id)
+            self._player_table_id = None
         self._bg_simulator.stop()
 
     def _leave_game(self):
@@ -393,17 +404,78 @@ class GameApp:
     def run(self):
         """主循环"""
         import traceback as _tb
+        import time as _time
+
+        init_logging()
+        perf = get_monitor()
+
+        # 注册外部统计提供者
+        def _collect_stats():
+            stats = {}
+            # 后台模拟器
+            if hasattr(self, '_bg_simulator') and self._bg_simulator:
+                bg = self._bg_simulator.get_stats()
+                stats["bg_tables"] = bg.get("active_tables", 0)
+                stats["bg_players"] = bg.get("active_players", 0)
+                stats["bg_hands_total"] = sum(
+                    getattr(c, 'hands_played', 0)
+                    for c in self.save_manager.character_pool.characters
+                )
+            # AI 角色总数
+            stats["active_ai"] = len(self.save_manager.character_pool.characters)
+            # 对话队列
+            if hasattr(self, 'chat_controller'):
+                stats["chat_messages"] = len(self.chat_controller.messages)
+                if hasattr(self.chat_controller, 'dialogue_manager') and self.chat_controller.dialogue_manager:
+                    stats["dialogue_queue"] = len(
+                        getattr(self.chat_controller.dialogue_manager, '_reply_queue', [])
+                    )
+            # 游戏上下文
+            stats["game_players"] = len(self.players) if self.players else 0
+            stats["game_buy_in"] = getattr(self, 'setup_buy_in', 0)
+            stats["game_deck_type"] = getattr(self, 'setup_deck_type', 'standard')
+            stats["game_betting"] = getattr(self, 'setup_betting_mode', 'no_limit')
+            stats["game_blind"] = f"{getattr(self, 'setup_blind_index', 0)}"
+            stats["table_name"] = getattr(self, '_player_table_name', '')
+            # 锦标赛
+            stats["is_tournament"] = (
+                hasattr(self, 'tournament_controller') and
+                self.tournament_controller and
+                self.tournament_controller.state and
+                self.tournament_controller.state.phase.value != "idle"
+            )
+            return stats
+
+        perf.set_stats_provider(_collect_stats)
+
         while True:
             try:
+                t0 = _time.perf_counter()
                 dt = self.clock.tick(FPS) / 1000.0
 
+                perf.set_scene(self.scene)
+
+                t1 = _time.perf_counter()
                 for event in pygame.event.get():
                     self.handle_event(event)
+                t2 = _time.perf_counter()
 
                 self.update(dt)
+                t3 = _time.perf_counter()
+
                 self.render()
+                t4 = _time.perf_counter()
 
                 pygame.display.flip()
+                t5 = _time.perf_counter()
+
+                perf.record_phase("event", t2 - t1)
+                perf.record_phase("update", t3 - t2)
+                perf.record_phase("render", t4 - t3)
+                perf.record_phase("flip", t5 - t4)
+
+                perf.record_frame(self.clock.get_fps(), t5 - t0)
+
             except Exception:
                 _tb.print_exc()
                 raise

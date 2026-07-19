@@ -8,6 +8,7 @@ import pygame
 
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, SHOWDOWN, DEFAULT_STARTING_CHIPS
 from engine.action import Action, ActionType
+from utils.audit_log import log_transaction
 
 
 class GameFlow:
@@ -91,10 +92,13 @@ class GameFlow:
             if not player.is_human and hasattr(player, '_char_id') and player.chips > 0:
                 char = app.character_pool.get_by_id(player._char_id)
                 if char:
+                    before = char.bank
                     char.bank += player.chips
-                    player.chips = 0
                     if hasattr(player, '_char_stats'):
                         player._char_stats["bank"] = char.bank
+                    log_transaction("game_settle", f"AI:{char.name}", player.chips,
+                                    before, char.bank, "对局结束筹码存回银行")
+                    player.chips = 0
 
     # ==================== 离开对局 ====================
 
@@ -110,6 +114,8 @@ class GameFlow:
                     f"{borrower_name} 向 {lender_name} 借了 {amount} 筹码",
                     source="system",
                 )
+                log_transaction("ai_loan", f"AI:{borrower_name}", amount,
+                                -1, -1, f"向{lender_name}借{amount}")
             app.character_pool.save()
             app.save_manager.mark_dirty()
 

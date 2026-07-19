@@ -4,6 +4,7 @@ import logging
 import threading
 from typing import Optional, List
 
+from utils.audit_log import log_transaction
 from tournament.tournament_state import (
     TournamentState, TournamentPhase, TournamentPlayer, TableInfo,
 )
@@ -361,6 +362,10 @@ class TournamentController:
         self.state.phase = TournamentPhase.FINISHED
         self.state.save()
 
+        # 确保奖金写入存档
+        self.app.character_pool.save()
+        self.app.save_manager.save(force=True)
+
     # ==================== 奖金发放 ====================
 
     def _award_prize(self, char_id: int, amount: int):
@@ -369,14 +374,26 @@ class TournamentController:
         tp = self.state.get_player_by_id(char_id) if self.state else None
         if tp:
             tp.prize_won += amount
+            entity_name = tp.name
+        else:
+            entity_name = f"char_{char_id}"
 
         if char_id == -1:
             # 人类玩家
+            before = self.app.save_manager.player_data.bank
             self.app.save_manager.deposit_to_bank(amount)
+            after = self.app.save_manager.player_data.bank
+            log_transaction("tournament_prize", "玩家", amount,
+                            before, after, f"锦标赛奖金 rank={tp.final_rank if tp else '?'}")
         else:
             char = self.app.character_pool.get_by_id(char_id)
             if char:
+                before = char.bank
                 char.bank += amount
+                after = char.bank
+                rank = tp.final_rank if tp else "?"
+                log_transaction("tournament_prize", f"AI:{char.name}", amount,
+                                before, after, f"锦标赛奖金 rank={rank}")
 
     # ==================== 存档 ====================
 

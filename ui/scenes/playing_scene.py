@@ -193,7 +193,15 @@ class PlayingScene(BaseScene):
             app.ai_think_timer += dt
             if app.ai_think_timer >= app.ai_action_delay:
                 app.ai_controller.start_decision()
+            import time as _t
+            _ai_t0 = _t.perf_counter()
             action = app.ai_controller.poll_decision()
+            _ai_t1 = _t.perf_counter()
+            try:
+                from utils.perf_monitor import get_monitor
+                get_monitor().record_phase("ai_decision", _ai_t1 - _ai_t0)
+            except Exception:
+                pass
             if action is not None:
                 app.ai_thinking = False
                 app.ai_speaking = True

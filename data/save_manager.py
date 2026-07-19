@@ -5,6 +5,7 @@ from dataclasses import dataclass, field, asdict
 from typing import List, Optional, Dict
 from ai.character_pool import CharacterPool
 from config import SAVE_FILE, CHARACTERS_FILE, DEFAULT_BANK_CHIPS
+from utils.audit_log import log_transaction
 
 
 @dataclass
@@ -91,25 +92,41 @@ class SaveManager:
 
     def deposit_to_bank(self, amount: int):
         """存入银行（优先偿还贷款）"""
+        before = self.player_data.bank
+        before_loan = self.player_data.loan
         if self.player_data.loan > 0 and amount > 0:
             repay = min(amount, self.player_data.loan)
             self.player_data.loan -= repay
             amount -= repay
+            if repay > 0:
+                log_transaction("loan_repay", "玩家", repay,
+                                before_loan, self.player_data.loan, "存入时自动还贷")
         self.player_data.bank += amount
         self.mark_dirty()
+        if amount > 0:
+            log_transaction("deposit", "玩家", amount,
+                            before, self.player_data.bank, "存入银行")
 
     def withdraw_from_bank(self, amount: int) -> int:
         """从银行取出筹码，返回实际取出金额"""
+        before = self.player_data.bank
         actual = min(amount, self.player_data.bank)
         self.player_data.bank -= actual
         self.mark_dirty()
+        if actual > 0:
+            log_transaction("withdraw", "玩家", -actual,
+                            before, self.player_data.bank, "取出筹码上桌")
         return actual
 
     def take_loan(self, amount: int):
         """贷款"""
+        before = self.player_data.bank
+        before_loan = self.player_data.loan
         self.player_data.bank += amount
         self.player_data.loan += amount
         self.mark_dirty()
+        log_transaction("loan_take", "玩家", amount,
+                        before, self.player_data.bank, f"贷款 总欠款={self.player_data.loan}")
 
     def can_take_loan(self) -> bool:
         """是否可以贷款（欠款不超过上限）"""
@@ -122,8 +139,11 @@ class SaveManager:
         if self.player_data.daily_bonus_date == today:
             return False
         self.player_data.daily_bonus_date = today
+        before = self.player_data.bank
         self.player_data.bank += 2000
         self.mark_dirty()
+        log_transaction("daily_bonus", "玩家", 2000,
+                        before, self.player_data.bank, "每日奖励")
         return True
 
     def can_get_daily_bonus(self) -> bool:

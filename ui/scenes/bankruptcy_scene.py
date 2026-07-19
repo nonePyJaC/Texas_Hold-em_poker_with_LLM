@@ -34,7 +34,7 @@ class BankruptcyScene(BaseScene):
         if app.human_player:
             app.save_manager.deposit_to_bank(app.human_player.chips)
         app._settle_ai_banks()
-        app._process_ai_menu_loans()
+        app.game_flow._process_ai_menu_loans()
         app.audio.stop_all_sounds()
         app.save_manager.save(force=True)
         app.chat_controller.messages = []
@@ -75,7 +75,7 @@ class BankruptcyScene(BaseScene):
             if app.human_player:
                 app.save_manager.deposit_to_bank(app.human_player.chips)
             app._settle_ai_banks()
-            app._process_ai_menu_loans()
+            app.game_flow._process_ai_menu_loans()
             app.save_manager.save(force=True)
             app.switch_scene("menu")
             return
